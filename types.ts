@@ -1,10 +1,7 @@
 
-export type Section = 'home' | 'learn' | 'practice' | 'master-delivery' | 'quiz-setup' | 'module-quiz-setup';
-
+export type Section = 'home' | 'learn' | 'practice' | 'master-delivery' | 'quiz-setup';
 export type ErrorType = 'tense' | 'pronoun' | 'time_place' | 'reporting_verb' | 'no_change' | 'sentence_type' | 'structure' | 'general';
-
 export type TopicCategory = 'Foundations' | 'Statements' | 'Questions' | 'Imperatives' | 'Exclamations' | 'Advanced' | 'Mastery';
-
 export type WaffleMood = 'happy' | 'thinking' | 'confused' | 'idle' | 'surprised' | 'excited' | 'wink' | 'cool' | 'love' | 'star-eyes';
 
 export interface QuizQuestion {
