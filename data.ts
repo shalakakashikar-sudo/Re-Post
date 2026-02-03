@@ -1,121 +1,113 @@
 
 import { LearnTopic, QuizQuestion, ErrorType, TopicCategory } from './types';
 
-const generate50Questions = (modId: number, category: TopicCategory, rule: string): QuizQuestion[] => {
+const generateFallbackQuestions = (modId: number, category: TopicCategory): QuizQuestion[] => {
   const questions: QuizQuestion[] = [];
-  const subjects = ['Ram', 'Sita', 'The boy', 'The girl', 'He', 'She', 'The teacher', 'My friend'];
-  const verbs = ['said', 'told me', 'says', 'will say'];
-  
-  for (let i = 1; i <= 50; i++) {
-    // Basic dynamic content to ensure 50 unique questions per module
-    let direct = "";
-    let correct = "";
-    let options: string[] = [];
-    let exp = "";
-    let type: ErrorType = 'general';
-
-    // Module-specific Logic Factories
-    if (modId === 3) { // Simple Statements
-      const adj = ['happy', 'busy', 'tired', 'ill', 'ready', 'late', 'hungry', 'sad', 'fine', 'ok'][i % 10];
-      const sub = subjects[i % subjects.length];
-      direct = `${sub} said, "I am ${adj}."`;
-      correct = `${sub} said that ${sub === 'Sita' || sub === 'The girl' || sub === 'She' ? 'she' : 'he'} was ${adj}.`;
-      options = [correct, `${sub} told that he was ${adj}.`, `${sub} said that I am ${adj}.`, `${sub} said that he is ${adj}.`].sort();
-      exp = `Postal Logic: 'said' stays (no object), 'am' backshifts to 'was', 'I' shifts to 3rd person.`;
-      type = 'tense';
-    } else if (modId === 9) { // Universal Truths
-      const truths = [
-        ["The sun rises in the east", "rises"],
-        ["Water boils at 100°C", "boils"],
-        ["The earth is round", "is"],
-        ["Honesty is the best policy", "is"],
-        ["Two and two make four", "make"]
-      ];
-      const truth = truths[i % truths.length];
-      direct = `The teacher said, "${truth[0]}."`;
-      correct = `The teacher said that ${truth[0]}.`;
-      options = [correct, `The teacher said that ${truth[0].replace(truth[1], 'was/were/did')}.`, `The teacher told that ${truth[0]}.`, `The teacher said ${truth[0]} was.`].sort();
-      exp = `Postal Logic: This is a permanent shipment (Universal Truth). No tense backshift allowed!`;
-      type = 'no_change';
-    } else if (modId === 4) { // Said to -> Told
-      const sub = subjects[i % subjects.length];
-      direct = `${sub} said to me, "I like your book."`;
-      const p = sub === 'Sita' || sub === 'The girl' || sub === 'She' ? 'she' : 'he';
-      correct = `${sub} told me that ${p} liked my book.`;
-      options = [correct, `${sub} said to me that ${p} liked my book.`, `${sub} told me that I liked your book.`, `${sub} told me that ${p} likes my book.`].sort();
-      exp = `Postal Logic: 'said to' becomes 'told'. 'I' matches subject, 'your' matches object.`;
-      type = 'reporting_verb';
-    } else {
-      // Fallback for demo: ensures every module has content
-      direct = `Speaker said, "This is parcel ${i} for Module ${modId}."`;
-      correct = `Speaker said that that was parcel ${i} for Module ${modId}.`;
-      options = [correct, `Speaker said this is parcel ${i}.`, `Speaker told that was parcel ${i}.`, `Speaker said that this was parcel ${i}.`].sort();
-      exp = "General TRPT application.";
-      type = 'general';
-    }
-
+  const subjects = ['Ram', 'The supervisor', 'She', 'The postman', 'Waffle', 'The customer'];
+  for (let i = 1; i <= 5; i++) {
     questions.push({
       id: `${modId}.${i}`,
       category,
-      directSpeech: direct,
-      context: `Module ${modId} - Item ${i}`,
-      options,
-      correctAnswer: correct,
-      explanation: exp,
-      errorType: type
+      directSpeech: `The speaker said, "I am delivering parcel ${i} for Module ${modId}."`,
+      context: `Route Training ${modId}`,
+      options: [
+        `The speaker said that he was delivering parcel ${i} for Module ${modId}.`,
+        `The speaker told that he was delivering parcel ${i}.`,
+        `The speaker said that I am delivering parcel ${i}.`,
+        `The speaker said that he is delivering parcel ${i}.`
+      ].sort(),
+      correctAnswer: `The speaker said that he was delivering parcel ${i} for Module ${modId}.`,
+      explanation: "Standard TRPT backshift: 'am' becomes 'was' and 'I' becomes 'he'.",
+      errorType: 'tense'
     });
   }
   return questions;
 };
 
-const moduleConfigs: {id: number, cat: TopicCategory, title: string, icon: string, desc: string}[] = [
-  { id: 1, cat: 'Foundations', title: 'The SQCEM Sorting', icon: '🔍', desc: 'Identify if a message is a Statement, Question, Command, Exclamation, or Mixed.' },
-  { id: 2, cat: 'Foundations', title: 'The TRPT Framework', icon: '🏗️', desc: 'Master the 4 pillars of delivery: Tense, Reporting Verb, Pronoun, Time/Place.' },
-  { id: 3, cat: 'Statements', title: 'Basic Statements (No Object)', icon: '✉️', desc: 'Convert statements with no listener. Rule: "said" stays "said".' },
-  { id: 4, cat: 'Statements', title: 'Said to -> Told', icon: '👥', desc: 'When a listener exists, the stamp changes. Use the PRO rule.' },
-  { id: 5, cat: 'Statements', title: 'Time Shifts', icon: '⏰', desc: 'Now becomes Then. Today becomes That Day. Near moves to Far.' },
-  { id: 6, cat: 'Statements', title: 'Place Shifts', icon: '📍', desc: 'Here becomes There. This becomes That. Spatial distance matters.' },
-  { id: 7, cat: 'Statements', title: 'Modal Verbs', icon: '🛠️', desc: 'Can -> Could, Will -> Would. Adjust the auxiliary stamps.' },
-  { id: 8, cat: 'Statements', title: 'Present Reporting', icon: '🗣️', desc: 'When the report is "now" (says), the internal tense stays frozen.' },
-  { id: 9, cat: 'Statements', title: 'Universal Truths', icon: '🌍', desc: 'Permanent facts never backshift. Science is immortal!' },
-  { id: 10, cat: 'Questions', title: 'Yes/No Questions', icon: '❓', desc: 'Use "if/whether" and flip the word order back to statements.' }
-];
+// Hand-crafted content integration
+const handCraftedModules: Partial<Record<number, Partial<LearnTopic>>> = {
+  1: {
+    category: 'Foundations',
+    title: 'Identifying Sentence Types',
+    icon: '🔍',
+    description: 'The first step of the postman is sorting. Identify the "type" before you can stamp it correctly.',
+    why: 'Different types determine which connector (that, if, to) and reporting verb to use.',
+    infographic: {
+      header: 'The SQCEM Trick Manual',
+      rows: [
+        { label: 'Statement (S)', value: 'Simple Fact/Info. Ends with [ . ]' },
+        { label: 'Question (Q)', value: 'Inquiry. Ends with [ ? ]' },
+        { label: 'Command (C)', value: 'Order/Request. Ends with [ . ] or [ ! ]' },
+        { label: 'Exclamation (E)', value: 'Strong Emotion. Ends with [ ! ]' },
+        { label: 'Mixed (M)', value: 'Joins two or more types in one quote.' }
+      ]
+    }
+  },
+  2: {
+    category: 'Foundations',
+    title: 'The TRPT Framework',
+    icon: '🏗️',
+    description: 'Every reported sentence consists of a Reporting Clause and a Reported Clause.',
+    why: 'Shifts happen because of the time and space gap between speaking and reporting.',
+    infographic: {
+      header: 'The TRPT Mantra Framework',
+      rows: [
+        { label: 'Tense', value: 'Backshift: is → was, will → would' },
+        { label: 'Reporting Verb', value: 'said to → told / asked / requested' },
+        { label: 'Pronouns', value: 'I/You → He/She/Me (PRO Rule)' },
+        { label: 'Time & Place', value: 'Near words → Far words (now → then)' }
+      ]
+    }
+  },
+  10: {
+    category: 'Questions',
+    title: 'The Tense Stamp Route',
+    icon: '⏰',
+    description: 'When we report the past, the verbs move one step back in time.',
+    why: 'The original "now" is now the "past" when the message is finally delivered.',
+    infographic: {
+      header: 'Stamp Transformation Table',
+      rows: [
+        { label: 'is / am / are', value: 'was / were' },
+        { label: 'writes / write', value: 'wrote' },
+        { label: 'wrote / has written', value: 'had written' },
+        { label: 'will / can', value: 'would / could' }
+      ]
+    }
+  }
+};
 
-// Extend modules to 30 for the Roadmap
-for (let i = 11; i <= 30; i++) {
+const moduleConfigs: LearnTopic[] = [];
+
+for (let i = 1; i <= 30; i++) {
+  const cat: TopicCategory = i <= 2 ? 'Foundations' : i <= 9 ? 'Statements' : i <= 14 ? 'Questions' : i <= 19 ? 'Imperatives' : i <= 22 ? 'Exclamations' : i <= 26 ? 'Advanced' : 'Mastery';
+  const custom = handCraftedModules[i] || {};
+  
   moduleConfigs.push({
-    id: i,
-    cat: i < 15 ? 'Questions' : i < 20 ? 'Imperatives' : i < 23 ? 'Exclamations' : i < 27 ? 'Advanced' : 'Mastery',
-    title: `Advanced Module ${i}`,
-    icon: '📦',
-    desc: `Detailed postal training for level ${i} complexity.`
+    id: `mod-${i}`,
+    moduleId: i,
+    category: cat,
+    title: custom.title || `Advanced Route ${i}`,
+    shortTitle: custom.title?.split(' ')[0] || `Mod ${i}`,
+    exitSkill: `Master Level ${i} Sorting`,
+    icon: custom.icon || '📦',
+    description: custom.description || `Training for complex postal delivery at level ${i}.`,
+    why: custom.why || "To ensure accuracy after the journey through time and space.",
+    directExample: custom.directExample || 'He said, "I am here."',
+    indirectExample: custom.indirectExample || 'He said that he was there.',
+    waffleTip: "Check your TRPT checklist before stamping!",
+    wittyRemark: custom.wittyRemark || "A delivery delayed is a delivery mis-tensed!",
+    infographic: custom.infographic || {
+      header: 'Postal Transformation Rules',
+      rows: [
+        { label: 'Tense', value: 'Backshift one step into the past.' },
+        { label: 'Pronoun', value: 'Shift to match the new perspective.' },
+        { label: 'Time', value: 'Near words become far words.' }
+      ]
+    },
+    quiz: generateFallbackQuestions(i, cat)
   });
 }
 
-export const ALL_LEARN_TOPICS: LearnTopic[] = moduleConfigs.map(cfg => ({
-  id: `mod-${cfg.id}`,
-  moduleId: cfg.id,
-  category: cfg.cat,
-  title: cfg.title,
-  shortTitle: cfg.title.split(' ')[0],
-  exitSkill: `Master Module ${cfg.id} logic.`,
-  icon: cfg.icon,
-  description: cfg.desc,
-  why: "To ensure the message arrives exactly as intended after its journey through time.",
-  directExample: 'He said, "I am ready."',
-  indirectExample: 'He said that he was ready.',
-  waffleTip: `Remember the TRPT Mantra!`,
-  wittyRemark: `A delivery delayed is a delivery mis-tensed!`,
-  infographic: {
-    header: 'Postal Transformation Rules',
-    rows: [
-      { label: 'Tense', value: 'Backshift: is -> was' },
-      { label: 'Reporting', value: 'said -> said / said to -> told' },
-      { label: 'Pronoun', value: 'I -> He/She (Match Speaker)' },
-      { label: 'Time/Place', value: 'Near (Here/Now) -> Far (There/Then)' }
-    ]
-  },
-  quiz: generate50Questions(cfg.id, cfg.cat, cfg.desc)
-}));
-
-export const MASTER_QUIZ_QUESTIONS = ALL_LEARN_TOPICS.flatMap(t => t.quiz);
+export const ALL_LEARN_TOPICS = moduleConfigs;
+export const MASTER_QUIZ_QUESTIONS = ALL_LEARN_TOPICS.flatMap(t => t.quiz || []);
