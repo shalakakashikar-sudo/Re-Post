@@ -15,7 +15,8 @@ export const pronounContent: LearnTopic = {
   // Fix: Renamed visualMetaphor to wittyRemark to match LearnTopic interface
   wittyRemark: 'Checking the Address Label for the right recipient.',
   waffleTip: 'Always check who the "I" or "You" refers to in the delivery!',
-  infographic: {
+  // Wrap infographic in an array and rename to infographics
+  infographics: [{
     header: 'Address Label Changes',
     rows: [
       { label: 'I / Me', value: 'He / She / Him / Her' },
@@ -23,7 +24,7 @@ export const pronounContent: LearnTopic = {
       { label: 'My / Our', value: 'His / Her / Their' },
       { label: 'You (Subject)', value: 'I / He / She / They' }
     ]
-  },
+  }],
   quiz: [
     {
       id: 'p1',

@@ -8,79 +8,266 @@ import { quizExclamations } from './quiz_exclamations';
 import { quizAdvanced } from './quiz_advanced';
 import { quizMastery } from './quiz_mastery';
 
-// Data mapping for all 30 modules
 const moduleDefinitions: Partial<Record<number, Partial<LearnTopic>>> = {
-  // Foundations (1-2)
   1: {
-    title: 'Identifying Sentence Types',
-    icon: '🔍',
-    description: 'Master the SQCEM Trick to identify Statement, Question, Command, Exclamation, or Mixed types.',
-    why: 'The type determines the reporting verb and connector you use.',
-    directExample: 'He said, "Where is the post office?"',
-    indirectExample: 'He asked where the post office was.',
-    waffleTip: 'Check the punctuation at the end of the quote first!',
-    infographic: {
-      header: 'The SQCEM Trick Manual',
+    title: 'Sentence Classification (SQCEM)',
+    infographics: [{
+      header: 'Classification of Sentences & Connectors',
       rows: [
-        { label: 'Statement (S)', value: 'Simple Fact. Ends with [ . ]' },
-        { label: 'Question (Q)', value: 'Inquiry. Ends with [ ? ]' },
-        { label: 'Command (C)', value: 'Order/Request. Ends with [ . ] or [ ! ]' },
-        { label: 'Exclamation (E)', value: 'Strong Emotion. Ends with [ ! ]' }
+        { label: 'S - Statement (Assertive)', value: 'Declares facts/info. Ends with [.]. Use "that".' },
+        { label: 'Q - Question (Interrogative)', value: 'Inquiry. Ends with [?]. Use "if/whether" or the "Wh-word".' },
+        { label: 'C - Command (Imperative)', value: 'Order/Request. Ends with [.]/[!]. Use "to-infinitive".' },
+        { label: 'E - Exclamation (Exclamatory)', value: 'Strong emotion. Ends with [!]. Use "exclaimed with...".' },
+        { label: 'M - Mixed', value: 'Compound sentences. Requires separate connectors for each part.' }
       ]
-    }
+    }]
   },
   2: {
-    title: 'The TRPT Framework',
-    icon: '🏗️',
-    description: 'Understand the skeleton: Tense, Reporting Verb, Pronouns, and Time/Place shifts.',
-    why: 'Shifts happen because of the time and space gap between speaking and reporting.',
-    directExample: 'Ram said to me, "I am busy."',
-    indirectExample: 'Ram told me that he was busy.',
-    waffleTip: 'Tense, Verb, Pronoun, Time. Memorize the mantra!',
-    infographic: {
-      header: 'The TRPT Mantra Framework',
-      rows: [
-        { label: 'Tense', value: 'Backshift: am → was' },
-        { label: 'Verb', value: 'said to → told' },
-        { label: 'Pronouns', value: 'I → he/she' },
-        { label: 'Time/Place', value: 'here → there' }
-      ]
-    }
+    title: 'Core Rules (TRPT Framework)',
+    infographics: [
+      {
+        header: 'Primary Tense Shifts (Direct → Indirect)',
+        rows: [
+          { label: 'Present Simple → Past Simple', value: 'write / writes → wrote' },
+          { label: 'Present Continuous → Past Continuous', value: 'is/am/are writing → was/were writing' },
+          { label: 'Present Perfect → Past Perfect', value: 'has/have written → had written' },
+          { label: 'Past Simple → Past Perfect', value: 'wrote → had written' },
+          { label: 'Past Continuous → Past Perfect Continuous', value: 'was/were writing → had been writing' }
+        ]
+      },
+      {
+        header: 'Fundamental Framework Components',
+        rows: [
+          { label: 'Tense', value: 'Backshift verbs one step (except for truths).' },
+          { label: 'Reporting Verb', value: 'Change based on tone (said to → told, asked, etc.).' },
+          { label: 'Pronouns', value: 'Align I/You based on speaker/listener perspective.' },
+          { label: 'Time & Place', value: 'Convert near references to far (now → then).' }
+        ]
+      }
+    ]
   },
-  // Statements (3-9)
-  3: { title: 'Simple Statements (No Object)', icon: '✉️', description: 'Convert basic statements where no listener is mentioned. "Said" stays "said".' },
-  4: { title: 'Statements with Object', icon: '👥', description: 'When a listener is present, "said to" must change to "told".' },
-  5: { title: 'Time Expressions', icon: '⏰', description: 'Near words become far words: "today" becomes "that day".' },
-  6: { title: 'Place Expressions', icon: '📍', description: 'Spatial shifts: "here" becomes "there" and "this" becomes "that".' },
-  7: { title: 'Modal Verbs', icon: '🛠️', description: 'Backshift modals: can → could, will → would, may → might.' },
-  8: { title: 'Present Reporting Verb', icon: '🗣️', description: 'If the verb is "says" or "will say", the tense does NOT change.' },
-  9: { title: 'Universal Truths & Habits', icon: '🌍', description: 'Scientific facts and eternal truths stay in the present tense.' },
-  // Questions (10-14)
-  10: { title: 'Yes/No Questions (Simple)', icon: '❓', description: 'Use "if" or "whether" and flip the word order to statement style.' },
-  11: { title: 'Yes/No with Modals', icon: '🔧', description: 'Convert modal questions with both a flip and a backshift.' },
-  12: { title: 'Wh-Questions (Subject)', icon: '👤', description: 'When the Wh-word is the subject, NO word order flip is needed.' },
-  13: { title: 'Wh-Questions (Swap)', icon: '🔀', description: 'Standard Wh-questions require swapping the Subject and Helping Verb.' },
-  14: { title: 'Polite Inquiries', icon: '🤵', description: 'Handle soft, indirect-style direct questions with specialized verbs.' },
-  // Imperatives (15-19)
-  15: { title: 'Positive Commands', icon: '💂', description: 'Convert direct orders using "ordered" and "to + verb".' },
-  16: { title: 'Requests (Please)', icon: '🙏', description: 'Use "requested" and remove redundant words like "please".' },
-  17: { title: 'Negative Commands', icon: '🚫', description: 'Convert "Don\'t" to "not to" or use the verb "forbade".' },
-  18: { title: 'Advice & Warnings', icon: '💡', description: 'Choose verbs like "advised" or "warned" based on the speaker\'s tone.' },
-  19: { title: 'Suggestions (Let\'s)', icon: '🤝', description: 'Convert proposals using "suggested that they should".' },
-  // Exclamations (20-22)
-  20: { title: 'Joy & Sorrow', icon: '🎉', description: 'Map interjections to descriptive feelings: "exclaimed with joy".' },
-  21: { title: 'Surprise & Wonder', icon: '😲', description: 'Convert "What a" and "How" into intensifying adverbs like "very".' },
-  22: { title: 'Greetings & Wishes', icon: '👋', description: 'Use "wished" or "bade" for social conventions and etiquette.' },
-  // Advanced (23-26)
-  23: { title: 'Conditional Sentences', icon: '🖇️', description: 'Preserve the hypothetical mood in Type 2 and Type 3 conditionals.' },
-  24: { title: 'Mixed Sentences', icon: '🌀', description: 'Handle multiple sentence types within a single quotation block.' },
-  25: { title: 'Nested Quotes', icon: '📦', description: 'Flatten layers of speech (a quote inside a quote) into a single report.' },
-  26: { title: 'Parenthetical Clauses', icon: '✂️', description: 'Move split reporting clauses to the beginning of the sentence.' },
-  // Mastery (27-30)
-  27: { title: 'Reverse: Statements', icon: '⏪', description: 'Travel backwards: restore quotes and move tenses forward.' },
-  28: { title: 'Reverse: Mixed', icon: '↩️', description: 'Restore question marks and polite markers from a reported text.' },
-  29: { title: 'Diagnosis', icon: '🛡️', description: 'Identify and fix common "Forbidden Grammar" errors in the machine.' },
-  30: { title: 'Final Certification', icon: '🏆', description: 'The ultimate delivery test covering all 30 modules of route training.' }
+  3: {
+    title: 'Present Tense Backshifts',
+    infographics: [
+      {
+        header: 'Tense Backshift Table',
+        rows: [
+          { label: 'Simple Present', value: 'becomes → Simple Past (V1 → V2)' },
+          { label: 'Present Continuous', value: 'becomes → Past Continuous (is/am/are → was/were)' },
+          { label: 'Present Perfect', value: 'becomes → Past Perfect (has/have → had + V3)' },
+          { label: 'Present Perfect Cont.', value: 'becomes → Past Perfect Cont. (has been → had been)' }
+        ]
+      },
+      {
+        header: 'Helping Verb Reference',
+        rows: [
+          { label: 'do / does', value: 'shifts to → did' },
+          { label: 'is / am / are', value: 'shifts to → was / were' },
+          { label: 'has / have', value: 'shifts to → had' }
+        ]
+      }
+    ]
+  },
+  4: {
+    title: 'Past Tense Backshifts',
+    infographics: [
+      {
+        header: 'Past Tense Transformation',
+        rows: [
+          { label: 'Simple Past', value: 'becomes → Past Perfect (V2 → had + V3)' },
+          { label: 'Past Continuous', value: 'becomes → Past Perfect Continuous (was/were → had been)' },
+          { label: 'Past Perfect', value: 'remains → Past Perfect (No Change)' },
+          { label: 'Past Perfect Cont.', value: 'remains → Past Perfect Continuous (No Change)' }
+        ]
+      },
+      {
+        header: 'Helping Verb Reference',
+        rows: [
+          { label: 'did + V1', value: 'shifts to → had + V3' },
+          { label: 'was / were', value: 'shifts to → had been' }
+        ]
+      }
+    ]
+  },
+  5: {
+    title: 'Modal Verb Shifts',
+    infographics: [
+      {
+        header: 'Modal Transformation Reference',
+        rows: [
+          { label: 'Will / Shall', value: 'Would / Should (Shall → should for advice)' },
+          { label: 'Can', value: 'Could' },
+          { label: 'May', value: 'Might' },
+          { label: 'Must', value: 'Had to (for obligation) / Must (for logical necessity)' },
+          { label: 'Should / Could', value: 'No Change' },
+          { label: 'Might / Ought to', value: 'No Change' }
+        ]
+      }
+    ]
+  },
+  6: {
+    title: 'The PRO Rule (Pronouns)',
+    infographics: [
+      {
+        header: 'Identity Transformation (SON)',
+        rows: [
+          { label: '1st Person (I, we, my, our)', value: 'Follows SUBJECT of the reporting verb.' },
+          { label: '2nd Person (You, your, yours)', value: 'Follows OBJECT of the reporting verb.' },
+          { label: '3rd Person (He, she, it, they)', value: 'NO CHANGE.' }
+        ]
+      },
+      {
+        header: 'Pronoun Case Table',
+        rows: [
+          { label: 'Subjective', value: 'I → he/she; we → they' },
+          { label: 'Objective', value: 'me → him/her; us → them' },
+          { label: 'Possessive', value: 'my → his/her; our → their' }
+        ]
+      }
+    ]
+  },
+  7: {
+    title: 'Near to Far Distance Shifts',
+    infographics: [
+      {
+        header: 'Temporal (Time) Shifts',
+        rows: [
+          { label: 'Now / Today', value: 'Then / That day' },
+          { label: 'Yesterday', value: 'The previous day / The day before' },
+          { label: 'Tomorrow', value: 'The next day / The following day' },
+          { label: 'Tonight / This week', value: 'That night / That week' },
+          { label: 'Last month / year', value: 'The previous month / year' },
+          { label: 'Ago', value: 'Before' }
+        ]
+      },
+      {
+        header: 'Spatial (Place) & Misc Shifts',
+        rows: [
+          { label: 'Here', value: 'There' },
+          { label: 'This / These', value: 'That / Those' },
+          { label: 'Thus', value: 'So' },
+          { label: 'Hither', value: 'Thither' }
+        ]
+      }
+    ]
+  },
+  8: {
+    title: 'Exceptions: Present/Future Reporting',
+    description: 'When the reporting verb is in the present (says) or future (will say), the tense of the reported clause remains unchanged.',
+    why: 'The message is still current, so no backshift is necessary.',
+    infographics: [
+      {
+        header: 'Present/Future Reporting Rule',
+        rows: [
+          { label: 'If verb is: says / tells', value: 'NO CHANGE in tense of reported clause.' },
+          { label: 'If verb is: will say', value: 'NO CHANGE in tense of reported clause.' },
+          { label: 'Pronoun Shift', value: 'Pronouns ALWAYS shift to match identity.' },
+          { label: 'Example (Direct)', value: 'He says, "I am busy."' },
+          { label: 'Example (Indirect)', value: 'He says that he is busy.' }
+        ]
+      }
+    ]
+  },
+  9: {
+    title: 'Exceptions: Universal Truths',
+    infographics: [
+      {
+        header: 'Permanent State Rule',
+        rows: [
+          { label: 'Universal Truths', value: 'No Tense Change (The sun rises in the east).' },
+          { label: 'Scientific Facts', value: 'No Tense Change (Water boils at 100°C).' },
+          { label: 'Proverbs / Morals', value: 'No Tense Change (Honesty is the best policy).' },
+          { label: 'Habitual Actions', value: 'No Tense Change (He walks every morning).' }
+        ]
+      }
+    ]
+  },
+  10: {
+    title: 'Interrogative: Yes/No Questions',
+    infographics: [
+      {
+        header: 'Yes/No Conversion Steps',
+        rows: [
+          { label: 'Reporting Verb', value: 'said/said to → asked / inquired / wondered' },
+          { label: 'Connector', value: 'Remove quotes, add "if" or "whether"' },
+          { label: 'Word Order', value: 'Change to Statement Order (Subject before Verb)' },
+          { label: 'Helping Verbs', value: 'Remove Do, Does, Did; adjust main verb tense.' }
+        ]
+      }
+    ]
+  },
+  13: {
+    title: 'Interrogative: Wh- Questions',
+    infographics: [
+      {
+        header: 'Wh-Word Rules',
+        rows: [
+          { label: 'Connector', value: 'The Wh-word itself is the connector (No "that" or "if").' },
+          { label: 'Structure', value: 'Wh-word + Subject + Helping Verb + Main Verb.' },
+          { label: 'Tense', value: 'Full backshift applies as per standard rules.' },
+          { label: 'Example', value: '"Where are you?" → where I was.' }
+        ]
+      }
+    ]
+  },
+  15: {
+    title: 'Imperative: Commands',
+    infographics: [
+      {
+        header: 'Order & Instruction Conversion',
+        rows: [
+          { label: 'Reporting Verb', value: 'ordered / commanded / told / warned' },
+          { label: 'Connector', value: 'quotes → "to" (for positive commands)' },
+          { label: 'Verb Form', value: 'to + V1 (base form)' },
+          { label: 'Negative', value: 'quotes → "not to" (for negative commands)' }
+        ]
+      }
+    ]
+  },
+  16: {
+    title: 'Imperative: Requests',
+    infographics: [
+      {
+        header: 'Polite Request Reference',
+        rows: [
+          { label: 'Reporting Verb', value: 'requested / begged / entreated / implored' },
+          { label: 'Remove Word', value: 'Delete "Please" or "Kindly" from indirect speech.' },
+          { label: 'Connector', value: 'to + V1' },
+          { label: 'Example', value: '"Please wait" → requested to wait.' }
+        ]
+      }
+    ]
+  },
+  20: {
+    title: 'Exclamatory: Emotion Mapping',
+    infographics: [
+      {
+        header: 'Interjection Conversion Table',
+        rows: [
+          { label: 'Hurrah! / Ha!', value: 'exclaimed with joy / delight' },
+          { label: 'Alas! / Oh!', value: 'exclaimed with sorrow / grief' },
+          { label: 'Bravo!', value: 'applauded him / praised / said with applause' },
+          { label: 'What! / How!', value: 'exclaimed with surprise / wonder' },
+          { label: 'What a + Noun', value: 'became → a great + Noun' },
+          { label: 'How + Adj', value: 'became → very + Adj' }
+        ]
+      }
+    ]
+  },
+  22: {
+    title: 'Greetings & Wishes',
+    infographics: [
+      {
+        header: 'Social Transformation Reference',
+        rows: [
+          { label: 'Good Morning/Day', value: 'wished' },
+          { label: 'Good Night/Bye', value: 'bade' },
+          { label: 'Thank you', value: 'thanked' },
+          { label: 'Congratulations', value: 'congratulated' }
+        ]
+      }
+    ]
+  }
 };
 
 const getQuizForMod = (id: number): QuizQuestion[] => {
@@ -111,24 +298,24 @@ for (let i = 1; i <= 30; i++) {
     id: `mod-${i}`,
     moduleId: i,
     category: cat,
-    title: def.title || `Module ${i} Route`,
+    title: def.title || `Module ${i}: Advanced Transformations`,
     shortTitle: def.title?.split(' ')[0] || `Mod ${i}`,
-    exitSkill: `Master Level ${i} Sorting`,
-    icon: def.icon || '📦',
-    description: def.description || `Specialized route training for ${cat} parcels.`,
-    why: def.why || "To ensure the message remains accurate across the postal network.",
-    directExample: def.directExample || 'He said, "I am here."',
-    indirectExample: def.indirectExample || 'He said that he was there.',
-    waffleTip: def.waffleTip || "Double-check your TRPT stamp before delivery!",
-    wittyRemark: "A hamster's work is never done!",
-    infographic: def.infographic || {
-      header: 'Postal Rule #'+i,
+    exitSkill: `Proficiency in Level ${i} grammar logic.`,
+    icon: def.icon || '📘',
+    description: def.description || `In-depth analysis and application of ${cat} rules.`,
+    why: def.why || "To maintain precise communication when reporting secondary information.",
+    directExample: def.directExample || 'He said, "I am ready."',
+    indirectExample: def.indirectExample || 'He said that he was ready.',
+    waffleTip: def.waffleTip || "Ensure all TRPT pillars are aligned!",
+    wittyRemark: "Squeak! Time to master the syntax!",
+    infographics: def.infographics || [{
+      header: 'Transformation Guide',
       rows: [
-        { label: 'Tense', value: 'Shift back one step.' },
-        { label: 'Pronoun', value: 'Update to match speaker.' },
-        { label: 'Time', value: 'Near words become far words.' }
+        { label: 'Verb Tense', value: 'Apply standard backshift.' },
+        { label: 'Pronouns', value: 'Adjust to Speaker/Listener.' },
+        { label: 'Time & Place', value: 'Shift from Near to Far.' }
       ]
-    },
+    }],
     quiz: getQuizForMod(i)
   });
 }

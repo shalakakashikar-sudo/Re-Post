@@ -16,7 +16,8 @@ export const questionTopics: LearnTopic[] = [
     indirectExample: 'He asked me if I knew the way.',
     waffleTip: 'Check the Word Order Flip! No "?" in indirect speech.',
     wittyRemark: 'Squeak! Flip the Helping Verb switch!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Yes/No Questions Route',
       rows: [
         { label: 'Reporting Verb', value: 'said to → asked / inquired / wondered' },
@@ -24,7 +25,7 @@ export const questionTopics: LearnTopic[] = [
         { label: 'Word Order', value: 'Flip: (HV + Sub) → (Sub + HV)' },
         { label: 'Helping Verbs', value: 'Do / Does / Did are removed in statement order' }
       ]
-    },
+    }],
     quiz: quizQuestions['mod-10']
   },
   {
@@ -41,7 +42,8 @@ export const questionTopics: LearnTopic[] = [
     indirectExample: 'She asked me if I could help her.',
     waffleTip: 'Will → Would, Can → Could, Shall → Should, May → Might.',
     wittyRemark: 'A modal question is just a Yes/No question in a fancy hat!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Modal Questions Flip',
       rows: [
         { label: 'Can you', value: 'if I could' },
@@ -49,7 +51,7 @@ export const questionTopics: LearnTopic[] = [
         { label: 'May I', value: 'if I might' },
         { label: 'Must we', value: 'if we had to' }
       ]
-    },
+    }],
     quiz: quizQuestions['mod-11']
   },
   {
@@ -66,7 +68,8 @@ export const questionTopics: LearnTopic[] = [
     indirectExample: 'He asked who had broken the window.',
     waffleTip: 'Wh-Subject? No Flip! Just Tense Shift.',
     wittyRemark: 'When the Wh-word is the boss, it stays in place!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Boss Wh-Rule',
       rows: [
         { label: 'Condition', value: 'Wh-word (Who/What) is the Subject' },
@@ -74,7 +77,7 @@ export const questionTopics: LearnTopic[] = [
         { label: 'Word Order', value: 'NO FLIP (Stay as S + V)' },
         { label: 'Example', value: 'Who ate? → who had eaten' }
       ]
-    },
+    }],
     quiz: quizQuestions['mod-12']
   },
   {
@@ -91,7 +94,8 @@ export const questionTopics: LearnTopic[] = [
     indirectExample: 'She asked me what I was doing.',
     waffleTip: 'Swap the Subject and HV after the Wh-word!',
     wittyRemark: 'Flip it like a pancake after the Wh-word!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Wh-Swap Map',
       rows: [
         { label: 'Direct', value: 'Wh + HV + Sub' },
@@ -99,7 +103,7 @@ export const questionTopics: LearnTopic[] = [
         { label: 'Where are they', value: 'where they were' },
         { label: 'How is he', value: 'how he was' }
       ]
-    },
+    }],
     quiz: quizQuestions['mod-13']
   },
   {
@@ -116,7 +120,8 @@ export const questionTopics: LearnTopic[] = [
     indirectExample: 'He asked if I would like some coffee.',
     waffleTip: 'Polite words (Could/Would) often stay as the main verb.',
     wittyRemark: 'Polite questions are already halfway there!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Polite & Soft Inquiries',
       rows: [
         { label: 'Intro', value: 'Use "asked / wondered / wanted to know"' },
@@ -124,7 +129,7 @@ export const questionTopics: LearnTopic[] = [
         { label: 'Order', value: 'Keep statement style throughout' },
         { label: 'Example', value: '"Can you...?" → if I could' }
       ]
-    },
+    }],
     quiz: quizQuestions['mod-14']
   }
 ];

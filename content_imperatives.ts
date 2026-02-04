@@ -16,7 +16,8 @@ export const imperativeTopics: LearnTopic[] = [
     indirectExample: 'He ordered the servant to leave at once.',
     waffleTip: 'said to → ordered + to + verb.',
     wittyRemark: 'No "that" bridge here! Use the "to" shortcut!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Positive Order Manual',
       rows: [
         { label: 'Verb Choice', value: 'ordered / commanded / told / charged' },
@@ -24,7 +25,7 @@ export const imperativeTopics: LearnTopic[] = [
         { label: 'Verb Form', value: 'to + V1 (base form)' },
         { label: 'Example', value: '"Go!" → to go' }
       ]
-    },
+    }],
     quiz: quizImperatives['mod-15']
   },
   {
@@ -41,7 +42,8 @@ export const imperativeTopics: LearnTopic[] = [
     indirectExample: 'He requested me to give him a glass of water.',
     waffleTip: 'Please = Requested. Don\'t keep both!',
     wittyRemark: 'Drop the "Please", the verb "Requested" is doing all the heavy lifting!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Polite Request Route',
       rows: [
         { label: 'Verb Choice', value: 'requested / begged / implored / entreated' },
@@ -49,7 +51,7 @@ export const imperativeTopics: LearnTopic[] = [
         { label: 'Connector', value: 'to + V1' },
         { label: 'Example', value: '"Please wait" → requested to wait' }
       ]
-    },
+    }],
     quiz: quizImperatives['mod-16']
   },
   {
@@ -66,7 +68,8 @@ export const imperativeTopics: LearnTopic[] = [
     indirectExample: 'He asked them not to make a noise.',
     waffleTip: 'Don\'t → not to. Never say "to not"!',
     wittyRemark: 'Put "Not" in its place! Right before "to"!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Negation Stop Sign',
       rows: [
         { label: 'Standard', value: 'ordered / told + not to' },
@@ -74,7 +77,7 @@ export const imperativeTopics: LearnTopic[] = [
         { label: 'Warning', value: 'Never use "not" with "forbade"' },
         { label: 'Example', value: '"Don\'t go" → forbade to go / ordered not to go' }
       ]
-    },
+    }],
     quiz: quizImperatives['mod-17']
   },
   {
@@ -91,7 +94,8 @@ export const imperativeTopics: LearnTopic[] = [
     indirectExample: 'The doctor advised the patient not to eat spicy food.',
     waffleTip: 'Tone is key! Advised, Warned, or Urged.',
     wittyRemark: 'Listen to the tone to pick the right verb!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Tone Compass',
       rows: [
         { label: 'Helpful info', value: 'advised / suggested' },
@@ -99,7 +103,7 @@ export const imperativeTopics: LearnTopic[] = [
         { label: 'Moral duty', value: 'exhorted / urged' },
         { label: 'Structure', value: 'to / not to + V1' }
       ]
-    },
+    }],
     quiz: quizImperatives['mod-18']
   },
   {
@@ -116,7 +120,8 @@ export const imperativeTopics: LearnTopic[] = [
     indirectExample: 'He suggested that they should go for a walk.',
     waffleTip: 'Let\'s = Suggested that... should.',
     wittyRemark: 'Let\'s do it! We suggest that we should!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Suggestion Loop',
       rows: [
         { label: 'Verb Choice', value: 'suggested / proposed' },
@@ -124,7 +129,7 @@ export const imperativeTopics: LearnTopic[] = [
         { label: 'Structure B', value: 'suggested + V-ing (e.g., suggested going)' },
         { label: 'Let us (Alone)', value: 'If no "s", use "to let"' }
       ]
-    },
+    }],
     quiz: quizImperatives['mod-19']
   }
 ];

@@ -15,7 +15,8 @@ export const commandsContent: LearnTopic = {
   // Fix: Renamed visualMetaphor to wittyRemark to match LearnTopic interface
   wittyRemark: 'Express vs Standard Delivery handling.',
   waffleTip: 'If you see "please", use "requested"!',
-  infographic: {
+  // Wrap infographic in an array and rename to infographics
+  infographics: [{
     header: 'Handling Instructions',
     rows: [
       { label: 'Order', value: 'Ordered / Told' },
@@ -23,7 +24,7 @@ export const commandsContent: LearnTopic = {
       { label: 'Structure', value: 'to + base verb' },
       { label: 'Negative', value: 'not to + base verb' }
     ]
-  },
+  }],
   quiz: [
     {
       id: 'c1',

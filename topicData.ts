@@ -1,4 +1,3 @@
-
 import { LearnTopic } from './types';
 import { ALL_QUIZZES } from './quizData';
 
@@ -17,7 +16,8 @@ export const ALL_LEARN_TOPICS: LearnTopic[] = [
     indirectExample: 'He asked where I was.',
     waffleTip: 'Look at the punctuation mark at the very end of the quote!',
     wittyRemark: 'A question mark means "asked". A period usually means "told". Simple, squeak!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The sorting machine rules',
       rows: [
         { label: 'S (Statement)', value: 'Ends in [ . ] - Use "told" or "said"' },
@@ -26,7 +26,7 @@ export const ALL_LEARN_TOPICS: LearnTopic[] = [
         { label: 'E (Exclamation)', value: 'Ends in [ ! ] - Use "exclaimed"' },
         { label: 'M (Mixed)', value: 'Joins two types - Use "and added that"' }
       ]
-    },
+    }],
     quiz: ALL_QUIZZES['mod-1'] || []
   },
   {
@@ -43,7 +43,8 @@ export const ALL_LEARN_TOPICS: LearnTopic[] = [
     indirectExample: 'Ram said that he was busy.',
     waffleTip: 'If there is no "to [Someone]", keep the "said"!',
     wittyRemark: 'Talking to yourself is fine in grammar, just keep the "said"!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Simple Delivery Stamping',
       rows: [
         { label: 'Reporting Clause', value: 'Ram said (No Object)' },
@@ -51,7 +52,7 @@ export const ALL_LEARN_TOPICS: LearnTopic[] = [
         { label: 'Tense Stamp', value: 'Backshift: am -> was' },
         { label: 'Identity Stamp', value: 'I -> He (Subject Match)' }
       ]
-    },
+    }],
     quiz: ALL_QUIZZES['mod-3'] || []
   }
   // ... Additional modules follow same pattern

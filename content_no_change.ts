@@ -15,7 +15,8 @@ export const noChangeContent: LearnTopic = {
   // Fix: Renamed visualMetaphor to wittyRemark to match LearnTopic interface
   wittyRemark: 'A message that never expires or changes.',
   waffleTip: 'Scientific facts don\'t get a new tense stamp!',
-  infographic: {
+  // Wrap infographic in an array and rename to infographics
+  infographics: [{
     header: 'Permanent Facts',
     rows: [
       { label: 'Scientific Facts', value: 'No Backshift' },
@@ -23,7 +24,7 @@ export const noChangeContent: LearnTopic = {
       { label: 'Habitual Actions', value: 'No Backshift' },
       { label: 'Historical Facts', value: 'No Backshift' }
     ]
-  },
+  }],
   quiz: [
     {
       id: 'nc1',

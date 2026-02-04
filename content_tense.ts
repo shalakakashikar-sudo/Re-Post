@@ -15,7 +15,8 @@ export const tenseContent: LearnTopic = {
   // Fix: Renamed visualMetaphor to wittyRemark to match LearnTopic interface
   wittyRemark: 'Updating the Tense Stamp on a parcel.',
   waffleTip: 'Present Simple becomes Past Simple. Past Simple becomes Past Perfect!',
-  infographic: {
+  // Wrap infographic in an array and rename to infographics
+  infographics: [{
     header: 'Stamp Transformation Table',
     rows: [
       { label: 'is / am / are', value: 'was / were' },
@@ -24,7 +25,7 @@ export const tenseContent: LearnTopic = {
       { label: 'wrote / has written', value: 'had written' },
       { label: 'will / can', value: 'would / could' }
     ]
-  },
+  }],
   quiz: [
     {
       id: 't1',

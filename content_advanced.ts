@@ -16,7 +16,8 @@ export const advancedTopics: LearnTopic[] = [
     indirectExample: 'He said that if it rained, he would not go.',
     waffleTip: 'Type 1 shifts back. Type 2/3 stays largely the same.',
     wittyRemark: 'The "If" condition travels through time too!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Conditional Time Map',
       rows: [
         { label: 'Type 1 (Real)', value: 'is/will → was/would (Full Backshift)' },
@@ -24,7 +25,7 @@ export const advancedTopics: LearnTopic[] = [
         { label: 'Type 3 (Impossible)', value: 'had been/would have → No Change' },
         { label: 'Subjunctive', value: 'If I were you → If he were him' }
       ]
-    },
+    }],
     quiz: quizAdvanced['mod-23']
   },
   {
@@ -41,7 +42,8 @@ export const advancedTopics: LearnTopic[] = [
     indirectExample: 'He urged them to be quiet and listen to him.',
     waffleTip: 'Convert each clause one by one, then join them.',
     wittyRemark: 'A grammar smoothie! Blend all the rules!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Mixed Strategy',
       rows: [
         { label: 'Step 1', value: 'Break quote into logical parts' },
@@ -49,7 +51,7 @@ export const advancedTopics: LearnTopic[] = [
         { label: 'Step 3', value: 'Apply rule for each part separately' },
         { label: 'Step 4', value: 'Connect parts with "and / adding that / and asked"' }
       ]
-    },
+    }],
     quiz: quizAdvanced['mod-24']
   },
   {
@@ -66,7 +68,8 @@ export const advancedTopics: LearnTopic[] = [
     indirectExample: 'He said that his teacher had told him to work hard.',
     waffleTip: 'Quotes inside quotes? Flatten both layers!',
     wittyRemark: 'A box within a box! Unpack them both!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Nested Level Control',
       rows: [
         { label: 'Direct', value: 'Speaker A says "Speaker B said \'Words\'"' },
@@ -74,7 +77,7 @@ export const advancedTopics: LearnTopic[] = [
         { label: 'Quotes', value: 'Remove ALL quotation marks' },
         { label: 'Action', value: 'Work from outer layer to inner layer' }
       ]
-    },
+    }],
     quiz: quizAdvanced['mod-25']
   },
   {
@@ -91,7 +94,8 @@ export const advancedTopics: LearnTopic[] = [
     indirectExample: 'He said that he was very tired.',
     waffleTip: 'Move the "he said" snippet to the front first!',
     wittyRemark: 'Rearrange before you Re-Post!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Reorder Rule',
       rows: [
         { label: 'Direct A', value: '"Go home," said the mother.' },
@@ -99,7 +103,7 @@ export const advancedTopics: LearnTopic[] = [
         { label: 'Indirect Rule', value: 'Always: (Reporting Clause) + that + (Reported)' },
         { label: 'Result', value: 'He said that he was coming and asked to wait.' }
       ]
-    },
+    }],
     quiz: quizAdvanced['mod-26']
   }
 ];

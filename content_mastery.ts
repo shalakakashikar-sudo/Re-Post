@@ -16,7 +16,8 @@ export const masteryTopics: LearnTopic[] = [
     indirectExample: 'He said to me, "I am ill."',
     waffleTip: 'Reverse the TRPT Mantra! Far becomes Near.',
     wittyRemark: 'Taking the message back to the original speaker!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'The Reversal Checklist',
       rows: [
         { label: 'that', value: '→ comma and opening quotes' },
@@ -25,7 +26,7 @@ export const masteryTopics: LearnTopic[] = [
         { label: 'he / she', value: '→ I (check context)' },
         { label: 'then', value: '→ now' }
       ]
-    },
+    }],
     quiz: quizMastery['mod-27']
   },
   {
@@ -42,7 +43,8 @@ export const masteryTopics: LearnTopic[] = [
     indirectExample: 'He said to me, "Where do you live?"',
     waffleTip: 'Restored word order: HV must come before Subject!',
     wittyRemark: 'Bring back the Question Mark!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Complex Reversal',
       rows: [
         { label: 'if / whether', value: '→ Helping Verb + "?"' },
@@ -50,7 +52,7 @@ export const masteryTopics: LearnTopic[] = [
         { label: 'ordered to', value: '→ V1 (Direct command)' },
         { label: 'Wh + Sub + V', value: '→ Wh + V + Sub + "?"' }
       ]
-    },
+    }],
     quiz: quizMastery['mod-28']
   },
   {
@@ -67,7 +69,8 @@ export const masteryTopics: LearnTopic[] = [
     indirectExample: 'He told me that he was busy. (CORRECT)',
     waffleTip: 'Check your work with the TRPT checklist!',
     wittyRemark: 'Be a Grammar Inspector! Find the leak!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Forbidden Grammar Log',
       rows: [
         { label: 'Mistake 1', value: 'Using "that" before a Wh-word' },
@@ -75,7 +78,7 @@ export const masteryTopics: LearnTopic[] = [
         { label: 'Mistake 3', value: 'Forgetting the Word Order Flip' },
         { label: 'Mistake 4', value: 'Leaving "now" or "here" in the report' }
       ]
-    },
+    }],
     quiz: quizMastery['mod-29']
   },
   {
@@ -92,7 +95,8 @@ export const masteryTopics: LearnTopic[] = [
     indirectExample: 'He said that if he had the money, he would buy a house.',
     waffleTip: 'Use everything you learned. SQCEM + TRPT + PRO!',
     wittyRemark: 'Graduation Day! Squeak!',
-    infographic: {
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
       header: 'Master Postman Guide',
       rows: [
         { label: 'Final Step', value: 'Check punctuation' },
@@ -100,7 +104,7 @@ export const masteryTopics: LearnTopic[] = [
         { label: 'Final Step', value: 'Verify Tense Backshift' },
         { label: 'Final Step', value: 'Read aloud: Does it sound like a report?' }
       ]
-    },
+    }],
     quiz: quizMastery['mod-30']
   }
 ];

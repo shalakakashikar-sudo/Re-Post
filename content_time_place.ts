@@ -12,18 +12,21 @@ export const timePlaceContent: LearnTopic = {
   why: 'The speaker\'s "here" is usually the reporter\'s "there".',
   directExample: 'She said, "I will finish this today."',
   indirectExample: 'She said that she would finish that that day.',
-  // Fix: Renamed visualMetaphor to wittyRemark to match LearnTopic interface
   wittyRemark: 'Updating the Delivery Map.',
   waffleTip: 'Yesterday becomes "the previous day". Now becomes "then"!',
-  infographic: {
-    header: 'Mapping Conversions',
+  // Wrap infographic in an array and rename to infographics
+  infographics: [{
+    header: 'Exhaustive Near-to-Far Table',
     rows: [
       { label: 'Now / Today', value: 'Then / That day' },
-      { label: 'Yesterday', value: 'The previous day' },
-      { label: 'Tomorrow', value: 'The next day' },
-      { label: 'Here / This', value: 'There / That' }
+      { label: 'Yesterday', value: 'The previous day / The day before' },
+      { label: 'Tomorrow', value: 'The next day / The following day' },
+      { label: 'Tonight', value: 'That night' },
+      { label: 'Last week / year', value: 'The previous week / year' },
+      { label: 'Here / This / These', value: 'There / That / Those' },
+      { label: 'Ago', value: 'Before' }
     ]
-  },
+  }],
   quiz: [
     {
       id: 'tp1',

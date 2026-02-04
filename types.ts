@@ -29,9 +29,9 @@ export interface LearnTopic {
   indirectExample: string;
   waffleTip: string;
   wittyRemark: string;
-  infographic?: {
+  infographics?: {
     header: string;
     rows: { label: string; value: string }[];
-  };
+  }[];
   quiz: QuizQuestion[];
 }

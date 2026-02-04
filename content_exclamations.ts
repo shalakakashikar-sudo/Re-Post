@@ -16,15 +16,17 @@ export const exclamationTopics: LearnTopic[] = [
     indirectExample: 'The boy exclaimed with joy that they had won.',
     waffleTip: 'Hurrah = Joy, Alas = Sorrow, Bravo = Praise.',
     wittyRemark: 'Squeak! Swap the sounds for feelings!',
-    infographic: {
-      header: 'Emotion Map',
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
+      header: 'The Postal Interjection Map',
       rows: [
         { label: 'Hurrah! / Ha!', value: 'exclaimed with joy / delight' },
         { label: 'Alas! / Oh!', value: 'exclaimed with sorrow / grief' },
         { label: 'Bravo!', value: 'applauded / praised / exclaimed with applause' },
-        { label: 'Phoo! / Ugh!', value: 'exclaimed with contempt / disgust' }
+        { label: 'Phoo! / Ugh!', value: 'exclaimed with contempt / disgust' },
+        { label: 'What! / How!', value: 'exclaimed with surprise / wonder' }
       ]
-    },
+    }],
     quiz: quizExclamations['mod-20']
   },
   {
@@ -41,41 +43,16 @@ export const exclamationTopics: LearnTopic[] = [
     indirectExample: 'He exclaimed that it was a very lovely rose.',
     waffleTip: 'What/How → Very/Great. No Question Mark!',
     wittyRemark: 'Turn the volume up with "Very"!',
-    infographic: {
-      header: 'Wonder Transformation',
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
+      header: 'Intensity Scaling Table',
       rows: [
-        { label: 'What a ...!', value: 'exclaimed that it was a very / great ...' },
-        { label: 'How ...!', value: 'exclaimed that it was very ...' },
-        { label: 'Nouns', value: 'What a fool! → a great fool' },
-        { label: 'Adjectives', value: 'How nice! → very nice' }
+        { label: 'What a + Noun', value: 'shifts to → a great + Noun' },
+        { label: 'What a + Adj + Noun', value: 'shifts to → a very + Adj + Noun' },
+        { label: 'How + Adjective', value: 'shifts to → very + Adjective' },
+        { label: 'Punctuation', value: 'Always remove [ ! ] and use a period [ . ]' }
       ]
-    },
+    }],
     quiz: quizExclamations['mod-21']
-  },
-  {
-    id: 'mod-22',
-    moduleId: 22,
-    category: 'Exclamations',
-    title: 'Greetings & Wishes',
-    shortTitle: 'Greetings',
-    exitSkill: 'Use "wished" or "bade" for social expressions.',
-    icon: '👋',
-    description: 'Social greetings and goodbyes use specific verbs like "wished", "baded", or "greeted".',
-    why: 'Social conventions don\'t fit the "that" connector pattern well.',
-    directExample: 'She said to me, "Good morning!"',
-    indirectExample: 'She wished me good morning.',
-    waffleTip: 'Good Morning = Wished. Good Bye = Bade farewell.',
-    wittyRemark: 'Be a polite postman! Use the right greeting verb!',
-    infographic: {
-      header: 'Postal Greeting Protocol',
-      rows: [
-        { label: 'Good Morning / Evening', value: 'wished' },
-        { label: 'Good Night / Bye', value: 'bade' },
-        { label: 'Happy Birthday', value: 'wished' },
-        { label: 'Thank you', value: 'thanked' },
-        { label: 'Sorry', value: 'apologized' }
-      ]
-    },
-    quiz: quizExclamations['mod-22']
   }
 ];

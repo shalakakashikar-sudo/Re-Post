@@ -16,16 +16,17 @@ export const foundationTopics: LearnTopic[] = [
     indirectExample: 'He asked where the post office was.',
     waffleTip: 'Use the SQCEM Trick: Statement (.), Question (?), Command (. or !), Exclamation (!), Mixed (joined types).',
     wittyRemark: 'Spot the punctuation first!',
-    infographic: {
-      header: 'The SQCEM Trick Manual',
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
+      header: 'The Exhaustive SQCEM Manual',
       rows: [
-        { label: 'Statement (S)', value: 'Simple Fact/Info. Ends with Period (.)' },
-        { label: 'Question (Q)', value: 'Inquiry. Ends with Question Mark (?)' },
-        { label: 'Command (C)', value: 'Order/Request. Ends with (.) or (!)' },
-        { label: 'Exclamation (E)', value: 'Strong Emotion (Hurrah/Alas). Ends with (!)' },
-        { label: 'Mixed (M)', value: 'Joining two or more types in one quote.' }
+        { label: 'S (Statement)', value: 'Simple Fact/Info. Ends with [ . ]. Use "that" connector.' },
+        { label: 'Q (Question)', value: 'Inquiry. Ends with [ ? ]. Use "if/whether" or Wh-word.' },
+        { label: 'C (Command)', value: 'Order/Request. Ends with [ . ] or [ ! ]. Use "to + V1".' },
+        { label: 'E (Exclamation)', value: 'Emotion. Ends with [ ! ]. Use descriptive reporting verbs.' },
+        { label: 'M (Mixed)', value: 'Joined types. Use "and added that" or "and asked".' }
       ]
-    },
+    }],
     quiz: quizFoundations['mod-1']
   },
   {
@@ -42,15 +43,17 @@ export const foundationTopics: LearnTopic[] = [
     indirectExample: 'Ram told me that he was busy.',
     waffleTip: 'Remember the TRPT Mantra: Tense → Reporting Verb → Pronoun → Time/Place.',
     wittyRemark: 'Check the skeleton before you build the body!',
-    infographic: {
-      header: 'The TRPT Mantra Framework',
+    // Wrap infographic in an array and rename to infographics
+    infographics: [{
+      header: 'The TRPT 5-Pillar Framework',
       rows: [
-        { label: 'Tense', value: 'Backshift: is → was, will → would' },
-        { label: 'Reporting Verb', value: 'said to → told / asked / requested' },
-        { label: 'Pronouns', value: 'I/You → He/She/Me (PRO Rule)' },
-        { label: 'Time & Place', value: 'Near words → Far words (now → then)' }
+        { label: 'Tense', value: 'Backshift: Move one step into the past (is → was).' },
+        { label: 'Reporting Verb', value: 'Tone: said to → told / asked / requested / ordered.' },
+        { label: 'Pronouns', value: 'Identity: I/You → He/She/Me (The PRO Rule).' },
+        { label: 'Time & Place', value: 'Distance: near words (now) → far words (then).' },
+        { label: 'Connectors', value: 'Bridge: add "that", "if/whether", or "to" to join clauses.' }
       ]
-    },
+    }],
     quiz: quizFoundations['mod-2']
   }
 ];
