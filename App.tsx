@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { Section, LearnTopic, QuizQuestion, WaffleMood } from './types';
+import React, { useState, useMemo } from 'react';
+import { Section, LearnTopic, QuizQuestion, WaffleMood, TopicCategory } from './types';
 import Layout from './components/Layout';
 import Waffle from './components/Waffle';
 import { ALL_LEARN_TOPICS, MASTER_QUIZ_QUESTIONS } from './data';
@@ -13,6 +13,37 @@ function shuffle<T>(array: T[]): T[] {
   }
   return result;
 }
+
+const CATEGORY_METADATA: Record<TopicCategory, { description: string, icon: string }> = {
+  'Foundations': { 
+    description: 'The basic training every postman needs. Learn to identify sentence types and understand the TRPT skeleton.', 
+    icon: '🏗️' 
+  },
+  'Statements': { 
+    description: 'The bulk of our mail. Master the backshift of tenses, pronouns, and time words for simple declarations.', 
+    icon: '✉️' 
+  },
+  'Questions': { 
+    description: 'Special inquiries require special handling. Learn the word-order flip and the "if/whether" connector.', 
+    icon: '❓' 
+  },
+  'Imperatives': { 
+    description: 'Direct orders and requests. Switch from quotes to the "to-infinitive" route for efficient delivery.', 
+    icon: '❗' 
+  },
+  'Exclamations': { 
+    description: 'Expressive mail with strong emotions. Convert "Hurrah" and "What a" into descriptive reports.', 
+    icon: '🎉' 
+  },
+  'Advanced': { 
+    description: 'Complex parcels like conditionals and mixed sentences. Handle nested quotes and split clauses.', 
+    icon: '🖇️' 
+  },
+  'Mastery': { 
+    description: 'The final certification. Reverse the process and diagnose common errors in the sorting machine.', 
+    icon: '🏆' 
+  }
+};
 
 const App: React.FC = () => {
   const [section, setSection] = useState<Section>('home');
@@ -28,6 +59,15 @@ const App: React.FC = () => {
     feedback: null as string | null,
     mood: 'idle' as WaffleMood
   });
+
+  const groupedTopics = useMemo(() => {
+    const groups: Partial<Record<TopicCategory, LearnTopic[]>> = {};
+    ALL_LEARN_TOPICS.forEach(topic => {
+      if (!groups[topic.category]) groups[topic.category] = [];
+      groups[topic.category]!.push(topic);
+    });
+    return groups;
+  }, []);
 
   const resetQuiz = (msg = "Ready to sort? Squeak!") => {
     setUserAnswers({});
@@ -111,24 +151,56 @@ const App: React.FC = () => {
       )}
 
       {section === 'learn' && !selectedTopic && (
-        <div className="space-y-8 animate-fadeIn pb-20">
+        <div className="space-y-12 animate-fadeIn pb-20">
           <div className="bg-white p-8 rounded-[3.5rem] border-4 border-blue-50 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8 postal-border">
             <div className="text-center md:text-left">
               <h2 className="text-5xl font-black text-blue-900 tracking-tight">Postman's Roadmap</h2>
               <p className="text-red-500 font-black uppercase tracking-[0.3em] text-xs mt-2">Level 1 - 30 Certification</p>
             </div>
-            <Waffle dialogue="Which station shall we visit first?" mood="thinking" size="sm" />
+            <Waffle dialogue="Check the main topics below to start!" mood="thinking" size="sm" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-            {ALL_LEARN_TOPICS.map(topic => (
-              <button key={topic.id} onClick={() => setSelectedTopic(topic)} className="group bg-white p-6 rounded-[2.5rem] shadow-lg border-2 border-transparent hover:border-red-500 hover:shadow-2xl transition-all text-left flex flex-col items-center text-center transform hover:-translate-y-2">
-                <div className="text-4xl mb-4 bg-blue-50 w-20 h-20 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">{topic.icon}</div>
-                <div className="space-y-1">
-                   <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">Mod {topic.moduleId}</span>
-                   <h4 className="font-black text-blue-900 text-sm leading-tight line-clamp-2 uppercase">{topic.title}</h4>
-                </div>
-              </button>
-            ))}
+
+          <div className="space-y-20">
+            {(Object.keys(CATEGORY_METADATA) as TopicCategory[]).map(category => {
+              const topics = groupedTopics[category];
+              if (!topics) return null;
+              const meta = CATEGORY_METADATA[category];
+
+              return (
+                <section key={category} className="space-y-8 animate-fadeIn">
+                  <div className="flex flex-col md:flex-row md:items-end justify-between border-b-8 border-blue-50 pb-6 gap-6">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-4">
+                        <span className="text-5xl bg-white w-20 h-20 rounded-3xl flex items-center justify-center shadow-xl border-2 border-blue-50">{meta.icon}</span>
+                        <h3 className="text-5xl font-black text-blue-900 uppercase tracking-tighter">{category}</h3>
+                      </div>
+                      <div className="bg-blue-50/50 p-6 rounded-[2rem] border-l-8 border-blue-500 mt-4 max-w-4xl">
+                        <p className="text-[10px] font-black uppercase text-blue-400 mb-1 tracking-widest">About this Route</p>
+                        <p className="text-blue-900 font-bold italic text-xl leading-tight">
+                          {meta.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    {topics.map(topic => (
+                      <button 
+                        key={topic.id} 
+                        onClick={() => setSelectedTopic(topic)} 
+                        className="group bg-white p-6 rounded-[2.5rem] shadow-lg border-2 border-transparent hover:border-red-500 hover:shadow-2xl transition-all text-left flex flex-col items-center text-center transform hover:-translate-y-2"
+                      >
+                        <div className="text-4xl mb-4 bg-blue-50 w-20 h-20 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">{topic.icon}</div>
+                        <div className="space-y-1">
+                           <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">Mod {topic.moduleId}</span>
+                           <h4 className="font-black text-blue-900 text-sm leading-tight line-clamp-2 uppercase group-hover:text-red-600 transition-colors">{topic.title}</h4>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
           </div>
         </div>
       )}
