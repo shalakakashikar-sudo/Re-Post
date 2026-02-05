@@ -61,7 +61,10 @@ const App: React.FC = () => {
   // Quiz progression scroll to question
   useEffect(() => {
     if ((section === 'practice' || section === 'master-delivery') && !quizState.finished) {
-      questionTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Small delay to ensure the DOM has rendered the new question
+      setTimeout(() => {
+        questionTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
     }
   }, [quizState.currentIndex, section, quizState.finished]);
 
@@ -106,7 +109,13 @@ const App: React.FC = () => {
       return;
     }
     const finalCount = Math.min(count, questions.length);
-    setQuizQuestions(shuffle(questions).slice(0, finalCount));
+    // Shuffle both the questions AND the options for each question
+    const selected = shuffle(questions).slice(0, finalCount).map(q => ({
+      ...q,
+      options: shuffle([...q.options]) 
+    }));
+    
+    setQuizQuestions(selected);
     resetQuiz(`${label} Challenge! (${finalCount} Mails)`);
     setSection(quizConfig.mode === 'module' ? 'practice' : 'master-delivery');
     setShowConfigOverlay(false);
@@ -229,7 +238,7 @@ const App: React.FC = () => {
 
               <div className="pt-8 border-t-4 border-blue-50 flex flex-col items-center gap-6">
                  <button onClick={handleGlobalStart} className="bg-red-600 text-white px-16 py-6 rounded-[3rem] font-black shadow-3xl hover:bg-red-700 text-2xl uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-2 transition-all">Commence Dispatch →</button>
-                 <Waffle dialogue={`Sorting ${quizConfig.count} items in the chosen sectors!`} mood="wink" />
+                 <Waffle dialogue={`Sorting ${quizConfig.count} random items from ${quizConfig.categories.join(' & ')} sectors!`} mood="wink" />
               </div>
             </div>
           </div>
@@ -410,7 +419,7 @@ const App: React.FC = () => {
                   <div className="absolute top-8 left-10 flex items-center gap-4">
                     <span className="bg-blue-600 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg">{quizState.currentIndex + 1}</span>
                     <span className="text-gray-400 font-black uppercase text-xs tracking-[0.3em]">
-                      {quizConfig.mode === 'module' ? `Level ${selectedTopic?.moduleId}` : 'Custom'} Dispatch
+                      {quizConfig.mode === 'module' ? `Level ${selectedTopic?.moduleId} Dispatch` : ''}
                     </span>
                   </div>
                   <div className="space-y-12 relative z-10">
@@ -445,7 +454,7 @@ const App: React.FC = () => {
                       "{currentQ.explanation}"
                     </p>
                     <div className="flex gap-4 pt-4 border-t-2 border-blue-50">
-                       <div className="bg-blue-50 px-4 py-2 rounded-xl text-[10px] font-black text-blue-400 uppercase tracking-widest">Category: {currentQ.category}</div>
+                       <div className="bg-blue-50 px-4 py-2 rounded-xl text-[10px] font-black text-blue-400 uppercase tracking-widest">Sector: {currentQ.category}</div>
                        <div className="bg-red-50 px-4 py-2 rounded-xl text-[10px] font-black text-red-400 uppercase tracking-widest">Focus: {currentQ.errorType.replace('_', ' ')}</div>
                     </div>
                   </div>
