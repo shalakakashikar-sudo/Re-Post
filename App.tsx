@@ -27,8 +27,8 @@ const CATEGORY_METADATA: Record<string, { description: string, icon: string }> =
 const App: React.FC = () => {
   const [section, setSection] = useState<Section>('home');
   const [selectedTopic, setSelectedTopic] = useState<LearnTopic | null>(null);
+  const [showReview, setShowReview] = useState(false);
   
-  // Quiz Configuration State
   const [quizConfig, setQuizConfig] = useState<{
     categories: string[];
     count: number;
@@ -53,20 +53,50 @@ const App: React.FC = () => {
 
   const questionTopRef = useRef<HTMLDivElement>(null);
 
-  // General navigation scroll to top
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [section, selectedTopic]);
+    if (!quizState.finished) setShowReview(false);
+  }, [section, selectedTopic, quizState.finished]);
 
-  // Quiz progression scroll to question
   useEffect(() => {
     if ((section === 'practice' || section === 'master-delivery') && !quizState.finished) {
-      // Small delay to ensure the DOM has rendered the new question
       setTimeout(() => {
         questionTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 50);
     }
   }, [quizState.currentIndex, section, quizState.finished]);
+
+  // Fix: Added handleAnswer to handle quiz option selection and update quiz state
+  const handleAnswer = (option: string) => {
+    const currentQ = quizQuestions[quizState.currentIndex];
+    const isCorrect = option === currentQ.correctAnswer;
+    
+    setUserAnswers(prev => ({ ...prev, [quizState.currentIndex]: option }));
+    setQuizState(prev => ({
+      ...prev,
+      score: isCorrect ? prev.score + 1 : prev.score,
+      feedback: isCorrect ? "Squeak! Correct Re-Post!" : "Oh no! A sorting error!",
+      mood: isCorrect ? 'happy' : 'confused'
+    }));
+  };
+
+  // Fix: Added handleNext to navigate between quiz questions or finish the quiz
+  const handleNext = () => {
+    if (quizState.currentIndex < quizQuestions.length - 1) {
+      setQuizState(prev => ({
+        ...prev,
+        currentIndex: prev.currentIndex + 1,
+        feedback: "Next delivery ready!",
+        mood: 'thinking'
+      }));
+    } else {
+      setQuizState(prev => ({
+        ...prev,
+        finished: true,
+        mood: 'cool'
+      }));
+    }
+  };
 
   const groupedTopics = useMemo(() => {
     const groups: Partial<Record<TopicCategory, LearnTopic[]>> = {};
@@ -80,7 +110,6 @@ const App: React.FC = () => {
   const toggleCategory = (cat: string) => {
     setQuizConfig(prev => {
       if (cat === 'All') return { ...prev, categories: ['All'] };
-      
       let newCats = prev.categories.filter(c => c !== 'All');
       if (newCats.includes(cat)) {
         newCats = newCats.filter(c => c !== cat);
@@ -94,6 +123,7 @@ const App: React.FC = () => {
 
   const resetQuiz = (msg = "Ready for sorting? Squeak!") => {
     setUserAnswers({});
+    setShowReview(false);
     setQuizState({
       currentIndex: 0,
       score: 0,
@@ -109,14 +139,12 @@ const App: React.FC = () => {
       return;
     }
     const finalCount = Math.min(count, questions.length);
-    // Shuffle both the questions AND the options for each question
     const selected = shuffle(questions).slice(0, finalCount).map(q => ({
       ...q,
       options: shuffle([...q.options]) 
     }));
-    
     setQuizQuestions(selected);
-    resetQuiz(`${label} Challenge! (${finalCount} Mails)`);
+    resetQuiz(`${label} Dispatch (${finalCount} Mails)`);
     setSection(quizConfig.mode === 'module' ? 'practice' : 'master-delivery');
     setShowConfigOverlay(false);
   };
@@ -126,34 +154,7 @@ const App: React.FC = () => {
     if (!quizConfig.categories.includes('All')) {
       pool = MASTER_QUIZ_QUESTIONS.filter(q => quizConfig.categories.includes(q.category));
     }
-    const label = quizConfig.categories.includes('All') ? 'Global' : 'Custom';
-    startQuiz(pool, quizConfig.count, label);
-  };
-
-  const handleModuleStart = () => {
-    if (!selectedTopic) return;
-    startQuiz(selectedTopic.quiz, quizConfig.count, `Level ${selectedTopic.moduleId}`);
-  };
-
-  const handleAnswer = (option: string) => {
-    if (userAnswers[quizState.currentIndex]) return;
-    const currentQ = quizQuestions[quizState.currentIndex];
-    const isCorrect = option === currentQ.correctAnswer;
-    setUserAnswers(prev => ({ ...prev, [quizState.currentIndex]: option }));
-    setQuizState(prev => ({
-      ...prev,
-      score: isCorrect ? prev.score + 1 : prev.score,
-      feedback: isCorrect ? "Correct! Message stamped." : "Sorting error! Check the explanation.",
-      mood: isCorrect ? 'star-eyes' : 'confused'
-    }));
-  };
-
-  const handleNext = () => {
-    if (quizState.currentIndex + 1 < quizQuestions.length) {
-      setQuizState(prev => ({ ...prev, currentIndex: prev.currentIndex + 1, feedback: null, mood: 'idle' }));
-    } else {
-      setQuizState(prev => ({ ...prev, finished: true }));
-    }
+    startQuiz(pool, quizConfig.count, 'Global');
   };
 
   const renderContent = () => {
@@ -224,7 +225,7 @@ const App: React.FC = () => {
                    Number of Mails to Post
                 </h3>
                 <div className="flex flex-wrap justify-center gap-4">
-                  {[5, 10, 20, 30, 40, 50].map(n => (
+                  {[5, 10, 20, 30, 40, 50, 100].map(n => (
                     <button 
                       key={n}
                       onClick={() => setQuizConfig(prev => ({ ...prev, count: n }))}
@@ -249,21 +250,20 @@ const App: React.FC = () => {
           const currentIndex = ALL_LEARN_TOPICS.findIndex(t => t.id === selectedTopic.id);
           const nextTopic = ALL_LEARN_TOPICS[currentIndex + 1];
           const prevTopic = ALL_LEARN_TOPICS[currentIndex - 1];
-
           return (
             <div className="space-y-12 animate-fadeIn max-w-5xl mx-auto pb-20 relative">
               {showConfigOverlay && (
                 <div className="fixed inset-0 z-[100] bg-blue-900/40 backdrop-blur-md flex items-center justify-center p-6">
                   <div className="bg-white p-10 rounded-[4rem] shadow-3xl border-8 border-white max-w-md w-full space-y-8 animate-scaleIn text-center">
-                    <h3 className="text-3xl font-black text-blue-900 tracking-tighter uppercase">Level Dispatch</h3>
-                    <p className="text-gray-500 font-bold">Choose your mail volume for Level {selectedTopic.moduleId}:</p>
+                    <h3 className="text-3xl font-black text-blue-900 tracking-tighter uppercase">Pick Mail Volume</h3>
+                    <p className="text-gray-500 font-bold">How many questions for Level {selectedTopic.moduleId}?</p>
                     <div className="grid grid-cols-2 gap-4">
-                      {[5, 10, 15, 20].map(n => (
+                      {[5, 10, 20, 50].map(n => (
                         <button 
                           key={n} 
                           onClick={() => {
                             setQuizConfig(p => ({ ...p, count: n, mode: 'module' }));
-                            handleModuleStart();
+                            startQuiz(selectedTopic.quiz, n, `Level ${selectedTopic.moduleId}`);
                           }}
                           className="py-6 rounded-[2rem] bg-blue-50 border-4 border-transparent hover:border-blue-600 hover:bg-white transition-all font-black text-2xl text-blue-900"
                         >
@@ -271,17 +271,15 @@ const App: React.FC = () => {
                         </button>
                       ))}
                     </div>
-                    <button onClick={() => setShowConfigOverlay(false)} className="text-red-500 font-black uppercase text-xs tracking-widest mt-4">Cancel Dispatch</button>
+                    <button onClick={() => setShowConfigOverlay(false)} className="text-red-500 font-black uppercase text-xs tracking-widest mt-4">Cancel</button>
                   </div>
                 </div>
               )}
-
               <div className="flex items-center justify-between bg-white p-6 rounded-[3rem] border-4 border-blue-50 shadow-xl sticky top-20 z-40">
                 <button onClick={() => setSelectedTopic(null)} className="bg-gray-100 px-6 py-2 rounded-full text-blue-900 font-black hover:bg-gray-200 text-sm uppercase transition-colors">← Roadmap</button>
                 <h2 className="text-2xl font-black text-blue-900 flex items-center gap-3"><span className="text-4xl">{selectedTopic.icon}</span> {selectedTopic.title}</h2>
                 <div className="bg-red-600 text-white px-4 py-1.5 rounded-full font-black text-[10px] uppercase">Level {selectedTopic.moduleId}</div>
               </div>
-
               <div className="grid lg:grid-cols-5 gap-8">
                 <div className="lg:col-span-3 space-y-8">
                   <div className="bg-white p-8 rounded-[3rem] shadow-2xl border-2 border-orange-100 relative overflow-hidden min-h-[200px]">
@@ -318,7 +316,6 @@ const App: React.FC = () => {
                    <button onClick={() => setShowConfigOverlay(true)} className="w-full bg-red-600 text-white py-6 rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 text-xl tracking-widest border-b-8 border-red-900 active:translate-y-2 transition-all uppercase">Start Level Test</button>
                 </div>
               </div>
-
               <div className="bg-white p-8 rounded-[4rem] border-4 border-blue-50 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6 mt-12 border-dashed">
                 {prevTopic ? (
                   <button onClick={() => setSelectedTopic(prevTopic)} className="flex flex-col items-center md:items-start group transition-transform hover:-translate-x-2">
@@ -388,20 +385,71 @@ const App: React.FC = () => {
 
       case 'practice':
       case 'master-delivery':
-        if (quizQuestions.length === 0) return <div className="text-center py-20 font-black text-blue-900">Sorting machine jammed... (No questions)</div>;
+        if (quizQuestions.length === 0) return <div className="text-center py-20 font-black text-blue-900">No questions found.</div>;
         if (quizState.finished) {
           return (
-            <div className="bg-white p-12 rounded-[5rem] shadow-3xl text-center space-y-10 animate-scaleIn border-[16px] border-blue-50 max-w-3xl mx-auto py-16">
-              <h2 className="text-7xl font-black text-blue-900 leading-none">Job Done!</h2>
-              <div className="bg-blue-50 p-10 rounded-[3.5rem] border-4 border-blue-100 max-w-sm mx-auto">
-                <p className="text-xs font-black uppercase text-blue-400 mb-2 tracking-widest">Dispatch Accuracy</p>
-                <p className="text-7xl font-black text-blue-900">{Math.round((quizState.score / quizQuestions.length) * 100)}%</p>
+            <div className="max-w-4xl mx-auto space-y-12 animate-fadeIn py-10">
+              <div className="bg-white p-12 rounded-[5rem] shadow-3xl text-center space-y-10 border-[16px] border-blue-50">
+                <h2 className="text-7xl font-black text-blue-900 leading-none">Job Done!</h2>
+                <div className="bg-blue-50 p-10 rounded-[3.5rem] border-4 border-blue-100 max-w-sm mx-auto">
+                  <p className="text-xs font-black uppercase text-blue-400 mb-2 tracking-widest">Dispatch Accuracy</p>
+                  <p className="text-7xl font-black text-blue-900">{Math.round((quizState.score / quizQuestions.length) * 100)}%</p>
+                </div>
+                <Waffle dialogue="Squeak! Excellent delivery work!" mood="happy" size="md" />
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button onClick={() => setShowReview(true)} className="flex-1 bg-blue-600 text-white py-6 rounded-[3rem] font-black shadow-xl hover:bg-blue-700 text-2xl uppercase border-b-8 border-blue-900 active:translate-y-1">
+                    Review Results
+                  </button>
+                  <button onClick={() => { setSection('learn'); setShowReview(false); }} className="flex-1 bg-red-600 text-white py-6 rounded-[3rem] font-black shadow-xl hover:bg-red-700 text-2xl uppercase border-b-8 border-red-900 active:translate-y-1">Roadmap</button>
+                </div>
               </div>
-              <Waffle dialogue="Squeak! Excellent delivery work!" mood="happy" size="md" />
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button onClick={() => setSection('learn')} className="flex-1 bg-gray-100 text-blue-900 py-6 rounded-[3rem] font-black shadow-xl hover:bg-gray-200 text-2xl uppercase">Roadmap</button>
-                <button onClick={() => setSection('home')} className="flex-1 bg-red-600 text-white py-6 rounded-[3rem] font-black shadow-xl hover:bg-red-700 text-2xl uppercase">Home</button>
-              </div>
+              {showReview && (
+                <div className="space-y-8 animate-fadeIn pt-12 border-t-8 border-blue-50">
+                  <h3 className="text-4xl font-black text-blue-900 text-center uppercase tracking-tighter">Full Dispatch Review</h3>
+                  <div className="grid gap-8">
+                    {quizQuestions.map((q, idx) => {
+                      const userAns = userAnswers[idx];
+                      const isCorrect = userAns === q.correctAnswer;
+                      return (
+                        <div key={idx} className={`bg-white p-10 rounded-[4rem] border-4 shadow-2xl transition-all ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
+                          <div className="flex items-center gap-4 mb-6">
+                             <span className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-md ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>{idx + 1}</span>
+                             <span className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Question {idx + 1} of {quizQuestions.length}</span>
+                          </div>
+                          <div className="space-y-8">
+                            <div>
+                               <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2">Original Package:</p>
+                               <div className="p-6 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 font-typewriter italic text-2xl text-gray-700 leading-relaxed">"{q.directSpeech}"</div>
+                            </div>
+                            <div className="grid sm:grid-cols-2 gap-6">
+                              <div className="space-y-2">
+                                <span className="text-[9px] font-black uppercase text-green-500 tracking-widest">Correct Re-Post:</span>
+                                <div className="p-5 bg-green-50 text-green-800 rounded-2xl font-bold text-base border-l-8 border-green-500 shadow-sm">{q.correctAnswer}</div>
+                              </div>
+                              <div className="space-y-2">
+                                <span className="text-[9px] font-black uppercase text-blue-500 tracking-widest">Your Dispatch:</span>
+                                <div className={`p-5 rounded-2xl font-bold text-base border-l-8 shadow-sm ${isCorrect ? 'bg-green-50 text-green-800 border-green-500' : 'bg-red-50 text-red-800 border-red-500'}`}>
+                                  {userAns || '(No Answer)'}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="pt-6 border-t border-gray-100 flex gap-4">
+                               <div className="shrink-0 text-3xl">🐹</div>
+                               <div className="space-y-1">
+                                  <p className="text-[10px] font-black text-blue-900 uppercase tracking-[0.2em]">Waffle's Sorting Manual:</p>
+                                  <p className="text-gray-600 font-medium leading-relaxed italic">"{q.explanation}"</p>
+                               </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex justify-center pt-10">
+                    <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="bg-gray-100 px-8 py-3 rounded-2xl font-black text-blue-900 hover:bg-gray-200 uppercase text-sm tracking-widest">Back to Top</button>
+                  </div>
+                </div>
+              )}
             </div>
           );
         }
@@ -410,30 +458,25 @@ const App: React.FC = () => {
         return (
           <div className="animate-fadeIn max-w-5xl mx-auto space-y-8 pb-20">
             <div ref={questionTopRef} className="pt-20 -mt-20" />
-            
             <div className="grid lg:grid-cols-4 gap-8">
               <div className="lg:col-span-3 space-y-8">
-                {/* Main Question Card */}
                 <div className="bg-white p-10 rounded-[4rem] shadow-3xl border-4 border-blue-50 relative min-h-[500px] flex flex-col justify-center overflow-hidden">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-red-50 -rotate-12 translate-x-8 -translate-y-8 flex items-end justify-start p-4 text-4xl">📬</div>
                   <div className="absolute top-8 left-10 flex items-center gap-4">
                     <span className="bg-blue-600 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg">{quizState.currentIndex + 1}</span>
-                    <span className="text-gray-400 font-black uppercase text-xs tracking-[0.3em]">
-                      {quizConfig.mode === 'module' ? `Level ${selectedTopic?.moduleId} Dispatch` : ''}
-                    </span>
                   </div>
                   <div className="space-y-12 relative z-10">
                     <div className="space-y-4">
-                      <p className="text-[10px] font-black text-red-500 uppercase tracking-[0.4em] text-center">Re-Post this message:</p>
-                      <div className="p-8 bg-white/80 backdrop-blur-sm rounded-[2.5rem] border-4 border-dashed border-gray-200 font-typewriter italic text-3xl text-center leading-tight shadow-sm">"{currentQ.directSpeech}"</div>
+                      <p className="text-[11px] font-black text-red-500 uppercase tracking-[0.5em] text-center">Re-Post this message:</p>
+                      <div className="p-10 bg-white/80 backdrop-blur-sm rounded-[3rem] border-4 border-dashed border-gray-200 font-typewriter italic text-4xl text-center leading-tight shadow-sm text-blue-900">"{currentQ.directSpeech}"</div>
                     </div>
                     <div className="grid gap-4">
                       {currentQ.options.map((opt, i) => {
                         const isCorrect = opt === currentQ.correctAnswer;
                         const isSelected = userAnswers[quizState.currentIndex] === opt;
                         return (
-                          <button key={i} disabled={isAnswered} onClick={() => handleAnswer(opt)} className={`p-6 rounded-[2rem] border-4 text-left font-black text-lg transition-all flex items-center gap-6 ${isAnswered ? (isCorrect ? 'bg-green-100 border-green-500 text-green-900 shadow-inner' : isSelected ? 'bg-red-100 border-red-500 text-red-900' : 'opacity-40 grayscale blur-[1px]') : 'bg-white border-gray-100 hover:border-blue-500 hover:-translate-y-1 shadow-md'}`}>
-                            <span className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-2xl shrink-0 ${isAnswered && isCorrect ? 'bg-green-600 text-white' : 'bg-blue-50 text-blue-600'}`}>{String.fromCharCode(65 + i)}</span>
+                          <button key={i} disabled={isAnswered} onClick={() => handleAnswer(opt)} className={`p-6 rounded-[2.2rem] border-4 text-left font-black text-lg transition-all flex items-center gap-6 ${isAnswered ? (isCorrect ? 'bg-green-100 border-green-500 text-green-900 shadow-inner' : isSelected ? 'bg-red-100 border-red-500 text-red-900' : 'opacity-40 grayscale blur-[1px]') : 'bg-white border-gray-100 hover:border-blue-500 hover:-translate-y-1 shadow-md hover:shadow-xl'}`}>
+                            <span className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-2xl shrink-0 ${isAnswered && isCorrect ? 'bg-green-600 text-white' : 'bg-blue-50 text-blue-600'}`}>{String.fromCharCode(65 + i)}</span>
                             <span className="leading-tight">{opt}</span>
                           </button>
                         );
@@ -441,8 +484,6 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Expanded Explanation Box - Wide and Legible */}
                 {isAnswered && (
                   <div className="bg-white p-12 rounded-[4rem] border-4 border-blue-50 shadow-2xl animate-fadeIn space-y-6 relative overflow-hidden group">
                     <div className="absolute top-0 left-0 w-2 h-full bg-blue-600"></div>
@@ -453,25 +494,17 @@ const App: React.FC = () => {
                     <p className="text-2xl font-bold text-gray-800 leading-relaxed italic group-hover:scale-[1.01] transition-transform">
                       "{currentQ.explanation}"
                     </p>
-                    <div className="flex gap-4 pt-4 border-t-2 border-blue-50">
-                       <div className="bg-blue-50 px-4 py-2 rounded-xl text-[10px] font-black text-blue-400 uppercase tracking-widest">Sector: {currentQ.category}</div>
-                       <div className="bg-red-50 px-4 py-2 rounded-xl text-[10px] font-black text-red-400 uppercase tracking-widest">Focus: {currentQ.errorType.replace('_', ' ')}</div>
-                    </div>
                   </div>
                 )}
-
-                {/* Question Navigation */}
                 <div className="flex justify-between items-center bg-white p-6 rounded-[3rem] shadow-2xl border-4 border-blue-50">
                    <div className="flex gap-2 items-center px-4 overflow-x-auto max-w-full pb-2">
                      {quizQuestions.map((_, i) => (
                        <div key={i} className={`h-3 rounded-full transition-all shrink-0 ${userAnswers[i] ? (userAnswers[i] === quizQuestions[i].correctAnswer ? 'bg-green-500 w-3' : 'bg-red-500 w-3') : (i === quizState.currentIndex ? 'bg-blue-600 w-12' : 'bg-gray-100 w-3')}`} />
                      ))}
                    </div>
-                   <button onClick={handleNext} disabled={!userAnswers[quizState.currentIndex]} className="px-10 py-4 bg-red-600 text-white rounded-[2rem] font-black shadow-2xl hover:bg-red-700 disabled:opacity-50 transition-all uppercase tracking-[0.2em] whitespace-nowrap">Next Item →</button>
+                   <button onClick={handleNext} disabled={!userAnswers[quizState.currentIndex]} className="px-12 py-5 bg-red-600 text-white rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 disabled:opacity-50 transition-all uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-1">Next Mail →</button>
                 </div>
               </div>
-
-              {/* Sidebar Waffle Feedback */}
               <div className="space-y-8 sticky top-24 h-fit">
                 <Waffle dialogue={quizState.feedback || "Check every TRPT pillar for a safe delivery!"} mood={quizState.mood} />
                 <div className="bg-white p-8 rounded-[3rem] border-4 border-blue-50 shadow-xl border-dashed">
@@ -491,12 +524,10 @@ const App: React.FC = () => {
             </div>
           </div>
         );
-      
       default:
         return <div>Section not found.</div>;
     }
   };
-
   return (
     <Layout activeSection={section} setSection={(s) => { setSection(s); setSelectedTopic(null); }}>
       <div id="app-top" />
