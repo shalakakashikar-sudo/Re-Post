@@ -154,7 +154,6 @@ const App: React.FC = () => {
           <div className="flex flex-col items-center justify-center animate-fadeIn py-8 min-h-[70vh]">
             <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="text-center md:text-left space-y-6">
-                <div className="inline-block bg-red-50 text-red-600 px-4 py-1 rounded-full font-black text-xs tracking-widest uppercase mb-2 animate-bounce">Grammar Path Ready</div>
                 <h2 className="text-8xl md:text-9xl font-black text-blue-900 tracking-tighter leading-[0.8] mb-4">Re-Post!</h2>
                 <p className="text-2xl md:text-4xl text-red-600 font-extrabold italic mb-6">"Don’t just Quote it, Re-Post it!"</p>
                 <p className="text-gray-600 text-xl font-medium max-w-lg leading-relaxed">
