@@ -9,22 +9,22 @@ export const foundationTopics: LearnTopic[] = [
     category: 'Foundations',
     title: 'Identifying Sentence Types',
     shortTitle: 'Sentence Types',
-    exitSkill: 'Identify sentence type (Statement, Question, Command, Exclamation, Mixed).',
+    exitSkill: 'Correctly identify what kind of sentence you are dealing with before converting.',
     icon: '🔍',
-    description: 'Every sentence belongs to one of five categories. You must be able to spot the type instantly before converting.',
-    why: 'The type determines which reporting verb and connector (that, if, to) you use.',
-    directExample: 'He said, "Where is the post office?"',
-    indirectExample: 'He asked where the post office was.',
-    waffleTip: 'Use the SQCEM Trick: Statement (.), Question (?), Command (. or !), Exclamation (!), Mixed (joined types).',
-    wittyRemark: 'Spot the punctuation first!',
+    description: 'Every sentence you will ever convert belongs to one of these five categories. Before you touch a single conversion, you must be able to spot the type instantly. This is your first and most important skill.',
+    why: 'The type determines the specific reporting verb and connector used in Indirect Speech.',
+    directExample: 'I think it will rain today.',
+    indirectExample: 'He said that he thought it would rain that day.',
+    waffleTip: 'Memory Aid: The "SQCEM" Trick!',
+    wittyRemark: 'Spot the type first, squeak!',
     infographics: [{
-      header: 'The Exhaustive SQCEM Manual',
+      header: 'The SQCEM Trick',
       rows: [
-        { label: 'S (Statement)', value: 'Simple Fact/Info. Ends with [ . ]. Use "that" connector.' },
-        { label: 'Q (Question)', value: 'Inquiry. Ends with [ ? ]. Use "if/whether" or Wh-word.' },
-        { label: 'C (Command)', value: 'Order/Request. Ends with [ . ] or [ ! ]. Use "to + V1".' },
-        { label: 'E (Exclamation)', value: 'Emotion. Ends with [ ! ]. Use descriptive reporting verbs.' },
-        { label: 'M (Mixed)', value: 'Joined types. Use "and added that" or "and asked".' }
+        { label: 'S (Statement)', value: 'Ends with ( . )' },
+        { label: 'Q (Question)', value: 'Ends with ( ? )' },
+        { label: 'C (Command)', value: 'Ends with ( . ) or ( ! )' },
+        { label: 'E (Exclamation)', value: 'Ends with ( ! ) + strong emotion word' },
+        { label: 'M (Mixed)', value: 'Has two types joined together' }
       ]
     }],
     quiz: quizFoundations['mod-1']
@@ -33,33 +33,34 @@ export const foundationTopics: LearnTopic[] = [
     id: 'mod-2',
     moduleId: 2,
     category: 'Foundations',
-    title: 'The TRPT Framework',
-    shortTitle: 'TRPT Framework',
-    exitSkill: 'Apply the TRPT framework for basic sentence transformation.',
+    title: 'Understanding Reporting Structure',
+    shortTitle: 'Reporting Structure',
+    exitSkill: 'Understand the elements that change during conversion and why they change.',
     icon: '🏗️',
-    description: 'The fundamental skeleton of reporting speech involves checking five critical pillars.',
-    why: 'Missing one pillar causes a "grammar leak" that changes the original meaning.',
-    directExample: 'Ram said to me, "I am busy."',
-    indirectExample: 'Ram told me that he was busy.',
-    waffleTip: 'Remember the TRPT Mantra: Tense → Reporting Verb → Pronoun → Time/Place.',
-    wittyRemark: 'Check the skeleton before you build the body!',
+    description: 'Before any conversion happens, you need to understand the two parts of any reported sentence and why certain things change due to the gap between the time of speaking and reporting.',
+    why: 'Shifts happen because Ram said "I" yesterday, but today you are reporting it as "He".',
+    directExample: 'Ram said, "I am going."',
+    indirectExample: 'Ram said that he was going.',
+    waffleTip: 'Memory Aid: The "TRPT" Mantra!',
+    wittyRemark: 'Check these four things in order!',
     infographics: [
       {
-        header: 'Tense Step-Down Chart',
+        header: 'The Reporting Framework',
         rows: [
-          { label: 'Present → Past', value: 'is/am/are → was/were; write → wrote' },
-          { label: 'Past → Past Perfect', value: 'wrote → had written; was → had been' },
-          { label: 'Future → Conditional', value: 'will → would; can → could' }
+          { label: 'Reporting Clause', value: 'Tells us WHO said it and WHEN (He said...)' },
+          { label: 'Reported Clause', value: 'The actual words or meaning of what was said.' },
+          { label: 'Speaker', value: 'The person who originally spoke (e.g., Ram)' },
+          { label: 'Listener', value: 'The person being spoken to (e.g., to me)' }
         ]
       },
       {
-        header: 'The 5-Pillar Framework',
+        header: 'The TRPT Pillars',
         rows: [
-          { label: 'Tense', value: 'Backshift: Move one step into the past.' },
-          { label: 'Reporting Verb', value: 'Tone: said to → told / asked / ordered.' },
-          { label: 'Pronouns', value: 'Identity: I/You → He/She/Me (The PRO Rule).' },
-          { label: 'Time & Place', value: 'Distance: near words (now) → far words (then).' },
-          { label: 'Connectors', value: 'Bridge: add "that", "if/whether", or "to".' }
+          { label: 'T (Tense)', value: 'Backshift: am → was' },
+          { label: 'R (Reporting Verb)', value: 'said to → told' },
+          { label: 'P (Pronoun)', value: 'I → he/she' },
+          { label: 'T (Time & Place)', value: 'today → that day' },
+          { label: 'Connector', value: 'Quotation marks removed, "that" added' }
         ]
       }
     ],

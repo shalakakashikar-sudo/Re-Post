@@ -8,23 +8,21 @@ export const masteryTopics: LearnTopic[] = [
     category: 'Mastery',
     title: 'Indirect to Direct (Statements)',
     shortTitle: 'Reversal: Statements',
-    exitSkill: 'Perform a full reverse transformation of statements.',
+    exitSkill: 'Perform a full reverse transformation of reported statements back to direct speech.',
     icon: '⏪',
-    description: 'Reverse the backshift! Move tenses forward (was → is) and restore quotation marks.',
-    why: 'True mastery means being able to travel in both directions through the grammar timeline.',
-    directExample: 'He told me that he was ill.',
-    indirectExample: 'He said to me, "I am ill."',
-    waffleTip: 'Reverse the TRPT Mantra! Far becomes Near.',
-    wittyRemark: 'Taking the message back to the original speaker!',
-    // Wrap infographic in an array and rename to infographics
+    description: 'Mastery means traveling backwards! Reverse the backshift, restore quotes, and change "told" back to "said to".',
+    why: 'Reversing the process solidifies your understanding of the relationship between direct and indirect clauses.',
+    directExample: 'He said to me, "I am ill."',
+    indirectExample: 'He told me that he was ill.',
+    waffleTip: 'Tense reversal: Move tenses FORWARD! was → am, had done → did/have done.',
+    wittyRemark: 'Taking the message back to the original speaker! 180-degree turn!',
     infographics: [{
       header: 'The Reversal Checklist',
       rows: [
-        { label: 'that', value: '→ comma and opening quotes' },
-        { label: 'told', value: '→ said to' },
-        { label: 'was / were', value: '→ is / am / are' },
-        { label: 'he / she', value: '→ I (check context)' },
-        { label: 'then', value: '→ now' }
+        { label: 'told', value: '→ said to (restore the object connector)' },
+        { label: 'that', value: '→ replace with comma and opening quotes' },
+        { label: 'Tense', value: 'Forward shift (Simple Past → Simple Present)' },
+        { label: 'Time/Place', value: 'Far → Near (the next day → tomorrow)' }
       ]
     }],
     quiz: quizMastery['mod-27']
@@ -35,22 +33,21 @@ export const masteryTopics: LearnTopic[] = [
     category: 'Mastery',
     title: 'Indirect to Direct (Questions/Commands)',
     shortTitle: 'Reversal: Mixed',
-    exitSkill: 'Reverse questions and imperatives back to their original form.',
+    exitSkill: 'Restore original question word order and imperative tone (like adding "Please").',
     icon: '↩️',
-    description: 'Restore the question word order (HV + Sub) and put back "Please" for requests.',
-    why: 'Questions and commands have unique markers (like "?" and "Please") that must be carefully restored.',
-    directExample: 'He asked me where I lived.',
-    indirectExample: 'He said to me, "Where do you live?"',
-    waffleTip: 'Restored word order: HV must come before Subject!',
-    wittyRemark: 'Bring back the Question Mark!',
-    // Wrap infographic in an array and rename to infographics
+    description: 'Reverse questions and commands. Restore the question mark (?) and the "HV + Subject" order for inquiries.',
+    why: 'Questions and commands have structural markers that vanish in indirect speech; mastery requires their perfect restoration.',
+    directExample: 'He said to me, "Where do you live?"',
+    indirectExample: 'He asked me where I lived.',
+    waffleTip: 'Requested → add "Please". Asked if → add "?" and move HV to front!',
+    wittyRemark: 'Bringing back the curiosities and the politeness!',
     infographics: [{
-      header: 'Complex Reversal',
+      header: 'Structural Restoration',
       rows: [
-        { label: 'if / whether', value: '→ Helping Verb + "?"' },
-        { label: 'requested to', value: '→ "Please" + V1' },
-        { label: 'ordered to', value: '→ V1 (Direct command)' },
-        { label: 'Wh + Sub + V', value: '→ Wh + V + Sub + "?"' }
+        { label: 'if / whether', value: '→ Remove and add Question Mark' },
+        { label: 'requested to', value: '→ said to + "Please,"' },
+        { label: 'Word Order', value: 'Sub + HV → HV + Sub (for questions)' },
+        { label: 'Pronouns', value: 'Shift back to 1st/2nd person perspective' }
       ]
     }],
     quiz: quizMastery['mod-28']
@@ -61,22 +58,21 @@ export const masteryTopics: LearnTopic[] = [
     category: 'Mastery',
     title: 'Common Error Diagnosis',
     shortTitle: 'Diagnosis',
-    exitSkill: 'Identify and fix common "Forbidden Grammar" errors.',
+    exitSkill: 'Identify and fix the top 10 most frequent conversion mistakes.',
     icon: '🛡️',
-    description: 'Identify typical mistakes like leaving "said to" in indirect speech or forgetting the word order flip in questions.',
-    why: 'Spotting errors helps you avoid them in exams and formal writing.',
+    description: 'Be the inspector! Spot mistakes like keeping "said to" in reports or forgetting the question order flip.',
+    why: 'Knowing what NOT to do is just as important as knowing what to do in competitive exams.',
     directExample: 'He said to me that he was busy. (ERROR)',
-    indirectExample: 'He told me that he was busy. (CORRECT)',
-    waffleTip: 'Check your work with the TRPT checklist!',
-    wittyRemark: 'Be a Grammar Inspector! Find the leak!',
-    // Wrap infographic in an array and rename to infographics
+    indirectExample: 'He told me that he was busy. (FIXED)',
+    waffleTip: 'Check for "that" before Wh-words—it is a forbidden bridge! Squeak!',
+    wittyRemark: 'Whiskers up! Spot the grammar leak before it ships!',
     infographics: [{
-      header: 'Forbidden Grammar Log',
+      header: 'The Forbidden Log',
       rows: [
-        { label: 'Mistake 1', value: 'Using "that" before a Wh-word' },
-        { label: 'Mistake 2', value: 'Keeping "said to" instead of "told"' },
-        { label: 'Mistake 3', value: 'Forgetting the Word Order Flip' },
-        { label: 'Mistake 4', value: 'Leaving "now" or "here" in the report' }
+        { label: 'Error 1', value: 'Leaving "said to" instead of "told"' },
+        { label: 'Error 2', value: 'Double tense shift (had had been)' },
+        { label: 'Error 3', value: 'Using "that" with Wh-questions' },
+        { label: 'Error 4', value: 'Forgot to flip question order' }
       ]
     }],
     quiz: quizMastery['mod-29']
@@ -87,22 +83,21 @@ export const masteryTopics: LearnTopic[] = [
     category: 'Mastery',
     title: 'Full Mixed Conversion Practice',
     shortTitle: 'Final Mastery',
-    exitSkill: 'Convert any sentence of any complexity with 100% accuracy.',
+    exitSkill: 'Convert high-complexity sentences accurately across all TRPT pillars.',
     icon: '🏆',
-    description: 'Final exam-level mixed questions covering all 30 modules. This is the ultimate delivery test.',
-    why: 'Prove you are a Master Postman of Direct and Indirect speech.',
-    directExample: 'He said, "If I had the money, I would buy a house."',
-    indirectExample: 'He said that if he had the money, he would buy a house.',
-    waffleTip: 'Use everything you learned. SQCEM + TRPT + PRO!',
-    wittyRemark: 'Graduation Day! Squeak!',
-    // Wrap infographic in an array and rename to infographics
+    description: 'The final dispatch. High-level sentences combining conditionals, exclamations, and mixed types.',
+    why: 'Demonstrate total mastery of the 30-module curriculum.',
+    directExample: 'She said, "What a wonderful experience this has been!"',
+    indirectExample: 'She exclaimed that it had been a very wonderful experience.',
+    waffleTip: 'Check Pronoun identity vs Reporting Subject/Object one last time!',
+    wittyRemark: 'The Golden Stamp is yours! Full speed ahead!',
     infographics: [{
-      header: 'Master Postman Guide',
+      header: 'Master Postman Ritual',
       rows: [
-        { label: 'Final Step', value: 'Check punctuation' },
-        { label: 'Final Step', value: 'Verify Pronoun identity' },
-        { label: 'Final Step', value: 'Verify Tense Backshift' },
-        { label: 'Final Step', value: 'Read aloud: Does it sound like a report?' }
+        { label: 'Step 1', value: 'Identify SQCEM type' },
+        { label: 'Step 2', value: 'Apply TRPT Pillar shifts' },
+        { label: 'Step 3', value: 'Verify connector (that/if/to)' },
+        { label: 'Step 4', value: 'Final check of Time/Place markers' }
       ]
     }],
     quiz: quizMastery['mod-30']

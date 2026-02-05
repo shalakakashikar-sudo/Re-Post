@@ -7,23 +7,22 @@ export const imperativeTopics: LearnTopic[] = [
     moduleId: 15,
     category: 'Imperatives',
     title: 'Positive Commands',
-    shortTitle: 'Commands',
-    exitSkill: 'Convert direct orders using to-infinitives.',
+    shortTitle: 'Positive Orders',
+    exitSkill: 'Convert direct orders and instructions using to + infinitive.',
     icon: '💂',
-    description: 'Orders and instructions use reporting verbs like "ordered", "commanded", or "told" followed by "to + verb".',
-    why: 'Imperatives don\'t use the connector "that". They use the "to-infinitive" to connect the instruction.',
-    directExample: 'He said to the servant, "Leave at once."',
-    indirectExample: 'He ordered the servant to leave at once.',
-    waffleTip: 'said to → ordered + to + verb.',
-    wittyRemark: 'No "that" bridge here! Use the "to" shortcut!',
-    // Wrap infographic in an array and rename to infographics
+    description: 'Direct orders and instructions where the subject "you" is implied. The reporting verb must match the authority of the speaker.',
+    why: 'Imperatives use "to + V1" instead of the connector "that". This bridges the reporting verb directly to the action.',
+    directExample: 'He said to the servant, "Leave my house at once."',
+    indirectExample: 'He ordered the servant to leave his house at once.',
+    waffleTip: 'Tone Guide: Neutral (told, asked), Strong (ordered, commanded). Harsh tone? Use ordered!',
+    wittyRemark: 'No "that" bridge here! Just hop over with "to", squeak!',
     infographics: [{
-      header: 'Positive Order Manual',
+      header: 'Command Pattern',
       rows: [
-        { label: 'Verb Choice', value: 'ordered / commanded / told / charged' },
-        { label: 'Connector', value: 'Change quotes to "to"' },
-        { label: 'Verb Form', value: 'to + V1 (base form)' },
-        { label: 'Example', value: '"Go!" → to go' }
+        { label: 'Reporting Verb', value: '"said to" → ordered / told / commanded' },
+        { label: 'Verb Shift', value: 'Original verb → to + V1 (to-infinitive)' },
+        { label: 'Connector', value: 'NO "that" is used; replaced by "to"' },
+        { label: 'Punctuation', value: 'Remove quotes, add full stop' }
       ]
     }],
     quiz: quizImperatives['mod-15']
@@ -32,24 +31,23 @@ export const imperativeTopics: LearnTopic[] = [
     id: 'mod-16',
     moduleId: 16,
     category: 'Imperatives',
-    title: 'Requests (Please/Kindly)',
-    shortTitle: 'Requests',
-    exitSkill: 'Convert polite requests and remove redundant words.',
+    title: 'Requests (Please / Polite Tone)',
+    shortTitle: 'Polite Requests',
+    exitSkill: 'Convert polite commands by using "requested" and removing "please/kindly".',
     icon: '🙏',
-    description: 'When you see "Please" or "Kindly", use "requested" or "implored". Remove "Please" from the indirect sentence.',
-    why: 'The reporting verb "requested" already shows the politeness, so the word "please" is no longer needed.',
-    directExample: 'He said, "Please give me a glass of water."',
+    description: 'Instructions containing "please" or "kindly". The reporting verb absorbs the politeness.',
+    why: '"Please" disappears because "requested" already carries that meaning. Repeating both is redundant.',
+    directExample: 'He said to me, "Please give me a glass of water."',
     indirectExample: 'He requested me to give him a glass of water.',
-    waffleTip: 'Please = Requested. Don\'t keep both!',
-    wittyRemark: 'Drop the "Please", the verb "Requested" is doing all the heavy lifting!',
-    // Wrap infographic in an array and rename to infographics
+    waffleTip: 'Memory Aid: Please = Request. If you see "please", think "requested"!',
+    wittyRemark: 'Drop the "Please", the verb is doing the heavy lifting now!',
     infographics: [{
-      header: 'Polite Request Route',
+      header: 'Polite Request Rules',
       rows: [
-        { label: 'Verb Choice', value: 'requested / begged / implored / entreated' },
-        { label: 'Action', value: 'REMOVE "please" / "kindly"' },
-        { label: 'Connector', value: 'to + V1' },
-        { label: 'Example', value: '"Please wait" → requested to wait' }
+        { label: 'Polite Cue', value: '"Please" or "Kindly"' },
+        { label: 'Reporting Verb', value: 'requested / begged / implored' },
+        { label: 'Action', value: 'REMOVE the word "please" from the report' },
+        { label: 'Verb', value: 'to + V1' }
       ]
     }],
     quiz: quizImperatives['mod-16']
@@ -60,22 +58,21 @@ export const imperativeTopics: LearnTopic[] = [
     category: 'Imperatives',
     title: 'Negative Commands',
     shortTitle: 'Negative Orders',
-    exitSkill: 'Convert "Don\'t" to "not to" or use "forbade".',
+    exitSkill: 'Convert "Don\'t" to "not to" or use the verb "forbade".',
     icon: '🚫',
-    description: 'Negative commands use "not to" + verb. Alternatively, use the reporting verb "forbade" (which already means "ordered not to").',
-    why: 'You must place "not" before the "to-infinitive" to negate the action correctly.',
-    directExample: 'He said, "Do not make a noise."',
-    indirectExample: 'He asked them not to make a noise.',
-    waffleTip: 'Don\'t → not to. Never say "to not"!',
-    wittyRemark: 'Put "Not" in its place! Right before "to"!',
-    // Wrap infographic in an array and rename to infographics
+    description: 'Instructions telling someone NOT to do something. "Don\'t" must be handled carefully with "not to".',
+    why: 'The negation "not" must come BEFORE the "to" connector. Alternatively, "forbade" means "prohibited", so "not" isn\'t needed.',
+    directExample: 'The mother said to the child, "Don\'t touch the hot pan."',
+    indirectExample: 'The mother warned the child not to touch the hot pan.',
+    waffleTip: 'Don\'t → not to. Never say "to not"! Unless you use "forbade", then omit "not".',
+    wittyRemark: 'Put "Not" in its place! Right before the "to"!',
     infographics: [{
-      header: 'Negation Stop Sign',
+      header: 'Negation Logic',
       rows: [
-        { label: 'Standard', value: 'ordered / told + not to' },
-        { label: 'Alternative', value: 'forbade / prohibited + to (No "not")' },
-        { label: 'Warning', value: 'Never use "not" with "forbade"' },
-        { label: 'Example', value: '"Don\'t go" → forbade to go / ordered not to go' }
+        { label: 'Standard', value: 'ordered / told / asked + not to' },
+        { label: 'Warning Tone', value: 'warned + not to' },
+        { label: 'Forbidden', value: 'forbade to (NO "not" allowed with forbade!)' },
+        { label: 'Example', value: '"Don\'t run" → forbade them to run' }
       ]
     }],
     quiz: quizImperatives['mod-17']
@@ -84,24 +81,23 @@ export const imperativeTopics: LearnTopic[] = [
     id: 'mod-18',
     moduleId: 18,
     category: 'Imperatives',
-    title: 'Advice & Warnings',
-    shortTitle: 'Advice',
-    exitSkill: 'Choose reporting verbs based on the tone of instruction.',
+    title: 'Advice, Warning & Prohibition',
+    shortTitle: 'Advice & Warn',
+    exitSkill: 'Choose the correct reporting verb based on the intent of the instruction.',
     icon: '💡',
-    description: 'Identify if the instruction is helpful (advised) or a safety alert (warned).',
-    why: 'Using a specific reporting verb conveys the exact feeling and context of the speaker.',
-    directExample: 'The doctor said, "Do not eat spicy food."',
-    indirectExample: 'The doctor advised the patient not to eat spicy food.',
-    waffleTip: 'Tone is key! Advised, Warned, or Urged.',
-    wittyRemark: 'Listen to the tone to pick the right verb!',
-    // Wrap infographic in an array and rename to infographics
+    description: 'Instructions that serve as guidance, alarm, or formal bans. The reporting verb tells the whole story.',
+    why: 'A report is more accurate when it describes the speaker\'s intention (Advice, Warning, etc.).',
+    directExample: 'The coach said to the team, "Practice every day without fail."',
+    indirectExample: 'The coach instructed the team to practice every day without fail.',
+    waffleTip: 'Read the sentence out loud! Is it a suggestion? A danger alert? A ban?',
+    wittyRemark: 'Listen to the tone to pick the right stamp!',
     infographics: [{
-      header: 'The Tone Compass',
+      header: 'Tone Compass',
       rows: [
-        { label: 'Helpful info', value: 'advised / suggested' },
-        { label: 'Danger / Alarm', value: 'warned / cautioned' },
-        { label: 'Moral duty', value: 'exhorted / urged' },
-        { label: 'Structure', value: 'to / not to + V1' }
+        { label: 'Advice', value: 'advised / suggested' },
+        { label: 'Warning', value: 'warned' },
+        { label: 'Prohibition', value: 'forbade / prohibited from (V-ing)' },
+        { label: 'Instruction', value: 'instructed / taught' }
       ]
     }],
     quiz: quizImperatives['mod-18']
@@ -110,24 +106,23 @@ export const imperativeTopics: LearnTopic[] = [
     id: 'mod-19',
     moduleId: 19,
     category: 'Imperatives',
-    title: 'Suggestions (Let\'s)',
+    title: 'Suggestions (Let / Let\'s / Let me)',
     shortTitle: 'Suggestions',
-    exitSkill: 'Convert "Let\'s" using suggested that + they should.',
+    exitSkill: 'Convert suggestions starting with "Let\'s" vs individual requests starting with "Let me".',
     icon: '🤝',
-    description: '"Let\'s" indicates a collective proposal. Use "suggested that they should" or "suggested + V-ing".',
-    why: '"Let\'s" implies "you and I", so the report needs to reflect a joint future action.',
-    directExample: 'He said, "Let\'s go for a walk."',
-    indirectExample: 'He suggested that they should go for a walk.',
-    waffleTip: 'Let\'s = Suggested that... should.',
-    wittyRemark: 'Let\'s do it! We suggest that we should!',
-    // Wrap infographic in an array and rename to infographics
+    description: '"Let\'s" indicates a collective suggestion. "Let me" is usually a personal request.',
+    why: '"Let\'s" implies "we should", so we report it using "suggested that they should".',
+    directExample: 'He said, "Let\'s celebrate this victory."',
+    indirectExample: 'He suggested that they should celebrate that victory.',
+    waffleTip: 'Let\'s = Suggestion. Always think "suggested"! Let me = Request to let.',
+    wittyRemark: 'Let\'s do it! Squeak! We suggest that we should!',
     infographics: [{
-      header: 'The Suggestion Loop',
+      header: 'The "Let" Mapping',
       rows: [
-        { label: 'Verb Choice', value: 'suggested / proposed' },
-        { label: 'Structure A', value: 'that + they/we + should + V1' },
-        { label: 'Structure B', value: 'suggested + V-ing (e.g., suggested going)' },
-        { label: 'Let us (Alone)', value: 'If no "s", use "to let"' }
+        { label: '"Let\'s do X"', value: 'suggested that they should do X' },
+        { label: '"Let me do X"', value: 'asked / requested to do X' },
+        { label: '"Let him do X"', value: 'suggested / allowed that he should do X' },
+        { label: 'Alternative', value: 'suggested + V-ing (suggested going)' }
       ]
     }],
     quiz: quizImperatives['mod-19']
