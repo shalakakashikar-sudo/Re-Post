@@ -1,4 +1,5 @@
 import { LearnTopic, QuizQuestion, TopicCategory, ErrorType } from './types';
+import { introContent } from './content_intro';
 import { foundationTopics } from './content_foundations';
 import { statementTopics } from './content_statements';
 import { questionTopics } from './content_questions';
@@ -26,6 +27,7 @@ const generatePlaceholderQuiz = (moduleId: number, category: string): QuizQuesti
 const moduleDefinitions: Record<number, Partial<LearnTopic>> = {};
 
 // Register structured content
+moduleDefinitions[0] = introContent;
 foundationTopics.forEach(t => { moduleDefinitions[t.moduleId] = t; });
 statementTopics.forEach(t => { moduleDefinitions[t.moduleId] = t; });
 questionTopics.forEach(t => { moduleDefinitions[t.moduleId] = t; });
@@ -36,7 +38,8 @@ masteryTopics.forEach(t => { moduleDefinitions[t.moduleId] = t; });
 
 const fullCurriculum: LearnTopic[] = [];
 
-for (let i = 1; i <= 30; i++) {
+// Loop starts from 0 to include the Intro module
+for (let i = 0; i <= 30; i++) {
   const def = moduleDefinitions[i] || {};
   const cat: TopicCategory = 
     i <= 2 ? 'Foundations' : 
