@@ -1,3 +1,4 @@
+
 import { LearnTopic } from './types';
 import { quizFoundations } from './quiz_foundations';
 
@@ -16,7 +17,6 @@ export const foundationTopics: LearnTopic[] = [
     indirectExample: 'He asked where the post office was.',
     waffleTip: 'Use the SQCEM Trick: Statement (.), Question (?), Command (. or !), Exclamation (!), Mixed (joined types).',
     wittyRemark: 'Spot the punctuation first!',
-    // Wrap infographic in an array and rename to infographics
     infographics: [{
       header: 'The Exhaustive SQCEM Manual',
       rows: [
@@ -33,27 +33,36 @@ export const foundationTopics: LearnTopic[] = [
     id: 'mod-2',
     moduleId: 2,
     category: 'Foundations',
-    title: 'Understanding Reporting Structure',
-    shortTitle: 'Structure',
-    exitSkill: 'Identify Speaker, Listener, Reporting Clause, and Reported Clause.',
+    title: 'The TRPT Framework',
+    shortTitle: 'TRPT Framework',
+    exitSkill: 'Apply the TRPT framework for basic sentence transformation.',
     icon: '🏗️',
-    description: 'Every reported sentence consists of a Reporting Clause (who said it) and a Reported Clause (actual words).',
-    why: 'Shifts in tense and pronouns happen because of the time and space gap between speaking and reporting.',
+    description: 'The fundamental skeleton of reporting speech involves checking five critical pillars.',
+    why: 'Missing one pillar causes a "grammar leak" that changes the original meaning.',
     directExample: 'Ram said to me, "I am busy."',
     indirectExample: 'Ram told me that he was busy.',
     waffleTip: 'Remember the TRPT Mantra: Tense → Reporting Verb → Pronoun → Time/Place.',
     wittyRemark: 'Check the skeleton before you build the body!',
-    // Wrap infographic in an array and rename to infographics
-    infographics: [{
-      header: 'The TRPT 5-Pillar Framework',
-      rows: [
-        { label: 'Tense', value: 'Backshift: Move one step into the past (is → was).' },
-        { label: 'Reporting Verb', value: 'Tone: said to → told / asked / requested / ordered.' },
-        { label: 'Pronouns', value: 'Identity: I/You → He/She/Me (The PRO Rule).' },
-        { label: 'Time & Place', value: 'Distance: near words (now) → far words (then).' },
-        { label: 'Connectors', value: 'Bridge: add "that", "if/whether", or "to" to join clauses.' }
-      ]
-    }],
+    infographics: [
+      {
+        header: 'Tense Step-Down Chart',
+        rows: [
+          { label: 'Present → Past', value: 'is/am/are → was/were; write → wrote' },
+          { label: 'Past → Past Perfect', value: 'wrote → had written; was → had been' },
+          { label: 'Future → Conditional', value: 'will → would; can → could' }
+        ]
+      },
+      {
+        header: 'The 5-Pillar Framework',
+        rows: [
+          { label: 'Tense', value: 'Backshift: Move one step into the past.' },
+          { label: 'Reporting Verb', value: 'Tone: said to → told / asked / ordered.' },
+          { label: 'Pronouns', value: 'Identity: I/You → He/She/Me (The PRO Rule).' },
+          { label: 'Time & Place', value: 'Distance: near words (now) → far words (then).' },
+          { label: 'Connectors', value: 'Bridge: add "that", "if/whether", or "to".' }
+        ]
+      }
+    ],
     quiz: quizFoundations['mod-2']
   }
 ];
