@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Section, LearnTopic, QuizQuestion, WaffleMood, TopicCategory } from './types';
 import Layout from './components/Layout';
@@ -66,8 +65,8 @@ const App: React.FC = () => {
     }
   }, [quizState.currentIndex, section, quizState.finished]);
 
-  // Fix: Added handleAnswer to handle quiz option selection and update quiz state
   const handleAnswer = (option: string) => {
+    if (userAnswers[quizState.currentIndex]) return;
     const currentQ = quizQuestions[quizState.currentIndex];
     const isCorrect = option === currentQ.correctAnswer;
     
@@ -80,13 +79,12 @@ const App: React.FC = () => {
     }));
   };
 
-  // Fix: Added handleNext to navigate between quiz questions or finish the quiz
   const handleNext = () => {
     if (quizState.currentIndex < quizQuestions.length - 1) {
       setQuizState(prev => ({
         ...prev,
         currentIndex: prev.currentIndex + 1,
-        feedback: "Next delivery ready!",
+        feedback: null,
         mood: 'thinking'
       }));
     } else {
@@ -96,6 +94,30 @@ const App: React.FC = () => {
         mood: 'cool'
       }));
     }
+  };
+
+  const handlePrevious = () => {
+    if (quizState.currentIndex > 0) {
+      setQuizState(prev => ({
+        ...prev,
+        currentIndex: prev.currentIndex - 1,
+        feedback: null,
+        mood: 'idle'
+      }));
+    }
+  };
+
+  const getInstructionLabel = (q: QuizQuestion) => {
+    if (q.category === 'Foundations') {
+       if (q.id.startsWith('1.')) return "Identify the Sentence Type:";
+       return "Analyze the Reporting Structure:";
+    }
+    if (q.category === 'Mastery') {
+      if (q.id.startsWith('27.') || q.id.startsWith('28.')) return "Reverse Dispatch (To Direct Speech):";
+      if (q.id.startsWith('29.')) return "Spot the Dispatch Error:";
+      return "Final Mastery Challenge:";
+    }
+    return "Re-Post this message:";
   };
 
   const groupedTopics = useMemo(() => {
@@ -121,7 +143,7 @@ const App: React.FC = () => {
     });
   };
 
-  const resetQuiz = (msg = "Ready for sorting? Squeak!") => {
+  const resetQuiz = (msg: string | null = "Ready for sorting? Squeak!") => {
     setUserAnswers({});
     setShowReview(false);
     setQuizState({
@@ -144,7 +166,7 @@ const App: React.FC = () => {
       options: shuffle([...q.options]) 
     }));
     setQuizQuestions(selected);
-    resetQuiz(`${label} Dispatch (${finalCount} Mails)`);
+    resetQuiz(null); // Clear feedback to avoid overlapping text
     setSection(quizConfig.mode === 'module' ? 'practice' : 'master-delivery');
     setShowConfigOverlay(false);
   };
@@ -239,7 +261,7 @@ const App: React.FC = () => {
 
               <div className="pt-8 border-t-4 border-blue-50 flex flex-col items-center gap-6">
                  <button onClick={handleGlobalStart} className="bg-red-600 text-white px-16 py-6 rounded-[3rem] font-black shadow-3xl hover:bg-red-700 text-2xl uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-2 transition-all">Commence Dispatch →</button>
-                 <Waffle dialogue={`Sorting ${quizConfig.count} random items from ${quizConfig.categories.join(' & ')} sectors!`} mood="wink" />
+                 <Waffle dialogue={`Sorting ${quizConfig.count} items from ${quizConfig.categories.join(' & ')}!`} mood="wink" />
               </div>
             </div>
           </div>
@@ -413,13 +435,15 @@ const App: React.FC = () => {
                       return (
                         <div key={idx} className={`bg-white p-10 rounded-[4rem] border-4 shadow-2xl transition-all ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                           <div className="flex items-center gap-4 mb-6">
-                             <span className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-md ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>{idx + 1}</span>
+                             <span className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-md ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>{q.id}</span>
                              <span className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Question {idx + 1} of {quizQuestions.length}</span>
                           </div>
                           <div className="space-y-8">
                             <div>
                                <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2">Original Package:</p>
-                               <div className="p-6 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 font-typewriter italic text-2xl text-gray-700 leading-relaxed">"{q.directSpeech}"</div>
+                               <div className="p-6 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 font-typewriter italic text-2xl text-gray-700 leading-relaxed">
+                                 {q.category === 'Foundations' ? q.directSpeech : `"${q.directSpeech}"`}
+                               </div>
                             </div>
                             <div className="grid sm:grid-cols-2 gap-6">
                               <div className="space-y-2">
@@ -463,12 +487,16 @@ const App: React.FC = () => {
                 <div className="bg-white p-10 rounded-[4rem] shadow-3xl border-4 border-blue-50 relative min-h-[500px] flex flex-col justify-center overflow-hidden">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-red-50 -rotate-12 translate-x-8 -translate-y-8 flex items-end justify-start p-4 text-4xl">📬</div>
                   <div className="absolute top-8 left-10 flex items-center gap-4">
-                    <span className="bg-blue-600 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg">{quizState.currentIndex + 1}</span>
+                    <span className="bg-blue-600 text-white min-w-[3rem] h-10 px-3 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg tracking-tight">{currentQ.id}</span>
                   </div>
                   <div className="space-y-12 relative z-10">
                     <div className="space-y-4">
-                      <p className="text-[11px] font-black text-red-500 uppercase tracking-[0.5em] text-center">Re-Post this message:</p>
-                      <div className="p-10 bg-white/80 backdrop-blur-sm rounded-[3rem] border-4 border-dashed border-gray-200 font-typewriter italic text-4xl text-center leading-tight shadow-sm text-blue-900">"{currentQ.directSpeech}"</div>
+                      <p className="text-[11px] font-black text-red-500 uppercase tracking-[0.4em] text-center">
+                        {getInstructionLabel(currentQ)}
+                      </p>
+                      <div className="p-10 bg-white/80 backdrop-blur-sm rounded-[3rem] border-4 border-dashed border-gray-200 font-typewriter italic text-4xl text-center leading-tight shadow-sm text-blue-900">
+                        {currentQ.category === 'Foundations' ? currentQ.directSpeech : `"${currentQ.directSpeech}"`}
+                      </div>
                     </div>
                     <div className="grid gap-4">
                       {currentQ.options.map((opt, i) => {
@@ -496,17 +524,42 @@ const App: React.FC = () => {
                     </p>
                   </div>
                 )}
-                <div className="flex justify-between items-center bg-white p-6 rounded-[3rem] shadow-2xl border-4 border-blue-50">
-                   <div className="flex gap-2 items-center px-4 overflow-x-auto max-w-full pb-2">
-                     {quizQuestions.map((_, i) => (
-                       <div key={i} className={`h-3 rounded-full transition-all shrink-0 ${userAnswers[i] ? (userAnswers[i] === quizQuestions[i].correctAnswer ? 'bg-green-500 w-3' : 'bg-red-500 w-3') : (i === quizState.currentIndex ? 'bg-blue-600 w-12' : 'bg-gray-100 w-3')}`} />
-                     ))}
+                <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-6 rounded-[3rem] shadow-2xl border-4 border-blue-50 gap-4">
+                   <div className="flex gap-2 items-center px-4 overflow-x-auto max-w-full pb-2 scrollbar-hide">
+                     {quizQuestions.map((_, i) => {
+                        const isAnsweredDot = !!userAnswers[i];
+                        const isCorrectDot = userAnswers[i] === quizQuestions[i].correctAnswer;
+                        const isCurrent = i === quizState.currentIndex;
+                        return (
+                          <button 
+                            key={i} 
+                            disabled={!isAnsweredDot && !isCurrent}
+                            onClick={() => setQuizState(p => ({ ...p, currentIndex: i, feedback: null }))}
+                            className={`h-3 rounded-full transition-all shrink-0 ${isAnsweredDot ? (isCorrectDot ? 'bg-green-500 w-3 hover:scale-125' : 'bg-red-500 w-3 hover:scale-125') : (isCurrent ? 'bg-blue-600 w-12' : 'bg-gray-100 w-3')}`} 
+                          />
+                        );
+                     })}
                    </div>
-                   <button onClick={handleNext} disabled={!userAnswers[quizState.currentIndex]} className="px-12 py-5 bg-red-600 text-white rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 disabled:opacity-50 transition-all uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-1">Next Mail →</button>
+                   <div className="flex gap-4 w-full sm:w-auto">
+                     <button 
+                        onClick={handlePrevious} 
+                        disabled={quizState.currentIndex === 0} 
+                        className="flex-1 sm:px-8 py-5 bg-gray-100 text-blue-900 rounded-[2.5rem] font-black shadow-md hover:bg-gray-200 disabled:opacity-30 transition-all uppercase tracking-widest text-sm border-b-4 border-gray-300 active:translate-y-1"
+                      >
+                        ← Prev
+                      </button>
+                     <button 
+                        onClick={handleNext} 
+                        disabled={!userAnswers[quizState.currentIndex]} 
+                        className="flex-[2] sm:px-12 py-5 bg-red-600 text-white rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 disabled:opacity-50 transition-all uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-1"
+                      >
+                        {quizState.currentIndex === quizQuestions.length - 1 ? 'Finish!' : 'Next Mail →'}
+                      </button>
+                   </div>
                 </div>
               </div>
               <div className="space-y-8 sticky top-24 h-fit">
-                <Waffle dialogue={quizState.feedback || "Check every TRPT pillar for a safe delivery!"} mood={quizState.mood} />
+                <Waffle dialogue={quizState.feedback || (isAnswered ? "Reviewing previous dispatch..." : "Check every TRPT pillar for a safe delivery!")} mood={quizState.mood} />
                 <div className="bg-white p-8 rounded-[3rem] border-4 border-blue-50 shadow-xl border-dashed">
                   <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Live Dispatch Stats</h5>
                   <div className="space-y-4">

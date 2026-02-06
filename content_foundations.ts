@@ -13,7 +13,7 @@ export const foundationTopics: LearnTopic[] = [
     icon: '🔍',
     description: 'Every sentence you will ever convert belongs to one of these five categories. Before you touch a single conversion, you must be able to spot the type instantly. This is your first and most important skill.',
     why: 'The type determines the specific reporting verb and connector used in Indirect Speech.',
-    directExample: 'I think it will rain today.',
+    directExample: 'He said, "I think it will rain today."',
     indirectExample: 'He said that he thought it would rain that day.',
     waffleTip: 'Memory Aid: The "SQCEM" Trick!',
     wittyRemark: 'Spot the type first, squeak!',
