@@ -480,32 +480,32 @@ const App: React.FC = () => {
         const currentQ = quizQuestions[quizState.currentIndex];
         const isAnswered = !!userAnswers[quizState.currentIndex];
         return (
-          <div className="animate-fadeIn max-w-5xl mx-auto space-y-8 pb-20">
+          <div className="animate-fadeIn max-w-5xl mx-auto space-y-6 pb-20">
             <div ref={questionTopRef} className="pt-20 -mt-20" />
             <div className="grid lg:grid-cols-4 gap-8">
-              <div className="lg:col-span-3 space-y-8">
-                <div className="bg-white p-10 rounded-[4rem] shadow-3xl border-4 border-blue-50 relative min-h-[500px] flex flex-col justify-center overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-red-50 -rotate-12 translate-x-8 -translate-y-8 flex items-end justify-start p-4 text-4xl">📬</div>
-                  <div className="absolute top-8 left-10 flex items-center gap-4">
-                    <span className="bg-blue-600 text-white min-w-[3rem] h-10 px-3 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg tracking-tight">{quizState.currentIndex + 1}</span>
+              <div className="lg:col-span-3 space-y-6">
+                <div className="bg-white p-6 md:p-8 rounded-[3rem] shadow-3xl border-4 border-blue-50 relative min-h-[auto] flex flex-col justify-center overflow-hidden">
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-red-50 -rotate-12 translate-x-6 -translate-y-6 flex items-end justify-start p-4 text-3xl">📬</div>
+                  <div className="absolute top-6 left-8 flex items-center gap-4">
+                    <span className="bg-blue-600 text-white min-w-[2.5rem] h-8 px-2 rounded-xl flex items-center justify-center font-black text-base shadow-lg tracking-tight">{quizState.currentIndex + 1}</span>
                   </div>
-                  <div className="space-y-12 relative z-10">
-                    <div className="space-y-4">
-                      <p className="text-[11px] font-black text-red-500 uppercase tracking-[0.4em] text-center">
+                  <div className="space-y-6 relative z-10 pt-4">
+                    <div className="space-y-3">
+                      <p className="text-[10px] font-black text-red-500 uppercase tracking-[0.4em] text-center">
                         {getInstructionLabel(currentQ)}
                       </p>
-                      <div className="p-10 bg-white/80 backdrop-blur-sm rounded-[3rem] border-4 border-dashed border-gray-200 font-typewriter italic text-4xl text-center leading-tight shadow-sm text-blue-900">
+                      <div className="p-6 md:p-8 bg-white/80 backdrop-blur-sm rounded-[2.5rem] border-4 border-dashed border-gray-200 font-typewriter italic text-2xl md:text-3xl text-center leading-tight shadow-sm text-blue-900">
                         {currentQ.category === 'Foundations' ? currentQ.directSpeech : `"${currentQ.directSpeech}"`}
                       </div>
                     </div>
-                    <div className="grid gap-4">
+                    <div className="grid gap-3">
                       {currentQ.options.map((opt, i) => {
                         const isCorrect = opt === currentQ.correctAnswer;
                         const isSelected = userAnswers[quizState.currentIndex] === opt;
                         return (
-                          <button key={i} disabled={isAnswered} onClick={() => handleAnswer(opt)} className={`p-6 rounded-[2.2rem] border-4 text-left font-black text-lg transition-all flex items-center gap-6 ${isAnswered ? (isCorrect ? 'bg-green-100 border-green-500 text-green-900 shadow-inner' : isSelected ? 'bg-red-100 border-red-500 text-red-900' : 'opacity-40 grayscale blur-[1px]') : 'bg-white border-gray-100 hover:border-blue-500 hover:-translate-y-1 shadow-md hover:shadow-xl'}`}>
-                            <span className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-2xl shrink-0 ${isAnswered && isCorrect ? 'bg-green-600 text-white' : 'bg-blue-50 text-blue-600'}`}>{String.fromCharCode(65 + i)}</span>
-                            <span className="leading-tight">{opt}</span>
+                          <button key={i} disabled={isAnswered} onClick={() => handleAnswer(opt)} className={`p-4 md:p-5 rounded-[1.8rem] border-4 text-left font-black text-base md:text-lg transition-all flex items-center gap-4 ${isAnswered ? (isCorrect ? 'bg-green-100 border-green-500 text-green-900 shadow-inner' : isSelected ? 'bg-red-100 border-red-500 text-red-900' : 'opacity-40 grayscale blur-[1px]') : 'bg-white border-gray-100 hover:border-blue-500 hover:-translate-y-0.5 shadow-md hover:shadow-xl'}`}>
+                            <span className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 ${isAnswered && isCorrect ? 'bg-green-600 text-white' : 'bg-blue-50 text-blue-600'}`}>{String.fromCharCode(65 + i)}</span>
+                            <span className="leading-snug">{opt}</span>
                           </button>
                         );
                       })}
@@ -513,19 +513,19 @@ const App: React.FC = () => {
                   </div>
                 </div>
                 {isAnswered && (
-                  <div className="bg-white p-12 rounded-[4rem] border-4 border-blue-50 shadow-2xl animate-fadeIn space-y-6 relative overflow-hidden group">
+                  <div className="bg-white p-8 md:p-10 rounded-[3rem] border-4 border-blue-50 shadow-2xl animate-fadeIn space-y-4 relative overflow-hidden group">
                     <div className="absolute top-0 left-0 w-2 h-full bg-blue-600"></div>
-                    <div className="flex items-center gap-4">
-                       <span className="text-3xl">📖</span>
-                       <h4 className="text-[11px] font-black text-blue-600 uppercase tracking-[0.4em]">Waffle's Sorting Manual</h4>
+                    <div className="flex items-center gap-3">
+                       <span className="text-2xl">📖</span>
+                       <h4 className="text-[10px] font-black text-blue-600 uppercase tracking-[0.4em]">Waffle's Sorting Manual</h4>
                     </div>
-                    <p className="text-2xl font-bold text-gray-800 leading-relaxed italic group-hover:scale-[1.01] transition-transform">
+                    <p className="text-xl md:text-2xl font-bold text-gray-800 leading-relaxed italic group-hover:scale-[1.01] transition-transform">
                       "{currentQ.explanation}"
                     </p>
                   </div>
                 )}
-                <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-6 rounded-[3rem] shadow-2xl border-4 border-blue-50 gap-4">
-                   <div className="flex gap-2 items-center px-4 overflow-x-auto max-w-full pb-2 scrollbar-hide">
+                <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-5 rounded-[2.5rem] shadow-2xl border-4 border-blue-50 gap-4">
+                   <div className="flex gap-2 items-center px-4 overflow-x-auto max-w-full pb-1 scrollbar-hide">
                      {quizQuestions.map((_, i) => {
                         const isAnsweredDot = !!userAnswers[i];
                         const isCorrectDot = userAnswers[i] === quizQuestions[i].correctAnswer;
@@ -535,34 +535,34 @@ const App: React.FC = () => {
                             key={i} 
                             disabled={!isAnsweredDot && !isCurrent}
                             onClick={() => setQuizState(p => ({ ...p, currentIndex: i, feedback: null }))}
-                            className={`h-3 rounded-full transition-all shrink-0 ${isAnsweredDot ? (isCorrectDot ? 'bg-green-500 w-3 hover:scale-125' : 'bg-red-500 w-3 hover:scale-125') : (isCurrent ? 'bg-blue-600 w-12' : 'bg-gray-100 w-3')}`} 
+                            className={`h-2 rounded-full transition-all shrink-0 ${isAnsweredDot ? (isCorrectDot ? 'bg-green-500 w-2 hover:scale-125' : 'bg-red-500 w-2 hover:scale-125') : (isCurrent ? 'bg-blue-600 w-8' : 'bg-gray-100 w-2')}`} 
                           />
                         );
                      })}
                    </div>
-                   <div className="flex gap-4 w-full sm:w-auto">
+                   <div className="flex gap-3 w-full sm:w-auto">
                      <button 
                         onClick={handlePrevious} 
                         disabled={quizState.currentIndex === 0} 
-                        className="flex-1 sm:px-8 py-5 bg-gray-100 text-blue-900 rounded-[2.5rem] font-black shadow-md hover:bg-gray-200 disabled:opacity-30 transition-all uppercase tracking-widest text-sm border-b-4 border-gray-300 active:translate-y-1"
+                        className="flex-1 sm:px-6 py-4 bg-gray-100 text-blue-900 rounded-[2rem] font-black shadow-md hover:bg-gray-200 disabled:opacity-30 transition-all uppercase tracking-widest text-xs border-b-4 border-gray-300 active:translate-y-1"
                       >
                         ← Prev
                       </button>
                      <button 
                         onClick={handleNext} 
                         disabled={!userAnswers[quizState.currentIndex]} 
-                        className="flex-[2] sm:px-12 py-5 bg-red-600 text-white rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 disabled:opacity-50 transition-all uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-1"
+                        className="flex-[2] sm:px-10 py-4 bg-red-600 text-white rounded-[2rem] font-black shadow-2xl hover:bg-red-700 disabled:opacity-50 transition-all uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-1"
                       >
                         {quizState.currentIndex === quizQuestions.length - 1 ? 'Finish!' : 'Next Mail →'}
                       </button>
                    </div>
                 </div>
               </div>
-              <div className="space-y-8 sticky top-24 h-fit">
+              <div className="space-y-6 sticky top-24 h-fit">
                 <Waffle dialogue={quizState.feedback || (isAnswered ? "Reviewing previous dispatch..." : "Check every TRPT pillar for a safe delivery!")} mood={quizState.mood} />
-                <div className="bg-white p-8 rounded-[3rem] border-4 border-blue-50 shadow-xl border-dashed">
-                  <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Live Dispatch Stats</h5>
-                  <div className="space-y-4">
+                <div className="bg-white p-6 rounded-[2.5rem] border-4 border-blue-50 shadow-xl border-dashed">
+                  <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Live Dispatch Stats</h5>
+                  <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-gray-500">Mails Posted:</span>
                       <span className="font-black text-blue-900">{Object.keys(userAnswers).length} / {quizQuestions.length}</span>
