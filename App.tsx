@@ -435,7 +435,7 @@ const App: React.FC = () => {
                       return (
                         <div key={idx} className={`bg-white p-10 rounded-[4rem] border-4 shadow-2xl transition-all ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                           <div className="flex items-center gap-4 mb-6">
-                             <span className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-md ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>{q.id}</span>
+                             <span className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-md ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>{idx + 1}</span>
                              <span className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Question {idx + 1} of {quizQuestions.length}</span>
                           </div>
                           <div className="space-y-8">
@@ -487,7 +487,7 @@ const App: React.FC = () => {
                 <div className="bg-white p-10 rounded-[4rem] shadow-3xl border-4 border-blue-50 relative min-h-[500px] flex flex-col justify-center overflow-hidden">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-red-50 -rotate-12 translate-x-8 -translate-y-8 flex items-end justify-start p-4 text-4xl">📬</div>
                   <div className="absolute top-8 left-10 flex items-center gap-4">
-                    <span className="bg-blue-600 text-white min-w-[3rem] h-10 px-3 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg tracking-tight">{currentQ.id}</span>
+                    <span className="bg-blue-600 text-white min-w-[3rem] h-10 px-3 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg tracking-tight">{quizState.currentIndex + 1}</span>
                   </div>
                   <div className="space-y-12 relative z-10">
                     <div className="space-y-4">
