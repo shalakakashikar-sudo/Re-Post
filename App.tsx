@@ -1,5 +1,6 @@
+
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Section, LearnTopic, QuizQuestion, WaffleMood, TopicCategory } from './types';
+import { Section, LearnTopic, QuizQuestion, WaffleMood, TopicCategory, AnswerMode } from './types';
 import Layout from './components/Layout';
 import Waffle from './components/Waffle';
 import { ALL_LEARN_TOPICS, MASTER_QUIZ_QUESTIONS } from './data';
@@ -27,15 +28,18 @@ const App: React.FC = () => {
   const [section, setSection] = useState<Section>('home');
   const [selectedTopic, setSelectedTopic] = useState<LearnTopic | null>(null);
   const [showReview, setShowReview] = useState(false);
+  const [proseInput, setProseInput] = useState('');
   
   const [quizConfig, setQuizConfig] = useState<{
     categories: string[];
     count: number;
     mode: 'global' | 'module';
+    answerMode: AnswerMode;
   }>({
     categories: ['All'],
     count: 10,
-    mode: 'global'
+    mode: 'global',
+    answerMode: 'mcq'
   });
   
   const [showConfigOverlay, setShowConfigOverlay] = useState(false);
@@ -65,10 +69,24 @@ const App: React.FC = () => {
     }
   }, [quizState.currentIndex, section, quizState.finished]);
 
+  const normalize = (str: string) => {
+    return str
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // Remove punctuation
+      .replace(/\s{2,}/g, " ") // Normalize double spaces
+      .trim()
+      .toLowerCase();
+  };
+
   const handleAnswer = (option: string) => {
     if (userAnswers[quizState.currentIndex]) return;
     const currentQ = quizQuestions[quizState.currentIndex];
-    const isCorrect = option === currentQ.correctAnswer;
+    
+    let isCorrect = false;
+    if (quizConfig.answerMode === 'prose') {
+      isCorrect = normalize(option) === normalize(currentQ.correctAnswer);
+    } else {
+      isCorrect = option === currentQ.correctAnswer;
+    }
     
     setUserAnswers(prev => ({ ...prev, [quizState.currentIndex]: option }));
     setQuizState(prev => ({
@@ -87,6 +105,7 @@ const App: React.FC = () => {
         feedback: null,
         mood: 'thinking'
       }));
+      setProseInput('');
     } else {
       setQuizState(prev => ({
         ...prev,
@@ -104,6 +123,7 @@ const App: React.FC = () => {
         feedback: null,
         mood: 'idle'
       }));
+      setProseInput(userAnswers[quizState.currentIndex - 1] || '');
     }
   };
 
@@ -114,7 +134,7 @@ const App: React.FC = () => {
     }
     if (q.category === 'Mastery') {
       if (q.id.startsWith('27.') || q.id.startsWith('28.')) return "Reverse Dispatch (To Direct Speech):";
-      if (q.id.startsWith('29.')) return "Spot the Dispatch Error:";
+      if (q.id.startsWith('29.')) return "Spot and Fix the Dispatch Error:";
       return "Final Mastery Challenge:";
     }
     return "Re-Post this message:";
@@ -146,6 +166,7 @@ const App: React.FC = () => {
   const resetQuiz = (msg: string | null = "Ready for sorting? Squeak!") => {
     setUserAnswers({});
     setShowReview(false);
+    setProseInput('');
     setQuizState({
       currentIndex: 0,
       score: 0,
@@ -155,7 +176,7 @@ const App: React.FC = () => {
     });
   };
 
-  const startQuiz = (questions: QuizQuestion[], count: number, label: string) => {
+  const startQuiz = (questions: QuizQuestion[], count: number) => {
     if (questions.length === 0) {
       alert("No questions found for this selection! Waffle is still writing them.");
       return;
@@ -166,7 +187,7 @@ const App: React.FC = () => {
       options: shuffle([...q.options]) 
     }));
     setQuizQuestions(selected);
-    resetQuiz(null); // Clear feedback to avoid overlapping text
+    resetQuiz(null);
     setSection(quizConfig.mode === 'module' ? 'practice' : 'master-delivery');
     setShowConfigOverlay(false);
   };
@@ -176,7 +197,7 @@ const App: React.FC = () => {
     if (!quizConfig.categories.includes('All')) {
       pool = MASTER_QUIZ_QUESTIONS.filter(q => quizConfig.categories.includes(q.category));
     }
-    startQuiz(pool, quizConfig.count, 'Global');
+    startQuiz(pool, quizConfig.count);
   };
 
   const renderContent = () => {
@@ -213,13 +234,10 @@ const App: React.FC = () => {
 
             <div className="bg-white p-12 rounded-[3.5rem] shadow-2xl border-4 border-blue-50 space-y-12">
               <div className="space-y-6">
-                <div className="flex justify-between items-end">
-                  <h3 className="text-2xl font-black text-blue-900 flex items-center gap-3">
-                    <span className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm">1</span>
-                    Select Dispatch Sectors
-                  </h3>
-                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Multi-select enabled</p>
-                </div>
+                <h3 className="text-2xl font-black text-blue-900 flex items-center gap-3">
+                  <span className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm">1</span>
+                  Select Dispatch Sectors
+                </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <button 
                     onClick={() => toggleCategory('All')}
@@ -241,27 +259,52 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <h3 className="text-2xl font-black text-blue-900 flex items-center gap-3">
-                   <span className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm">2</span>
-                   Number of Mails to Post
-                </h3>
-                <div className="flex flex-wrap justify-center gap-4">
-                  {[5, 10, 20, 30, 40, 50, 100].map(n => (
+              <div className="grid md:grid-cols-2 gap-12">
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-black text-blue-900 flex items-center gap-3">
+                    <span className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm">2</span>
+                    Mail Volume
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {[5, 10, 20, 50, 100].map(n => (
+                      <button 
+                        key={n}
+                        onClick={() => setQuizConfig(prev => ({ ...prev, count: n }))}
+                        className={`w-14 h-14 rounded-full border-4 font-black text-lg transition-all ${quizConfig.count === n ? 'bg-blue-600 border-blue-900 text-white scale-110 shadow-lg' : 'bg-white border-blue-50 text-blue-600 hover:border-blue-200'}`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-black text-blue-900 flex items-center gap-3">
+                    <span className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm">3</span>
+                    Sorting Method
+                  </h3>
+                  <div className="flex gap-4">
                     <button 
-                      key={n}
-                      onClick={() => setQuizConfig(prev => ({ ...prev, count: n }))}
-                      className={`w-20 h-20 rounded-full border-4 font-black text-xl transition-all ${quizConfig.count === n ? 'bg-blue-600 border-blue-900 text-white scale-110 shadow-xl' : 'bg-white border-blue-50 text-blue-600 hover:border-blue-200'}`}
+                      onClick={() => setQuizConfig(prev => ({ ...prev, answerMode: 'mcq' }))}
+                      className={`flex-1 p-4 rounded-3xl border-4 transition-all flex flex-col items-center gap-2 ${quizConfig.answerMode === 'mcq' ? 'bg-orange-500 border-orange-900 text-white scale-105 shadow-xl' : 'bg-white border-blue-50 text-blue-900 hover:border-blue-200'}`}
                     >
-                      {n}
+                      <span className="text-2xl">⚡</span>
+                      <span className="font-black text-[10px] uppercase">Express Stamp (MCQ)</span>
                     </button>
-                  ))}
+                    <button 
+                      onClick={() => setQuizConfig(prev => ({ ...prev, answerMode: 'prose' }))}
+                      className={`flex-1 p-4 rounded-3xl border-4 transition-all flex flex-col items-center gap-2 ${quizConfig.answerMode === 'prose' ? 'bg-purple-600 border-purple-900 text-white scale-105 shadow-xl' : 'bg-white border-blue-50 text-blue-900 hover:border-blue-200'}`}
+                    >
+                      <span className="text-2xl">✍️</span>
+                      <span className="font-black text-[10px] uppercase">Manual Dispatch (Type)</span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <div className="pt-8 border-t-4 border-blue-50 flex flex-col items-center gap-6">
                  <button onClick={handleGlobalStart} className="bg-red-600 text-white px-16 py-6 rounded-[3rem] font-black shadow-3xl hover:bg-red-700 text-2xl uppercase tracking-[0.2em] border-b-8 border-red-900 active:translate-y-2 transition-all">Commence Dispatch →</button>
-                 <Waffle dialogue={`Sorting ${quizConfig.count} items from ${quizConfig.categories.join(' & ')}!`} mood="wink" />
+                 <Waffle dialogue={`Preparing ${quizConfig.count} ${quizConfig.answerMode === 'prose' ? 'prose entries' : 'parcels'}!`} mood="wink" />
               </div>
             </div>
           </div>
@@ -277,23 +320,34 @@ const App: React.FC = () => {
               {showConfigOverlay && (
                 <div className="fixed inset-0 z-[100] bg-blue-900/40 backdrop-blur-md flex items-center justify-center p-6">
                   <div className="bg-white p-10 rounded-[4rem] shadow-3xl border-8 border-white max-w-md w-full space-y-8 animate-scaleIn text-center">
-                    <h3 className="text-3xl font-black text-blue-900 tracking-tighter uppercase">Pick Mail Volume</h3>
-                    <p className="text-gray-500 font-bold">How many questions for Level {selectedTopic.moduleId}?</p>
-                    <div className="grid grid-cols-2 gap-4">
-                      {[5, 10, 20, 50].map(n => (
-                        <button 
-                          key={n} 
-                          onClick={() => {
-                            setQuizConfig(p => ({ ...p, count: n, mode: 'module' }));
-                            startQuiz(selectedTopic.quiz, n, `Level ${selectedTopic.moduleId}`);
-                          }}
-                          className="py-6 rounded-[2rem] bg-blue-50 border-4 border-transparent hover:border-blue-600 hover:bg-white transition-all font-black text-2xl text-blue-900"
-                        >
-                          {n} Mails
-                        </button>
-                      ))}
+                    <h3 className="text-3xl font-black text-blue-900 tracking-tighter uppercase">Level {selectedTopic.moduleId} Dispatch</h3>
+                    <div className="space-y-6">
+                      <div className="space-y-3">
+                        <p className="text-gray-400 font-black uppercase text-[10px]">Volume</p>
+                        <div className="flex justify-center gap-3">
+                          {[5, 10, 20].map(n => (
+                            <button key={n} onClick={() => setQuizConfig(p => ({ ...p, count: n }))} className={`w-12 h-12 rounded-full border-2 font-bold ${quizConfig.count === n ? 'bg-red-600 text-white border-red-800' : 'bg-red-50 text-red-600'}`}>{n}</button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <p className="text-gray-400 font-black uppercase text-[10px]">Method</p>
+                        <div className="flex justify-center gap-3">
+                          <button onClick={() => setQuizConfig(p => ({ ...p, answerMode: 'mcq' }))} className={`px-4 py-2 rounded-xl font-bold border-2 ${quizConfig.answerMode === 'mcq' ? 'bg-blue-600 text-white border-blue-800' : 'bg-blue-50 text-blue-600'}`}>MCQ</button>
+                          <button onClick={() => setQuizConfig(p => ({ ...p, answerMode: 'prose' }))} className={`px-4 py-2 rounded-xl font-bold border-2 ${quizConfig.answerMode === 'prose' ? 'bg-purple-600 text-white border-purple-800' : 'bg-purple-50 text-purple-600'}`}>Type</button>
+                        </div>
+                      </div>
                     </div>
-                    <button onClick={() => setShowConfigOverlay(false)} className="text-red-500 font-black uppercase text-xs tracking-widest mt-4">Cancel</button>
+                    <button 
+                      onClick={() => {
+                        setQuizConfig(p => ({ ...p, mode: 'module' }));
+                        startQuiz(selectedTopic.quiz, quizConfig.count);
+                      }}
+                      className="w-full bg-red-600 text-white py-4 rounded-2xl font-black shadow-lg"
+                    >
+                      Start Level Test
+                    </button>
+                    <button onClick={() => setShowConfigOverlay(false)} className="text-gray-400 font-black uppercase text-[10px] tracking-widest">Cancel</button>
                   </div>
                 </div>
               )}
@@ -335,7 +389,7 @@ const App: React.FC = () => {
                        </div>
                      </div>
                    ))}
-                   <button onClick={() => setShowConfigOverlay(true)} className="w-full bg-red-600 text-white py-6 rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 text-xl tracking-widest border-b-8 border-red-900 active:translate-y-2 transition-all uppercase">Start Level Test</button>
+                   <button onClick={() => setShowConfigOverlay(true)} className="w-full bg-red-600 text-white py-6 rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 text-xl tracking-widest border-b-8 border-red-900 active:translate-y-2 transition-all uppercase">Take Level Exam</button>
                 </div>
               </div>
               <div className="bg-white p-8 rounded-[4rem] border-4 border-blue-50 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6 mt-12 border-dashed">
@@ -431,7 +485,10 @@ const App: React.FC = () => {
                   <div className="grid gap-8">
                     {quizQuestions.map((q, idx) => {
                       const userAns = userAnswers[idx];
-                      const isCorrect = userAns === q.correctAnswer;
+                      const isCorrect = quizConfig.answerMode === 'prose' 
+                        ? normalize(userAns || "") === normalize(q.correctAnswer)
+                        : userAns === q.correctAnswer;
+
                       return (
                         <div key={idx} className={`bg-white p-10 rounded-[4rem] border-4 shadow-2xl transition-all ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                           <div className="flex items-center gap-4 mb-6">
@@ -469,9 +526,6 @@ const App: React.FC = () => {
                       );
                     })}
                   </div>
-                  <div className="flex justify-center pt-10">
-                    <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="bg-gray-100 px-8 py-3 rounded-2xl font-black text-blue-900 hover:bg-gray-200 uppercase text-sm tracking-widest">Back to Top</button>
-                  </div>
                 </div>
               )}
             </div>
@@ -498,18 +552,49 @@ const App: React.FC = () => {
                         {currentQ.category === 'Foundations' ? currentQ.directSpeech : `"${currentQ.directSpeech}"`}
                       </div>
                     </div>
-                    <div className="grid gap-3">
-                      {currentQ.options.map((opt, i) => {
-                        const isCorrect = opt === currentQ.correctAnswer;
-                        const isSelected = userAnswers[quizState.currentIndex] === opt;
-                        return (
-                          <button key={i} disabled={isAnswered} onClick={() => handleAnswer(opt)} className={`p-4 md:p-5 rounded-[1.8rem] border-4 text-left font-black text-base md:text-lg transition-all flex items-center gap-4 ${isAnswered ? (isCorrect ? 'bg-green-100 border-green-500 text-green-900 shadow-inner' : isSelected ? 'bg-red-100 border-red-500 text-red-900' : 'opacity-40 grayscale blur-[1px]') : 'bg-white border-gray-100 hover:border-blue-500 hover:-translate-y-0.5 shadow-md hover:shadow-xl'}`}>
-                            <span className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 ${isAnswered && isCorrect ? 'bg-green-600 text-white' : 'bg-blue-50 text-blue-600'}`}>{String.fromCharCode(65 + i)}</span>
-                            <span className="leading-snug">{opt}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
+
+                    {quizConfig.answerMode === 'mcq' ? (
+                      <div className="grid gap-3">
+                        {currentQ.options.map((opt, i) => {
+                          const isCorrect = opt === currentQ.correctAnswer;
+                          const isSelected = userAnswers[quizState.currentIndex] === opt;
+                          return (
+                            <button key={i} disabled={isAnswered} onClick={() => handleAnswer(opt)} className={`p-4 md:p-5 rounded-[1.8rem] border-4 text-left font-black text-base md:text-lg transition-all flex items-center gap-4 ${isAnswered ? (isCorrect ? 'bg-green-100 border-green-500 text-green-900 shadow-inner' : isSelected ? 'bg-red-100 border-red-500 text-red-900' : 'opacity-40 grayscale blur-[1px]') : 'bg-white border-gray-100 hover:border-blue-500 hover:-translate-y-0.5 shadow-md hover:shadow-xl'}`}>
+                              <span className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 ${isAnswered && isCorrect ? 'bg-green-600 text-white' : 'bg-blue-50 text-blue-600'}`}>{String.fromCharCode(65 + i)}</span>
+                              <span className="leading-snug">{opt}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                         <div className="relative group">
+                            <textarea 
+                              disabled={isAnswered}
+                              value={proseInput}
+                              onChange={(e) => setProseInput(e.target.value)}
+                              placeholder="Type your re-posted message here..."
+                              className={`w-full p-8 md:p-10 min-h-[160px] rounded-[2.5rem] border-4 font-typewriter text-xl md:text-2xl transition-all outline-none resize-none shadow-inner ${isAnswered ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-white border-blue-100 focus:border-blue-600 focus:shadow-2xl'}`}
+                            />
+                            {!isAnswered && (
+                               <div className="absolute bottom-6 right-8 flex gap-2">
+                                  <button 
+                                    onClick={() => handleAnswer(proseInput)}
+                                    className="bg-red-600 text-white px-8 py-3 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-red-700 shadow-lg active:scale-95 transition-all"
+                                  >
+                                    Stamp Dispatch
+                                  </button>
+                               </div>
+                            )}
+                         </div>
+                         {isAnswered && (
+                           <div className="p-6 rounded-[2rem] bg-green-50 border-2 border-green-200 animate-fadeIn">
+                             <p className="text-[10px] font-black uppercase text-green-500 tracking-widest mb-2">Expected Dispatch:</p>
+                             <p className="font-typewriter text-xl text-green-800">{currentQ.correctAnswer}</p>
+                           </div>
+                         )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {isAnswered && (
@@ -527,15 +612,16 @@ const App: React.FC = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-5 rounded-[2.5rem] shadow-2xl border-4 border-blue-50 gap-4">
                    <div className="flex gap-2 items-center px-4 overflow-x-auto max-w-full pb-1 scrollbar-hide">
                      {quizQuestions.map((_, i) => {
-                        const isAnsweredDot = !!userAnswers[i];
-                        const isCorrectDot = userAnswers[i] === quizQuestions[i].correctAnswer;
+                        const userAns = userAnswers[i];
+                        const isAnsweredDot = !!userAns;
+                        const isCorrectDot = quizConfig.answerMode === 'mcq' 
+                          ? userAns === quizQuestions[i].correctAnswer
+                          : normalize(userAns || "") === normalize(quizQuestions[i].correctAnswer);
                         const isCurrent = i === quizState.currentIndex;
                         return (
-                          <button 
+                          <div 
                             key={i} 
-                            disabled={!isAnsweredDot && !isCurrent}
-                            onClick={() => setQuizState(p => ({ ...p, currentIndex: i, feedback: null }))}
-                            className={`h-2 rounded-full transition-all shrink-0 ${isAnsweredDot ? (isCorrectDot ? 'bg-green-500 w-2 hover:scale-125' : 'bg-red-500 w-2 hover:scale-125') : (isCurrent ? 'bg-blue-600 w-8' : 'bg-gray-100 w-2')}`} 
+                            className={`h-2 rounded-full transition-all shrink-0 ${isAnsweredDot ? (isCorrectDot ? 'bg-green-500 w-2' : 'bg-red-500 w-2') : (isCurrent ? 'bg-blue-600 w-8' : 'bg-gray-100 w-2')}`} 
                           />
                         );
                      })}
@@ -559,7 +645,7 @@ const App: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-6 sticky top-24 h-fit">
-                <Waffle dialogue={quizState.feedback || (isAnswered ? "Reviewing previous dispatch..." : "Check every TRPT pillar for a safe delivery!")} mood={quizState.mood} />
+                <Waffle dialogue={quizState.feedback || (isAnswered ? "Reviewing previous dispatch..." : (quizConfig.answerMode === 'prose' ? "Type your answer carefully!" : "Check every TRPT pillar for a safe delivery!"))} mood={quizState.mood} />
                 <div className="bg-white p-6 rounded-[2.5rem] border-4 border-blue-50 shadow-xl border-dashed">
                   <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Live Dispatch Stats</h5>
                   <div className="space-y-3">
@@ -570,6 +656,10 @@ const App: React.FC = () => {
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-gray-500">Correct Sorts:</span>
                       <span className="font-black text-green-600">{quizState.score}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-bold text-gray-500">Sorting Mode:</span>
+                      <span className="font-black text-purple-600 text-[10px] uppercase">{quizConfig.answerMode}</span>
                     </div>
                   </div>
                 </div>

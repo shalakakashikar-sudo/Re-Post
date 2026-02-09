@@ -3,6 +3,7 @@ export type Section = 'home' | 'learn' | 'practice' | 'master-delivery' | 'quiz-
 export type ErrorType = 'tense' | 'pronoun' | 'time_place' | 'reporting_verb' | 'no_change' | 'sentence_type' | 'structure' | 'general';
 export type TopicCategory = 'Foundations' | 'Statements' | 'Questions' | 'Imperatives' | 'Exclamations' | 'Advanced' | 'Mastery';
 export type WaffleMood = 'happy' | 'thinking' | 'confused' | 'idle' | 'surprised' | 'excited' | 'wink' | 'cool' | 'love' | 'star-eyes';
+export type AnswerMode = 'mcq' | 'prose';
 
 export interface QuizQuestion {
   id: string;
