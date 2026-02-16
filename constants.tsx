@@ -13,158 +13,157 @@ export const WAFFLE_SVG = (className?: string, expression: WaffleMood = 'idle') 
   const isLove = expression === 'love';
   const isStar = expression === 'star-eyes';
 
-  // Rich, high-contrast kawaii palette
+  // Rich palette matching the provided reference image
   const colors = {
-    fur: '#c28c54',       // Deep honey brown
-    furDark: '#8d6e63',   // Outline brown
-    furLight: '#fffcf5',  // Bright cream patches
-    jacket: '#305d9e',    // Professional deep postal blue
-    jacketDark: '#1a3b6e', // Navy outlines/shadows
-    bag: '#795548',       // Leather satchel
-    badge: '#f1c40f',     // Golden badge
-    nose: '#ff9ff3',      // Soft pink
-    blush: '#ff9eb5',     // Rosy cheeks
-    eyeBase: '#1d1d1d'    // Midnight black for eyes
+    fur: '#C4A484',       // Warm light brown
+    furDark: '#8B5A2B',   // Darker brown for outlines
+    furLight: '#FFF8F0',  // Creamy off-white patches
+    jacket: '#5D77B3',    // Muted postal blue
+    jacketDark: '#3D4F7F', // Deeper blue for outlines/tie
+    bag: '#967969',       // Brown leather bag
+    badge: '#FFD700',     // Golden yellow badge
+    nose: '#F08080',      // Soft coral pink
+    blush: '#FFB6C1',     // Rosy cheeks
+    eyeBase: '#333333'    // Dark grey/black for eyes
   };
 
   return (
     <svg viewBox="0 0 220 240" className={className} xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
-      {/* 1. Ground Shadow (Softer) */}
-      <ellipse cx="110" cy="225" rx="60" ry="8" fill="#000" opacity="0.08" />
+      <style>{`
+        @keyframes waveLeft {
+          0%, 100% { transform: rotate(10deg); }
+          50% { transform: rotate(25deg); }
+        }
+        @keyframes waveRight {
+          0%, 100% { transform: rotate(-10deg); }
+          50% { transform: rotate(-25deg); }
+        }
+        @keyframes tapFeet {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(0.85); }
+        }
+        @keyframes blink {
+          0%, 90%, 100% { transform: scaleY(1); }
+          95% { transform: scaleY(0.1); }
+        }
+        .animate-wave-left { animation: waveLeft 1.5s ease-in-out infinite; transform-origin: 65px 158px; }
+        .animate-wave-right { animation: waveRight 2s ease-in-out infinite; transform-origin: 155px 158px; }
+        .animate-tap { animation: tapFeet 0.8s ease-in-out infinite; transform-origin: bottom; }
+        .animate-blink { animation: blink 4s infinite; transform-origin: center; }
+      `}</style>
       
-      {/* 2. Feet - Tiny nubbins */}
-      <ellipse cx="92" cy="218" rx="8" ry="5" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
-      <ellipse cx="128" cy="218" rx="8" ry="5" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
+      {/* 1. Ground Shadow */}
+      <ellipse cx="110" cy="225" rx="55" ry="6" fill="#000" opacity="0.05" />
+      
+      {/* 2. Feet - Tapping Animation */}
+      <g className="animate-tap">
+        <ellipse cx="95" cy="222" rx="10" ry="6" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
+        <ellipse cx="125" cy="222" rx="10" ry="6" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
+      </g>
 
-      {/* 3. Main Kawaii Pear Body */}
+      {/* 3. Main Body */}
       <path 
-        d="M65,130 Q50,215 110,215 Q170,215 155,130 Q145,85 110,85 Q75,85 65,130" 
+        d="M70,120 Q55,220 110,220 Q165,220 150,120 Q140,80 110,80 Q80,80 70,120" 
         fill={colors.fur} 
         stroke={colors.furDark} 
-        strokeWidth="0.5"
+        strokeWidth="1.5"
       />
-      {/* Tummy Patch - Softer heart-ish shape */}
+      
+      {/* 4. Uniform Jacket */}
       <path 
-        d="M110,140 Q135,140 145,175 Q145,210 110,210 Q75,210 75,175 Q85,140 110,140" 
-        fill={colors.furLight} 
-      />
-
-      {/* 4. Uniform Jacket - Rounded and cute */}
-      <path 
-        d="M62,140 Q55,200 110,215 Q165,200 158,140 L155,125 Q110,135 65,125 Z" 
+        d="M68,140 Q60,205 110,220 Q160,205 152,140 L150,125 Q110,135 70,125 Z" 
         fill={colors.jacket} 
         stroke={colors.jacketDark} 
         strokeWidth="1.5"
       />
       
-      {/* Inner Shirt/Tie Area */}
-      <path d="M110,130 L100,150 L110,170 L120,150 Z" fill="#fff" />
-      <path d="M110,150 L107,160 L110,170 L113,160 Z" fill={colors.jacketDark} />
-      <circle cx="110,153" r="2.5" fill={colors.jacketDark} />
+      {/* White Shirt & Tie */}
+      <path d="M110,128 L102,145 L110,165 L118,145 Z" fill="#fff" />
+      <path d="M110,145 L108,155 L110,165 L112,155 Z" fill={colors.jacketDark} />
+      <circle cx="110" cy="150" r="2.5" fill={colors.jacketDark} />
 
-      {/* Kawaii Gold Buttons */}
-      <circle cx="104" cy="188" r="3.5" fill={colors.badge} stroke="#bf9000" strokeWidth="0.5" />
-      <circle cx="116" cy="188" r="3.5" fill={colors.badge} stroke="#bf9000" strokeWidth="0.5" />
-
-      {/* 5. Messenger Bag */}
-      <g transform="rotate(-5, 110, 150)">
-        <path d="M65,120 L160,190" stroke="#4e342e" strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.8" />
-        <rect x="148" y="178" width="45" height="34" rx="7" fill={colors.bag} stroke="#3e2723" strokeWidth="1.5" />
-        <circle cx="178" cy="195" r="2.5" fill={colors.badge} /> 
+      {/* 5. Paws - Waving Animation */}
+      <g className="animate-wave-left">
+        <ellipse cx="65" cy="158" rx="10" ry="16" fill={colors.fur} stroke={colors.furDark} strokeWidth="1" />
+      </g>
+      <g className="animate-wave-right">
+        <ellipse cx="155" cy="158" rx="10" ry="16" fill={colors.fur} stroke={colors.furDark} strokeWidth="1" />
       </g>
 
-      {/* 6. Paws - Softer and rounder */}
-      <ellipse cx="65" cy="158" rx="9" ry="14" fill={colors.fur} transform="rotate(10, 65, 158)" stroke={colors.furDark} strokeWidth="0.5" />
-      <ellipse cx="155" cy="158" rx="9" ry="14" fill={colors.fur} transform="rotate(-10, 155, 158)" stroke={colors.furDark} strokeWidth="0.5" />
-
-      {/* 7. Head - Perfectly round and big */}
-      <circle cx="110" cy="88" r="66" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
-      
-      {/* Face Light Patch - The "Mask" area */}
-      <path d="M65,115 Q110,145 155,115 Q165,85 110,75 Q55,85 65,115" fill={colors.furLight} />
-
-      {/* Ears - Positioned for maximum cuteness */}
-      <circle cx="55" cy="48" r="18" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
-      <circle cx="55" cy="48" r="10" fill="#ffb7c5" />
-      <circle cx="165" cy="48" r="18" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
-      <circle cx="165" cy="48" r="10" fill="#ffb7c5" />
-      
-      {/* Postal Hat - Softer peak */}
-      <path d="M65,58 Q110,18 155,58 L160,78 Q110,68 60,78 Z" fill={colors.jacket} stroke={colors.jacketDark} strokeWidth="1.5" />
-      <path d="M60,73 Q110,88 160,73 L164,80 Q110,95 56,80 Z" fill={colors.jacketDark} /> 
-      <path d="M110,50 L103,58 L110,68 L117,58 Z" fill={colors.badge} stroke="#bf9000" strokeWidth="1" />
-
-      {/* Glowing Cheeks + Kawaii Blush Lines */}
-      <g opacity="0.7">
-        <circle cx="70" cy="120" r="18" fill={colors.blush}>
-          <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="150" cy="120" r="18" fill={colors.blush}>
-          <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />
-        </circle>
-        {/* Blush Lines */}
-        <line x1="62" y1="118" x2="66" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="68" y1="118" x2="72" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="148" y1="118" x2="152" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="154" y1="118" x2="158" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
+      {/* 6. Messenger Bag */}
+      <g>
+        <path d="M70,130 L165,185" stroke="#4e342e" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.9" />
+        <rect x="155" y="170" width="42" height="32" rx="6" fill={colors.bag} stroke="#3e2723" strokeWidth="1.5" />
+        <circle cx="185" cy="186" r="2" fill={colors.badge} /> 
       </g>
 
-      {/* 8. Super Kawaii Glassy Eyes */}
-      <g transform={(isThinking || isConfused) ? 'translate(0, -2)' : ''}>
+      {/* 7. Head */}
+      <circle cx="110" cy="90" r="68" fill={colors.fur} stroke={colors.furDark} strokeWidth="1" />
+      
+      {/* Cream Face Mask */}
+      <path d="M62,110 Q110,145 158,110 Q168,75 110,75 Q52,75 62,110" fill={colors.furLight} />
+
+      {/* Ears */}
+      <circle cx="58" cy="45" r="18" fill={colors.fur} stroke={colors.furDark} strokeWidth="1" />
+      <circle cx="58" cy="45" r="11" fill="#FFC0CB" />
+      <circle cx="162" cy="45" r="18" fill={colors.fur} stroke={colors.furDark} strokeWidth="1" />
+      <circle cx="162" cy="45" r="11" fill="#FFC0CB" />
+      
+      {/* Postal Hat */}
+      <path d="M68,55 Q110,15 152,55 L158,75 Q110,65 62,75 Z" fill={colors.jacket} stroke={colors.jacketDark} strokeWidth="1.5" />
+      <path d="M62,70 Q110,85 158,70 L162,77 Q110,92 58,77 Z" fill={colors.jacketDark} /> 
+      <path d="M110,45 L104,52 L110,62 L116,52 Z" fill={colors.badge} stroke="#bf9000" strokeWidth="1" />
+
+      {/* Blush Cheeks */}
+      <circle cx="75" cy="120" r="14" fill={colors.blush} opacity="0.6" />
+      <circle cx="145" cy="120" r="14" fill={colors.blush} opacity="0.6" />
+
+      {/* 8. Eyes - Expression Logic */}
+      <g className={(isThinking || isConfused) ? '' : 'animate-blink'}>
         {isStar ? (
           <>
-            <text x="80" y="112" fontSize="38" textAnchor="middle">⭐</text>
-            <text x="140" y="112" fontSize="38" textAnchor="middle">⭐</text>
+            <text x="82" y="115" fontSize="34" textAnchor="middle">⭐</text>
+            <text x="138" y="115" fontSize="34" textAnchor="middle">⭐</text>
           </>
         ) : isLove ? (
           <>
-            <text x="80" y="112" fontSize="38" textAnchor="middle">❤️</text>
-            <text x="140" y="112" fontSize="38" textAnchor="middle">❤️</text>
+            <text x="82" y="115" fontSize="34" textAnchor="middle">❤️</text>
+            <text x="138" y="115" fontSize="34" textAnchor="middle">❤️</text>
           </>
         ) : isWink ? (
           <>
-            <circle cx="85" cy="105" r="16" fill={colors.eyeBase} />
-            <circle cx="78" cy="97" r="7" fill="#fff" />
-            <circle cx="92" cy="112" r="3" fill="#fff" opacity="0.8" />
-            <path d="M130,110 Q145,95 160,110" stroke={colors.eyeBase} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <circle cx="85" cy="108" r="14" fill={colors.eyeBase} />
+            <circle cx="78" cy="101" r="5" fill="#fff" />
+            <path d="M130,110 Q145,95 160,110" stroke={colors.eyeBase} strokeWidth="6" fill="none" strokeLinecap="round" />
           </>
         ) : isCool ? (
-          <rect x="70" y="98" width="80" height="18" fill={colors.eyeBase} rx="9" />
+          <rect x="75" y="100" width="70" height="15" fill={colors.eyeBase} rx="7.5" />
         ) : isExcited ? (
           <>
-            <path d="M75,115 Q85,90 95,115" stroke={colors.eyeBase} strokeWidth="9" fill="none" strokeLinecap="round" />
-            <path d="M125,115 Q135,90 145,115" stroke={colors.eyeBase} strokeWidth="9" fill="none" strokeLinecap="round" />
+             <path d="M72,112 Q82,90 92,112" stroke={colors.eyeBase} strokeWidth="7" fill="none" strokeLinecap="round" />
+             <path d="M128,112 Q138,90 148,112" stroke={colors.eyeBase} strokeWidth="7" fill="none" strokeLinecap="round" />
           </>
         ) : (
           <>
-            {/* The Signature "Puppy" Eye Logic */}
-            <circle cx="82" cy="105" r="17" fill={colors.eyeBase} />
-            <circle cx="138" cy="105" r="17" fill={colors.eyeBase} />
-            
-            {/* Highlights - Larger and glossier */}
-            <circle cx="76" cy="96" r="8" fill="#fff" />
-            <circle cx="132" cy="96" r="8" fill="#fff" />
-            <circle cx="90" cy="112" r="3.5" fill="#fff" opacity="0.8" />
-            <circle cx="146" cy="112" r="3.5" fill="#fff" opacity="0.8" />
-            
-            {/* Shimmer effects */}
-            <circle cx="82" cy="105" r="12" fill="#fff" opacity="0.04" />
-            <circle cx="138" cy="105" r="12" fill="#fff" opacity="0.04" />
+            <circle cx="82" cy="108" r="15" fill={colors.eyeBase} />
+            <circle cx="138" cy="108" r="15" fill={colors.eyeBase} />
+            <circle cx="77" cy="100" r="7" fill="#fff" />
+            <circle cx="133" cy="100" r="7" fill="#fff" />
           </>
         )}
       </g>
       
-      {/* 9. Tiny Pink Nose */}
-      <ellipse cx="110" cy="122" rx="6" ry="4" fill={colors.nose} stroke={colors.furDark} strokeWidth="0.5" />
+      {/* 9. Nose */}
+      <ellipse cx="110" cy="120" rx="7" ry="4" fill={colors.nose} stroke={colors.furDark} strokeWidth="0.5" />
       
-      {/* 10. Simple "3" Mouth - The ultimate Kawaii touch */}
-      <g transform="translate(110, 138)">
+      {/* 10. Mouth - "3" shape */}
+      <g transform="translate(110, 134)">
         {isHappy ? (
-           <path d="M-8,-2 Q0,8 8,-2" stroke="#4e342e" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+           <path d="M-8,0 Q0,8 8,0" stroke="#4e342e" strokeWidth="3" fill="none" strokeLinecap="round" />
         ) : isSurprised ? (
-          <circle cx="0" cy="2" r="7" fill="#4e342e" />
+          <circle cx="0" cy="4" r="6" fill="#4e342e" />
         ) : (
-          <path d="M-6,-2 Q-3,2 0,-2 Q3,2 6,-2" stroke="#4e342e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <path d="M-6,0 Q-3,3 0,0 Q3,3 6,0" stroke="#4e342e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
         )}
       </g>
     </svg>
@@ -172,6 +171,7 @@ export const WAFFLE_SVG = (className?: string, expression: WaffleMood = 'idle') 
 };
 
 export const WAFFLE_DIALOGUE = {
+  // ... (rest of the dialogue object stays the same)
   correct: [
     "Squeak! Package delivered to the right tense!",
     "Correct! My whiskers knew you could do it!",

@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Section, LearnTopic, QuizQuestion, WaffleMood, TopicCategory } from './types';
 import Layout from './components/Layout';
@@ -82,7 +83,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Keyboard Control: Press Enter to go to next question
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
@@ -179,7 +179,6 @@ const App: React.FC = () => {
       return;
     }
     const finalCount = Math.min(count, questions.length);
-    // Keep options in the same order as given in the code
     const selected = shuffle(questions).slice(0, finalCount).map(q => ({
       ...q,
       options: [...q.options] 
@@ -202,20 +201,34 @@ const App: React.FC = () => {
     switch (section) {
       case 'home':
         return (
-          <div className="flex flex-col items-center justify-center animate-fadeIn py-8 min-h-[70vh]">
-            <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="text-center md:text-left space-y-6">
-                <h2 className="text-8xl md:text-9xl font-black text-blue-900 tracking-tighter leading-[0.8] mb-4">Re-Post!</h2>
-                <p className="text-2xl md:text-4xl text-red-600 font-extrabold italic mb-6">"Don’t just Quote it, Re-Post it!"</p>
-                <p className="text-gray-600 text-xl font-medium max-w-lg leading-relaxed">
-                  Join <span className="text-orange-600 font-black underline decoration-wavy">Waffle the Post-Hamster</span> on a 30-level journey to master Direct and Indirect Speech.
+          <div className="flex flex-col items-center justify-center animate-fadeIn py-12 md:py-24 min-h-[70vh]">
+            <div className="max-w-7xl w-full flex flex-col md:flex-row items-center gap-16 md:gap-24">
+              <div className="text-center md:text-left flex-1">
+                <h2 className="text-[120px] md:text-[180px] font-black text-[#B0BDD1] tracking-tighter leading-[0.75] mb-8 select-none">
+                  Re-Post!
+                </h2>
+                <p className="text-3xl md:text-5xl text-[#E85D51] font-black italic mb-8 tracking-tight">
+                  "Don't just Quote it, Re-Post it!"
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                  <button onClick={() => setSection('learn')} className="bg-red-600 text-white px-10 py-5 rounded-[2.5rem] font-black shadow-2xl hover:bg-red-700 transition-all text-xl uppercase tracking-widest border-b-8 border-red-900 active:translate-y-2">Start Training</button>
-                  <button onClick={() => setSection('quiz-setup')} className="bg-blue-600 text-white px-10 py-5 rounded-[2.5rem] font-black shadow-2xl hover:bg-blue-700 transition-all text-xl uppercase tracking-widest border-b-8 border-blue-900 active:translate-y-2">Global Quiz</button>
+                <p className="text-[#6B7280] text-xl md:text-2xl font-medium max-w-xl leading-relaxed mb-10">
+                  Join <span className="text-[#E08154] font-black border-b-2 border-dashed border-[#E08154]">Waffle the Post-Hamster</span> on a 30-level journey to master Direct and Indirect Speech.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button 
+                    onClick={() => setSection('learn')} 
+                    className="bg-[#E85D51] text-white px-12 py-6 rounded-3xl font-black shadow-[0_12px_0_rgb(180,60,50)] hover:shadow-[0_8px_0_rgb(180,60,50)] hover:translate-y-1 transition-all text-2xl uppercase tracking-widest active:translate-y-3 active:shadow-none"
+                  >
+                    Start Training
+                  </button>
+                  <button 
+                    onClick={() => setSection('quiz-setup')} 
+                    className="bg-[#81A3DA] text-white px-12 py-6 rounded-3xl font-black shadow-[0_12px_0_rgb(100,130,180)] hover:shadow-[0_8px_0_rgb(100,130,180)] hover:translate-y-1 transition-all text-2xl uppercase tracking-widest active:translate-y-3 active:shadow-none"
+                  >
+                    Global Quiz
+                  </button>
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex-1 flex justify-center relative">
                 <Waffle dialogue="Squeak! Ready for a special delivery?" mood="excited" size="lg" />
               </div>
             </div>
