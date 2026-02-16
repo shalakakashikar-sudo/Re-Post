@@ -13,10 +13,10 @@ export const WAFFLE_SVG = (className?: string, expression: WaffleMood = 'idle') 
   const isLove = expression === 'love';
   const isStar = expression === 'star-eyes';
 
-  // Rich, high-contrast palette matching the reference image exactly
+  // Rich, high-contrast kawaii palette
   const colors = {
     fur: '#c28c54',       // Deep honey brown
-    furDark: '#a67c52',   // Outline brown
+    furDark: '#8d6e63',   // Outline brown
     furLight: '#fffcf5',  // Bright cream patches
     jacket: '#305d9e',    // Professional deep postal blue
     jacketDark: '#1a3b6e', // Navy outlines/shadows
@@ -29,127 +29,144 @@ export const WAFFLE_SVG = (className?: string, expression: WaffleMood = 'idle') 
 
   return (
     <svg viewBox="0 0 220 240" className={className} xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
-      {/* 1. Ground Shadow (Subtle) */}
-      <ellipse cx="110" cy="225" rx="65" ry="10" fill="#000" opacity="0.1" />
+      {/* 1. Ground Shadow (Softer) */}
+      <ellipse cx="110" cy="225" rx="60" ry="8" fill="#000" opacity="0.08" />
       
-      {/* 2. Feet - Tiny and cute like the drawing */}
-      <ellipse cx="90" cy="220" rx="9" ry="6" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
-      <ellipse cx="130" cy="220" rx="9" ry="6" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
+      {/* 2. Feet - Tiny nubbins */}
+      <ellipse cx="92" cy="218" rx="8" ry="5" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
+      <ellipse cx="128" cy="218" rx="8" ry="5" fill={colors.furLight} stroke={colors.furDark} strokeWidth="1" />
 
-      {/* 3. Main Round Body (Pear Shape) */}
+      {/* 3. Main Kawaii Pear Body */}
       <path 
-        d="M60,130 Q45,220 110,220 Q175,220 160,130 Q150,90 110,90 Q70,90 60,130" 
+        d="M65,130 Q50,215 110,215 Q170,215 155,130 Q145,85 110,85 Q75,85 65,130" 
         fill={colors.fur} 
         stroke={colors.furDark} 
         strokeWidth="0.5"
       />
-      {/* Tummy Patch */}
-      <ellipse cx="110" cy="175" rx="45" ry="40" fill={colors.furLight} />
-
-      {/* 4. Uniform Jacket */}
+      {/* Tummy Patch - Softer heart-ish shape */}
       <path 
-        d="M58,135 Q50,205 110,220 Q170,205 162,135 L160,120 Q110,130 60,120 Z" 
+        d="M110,140 Q135,140 145,175 Q145,210 110,210 Q75,210 75,175 Q85,140 110,140" 
+        fill={colors.furLight} 
+      />
+
+      {/* 4. Uniform Jacket - Rounded and cute */}
+      <path 
+        d="M62,140 Q55,200 110,215 Q165,200 158,140 L155,125 Q110,135 65,125 Z" 
         fill={colors.jacket} 
         stroke={colors.jacketDark} 
         strokeWidth="1.5"
       />
+      
       {/* Inner Shirt/Tie Area */}
-      <path d="M110,125 L95,145 L110,165 L125,145 Z" fill="#fff" />
-      <path d="M110,145 L106,155 L110,165 L114,155 Z" fill={colors.jacketDark} />
-      <circle cx="110,148" r="3" fill={colors.jacketDark} />
+      <path d="M110,130 L100,150 L110,170 L120,150 Z" fill="#fff" />
+      <path d="M110,150 L107,160 L110,170 L113,160 Z" fill={colors.jacketDark} />
+      <circle cx="110,153" r="2.5" fill={colors.jacketDark} />
 
-      {/* Gold Buttons */}
-      <circle cx="102" cy="185" r="4" fill={colors.badge} stroke="#bf9000" strokeWidth="1" />
-      <circle cx="118" cy="185" r="4" fill={colors.badge} stroke="#bf9000" strokeWidth="1" />
+      {/* Kawaii Gold Buttons */}
+      <circle cx="104" cy="188" r="3.5" fill={colors.badge} stroke="#bf9000" strokeWidth="0.5" />
+      <circle cx="116" cy="188" r="3.5" fill={colors.badge} stroke="#bf9000" strokeWidth="0.5" />
 
       {/* 5. Messenger Bag */}
       <g transform="rotate(-5, 110, 150)">
-        <path d="M60,115 L165,195" stroke="#4e342e" strokeWidth="8" fill="none" strokeLinecap="round" />
-        <rect x="145" y="175" width="48" height="36" rx="6" fill={colors.bag} stroke="#3e2723" strokeWidth="1.5" />
-        <circle cx="178" cy="195" r="3" fill={colors.badge} /> 
+        <path d="M65,120 L160,190" stroke="#4e342e" strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.8" />
+        <rect x="148" y="178" width="45" height="34" rx="7" fill={colors.bag} stroke="#3e2723" strokeWidth="1.5" />
+        <circle cx="178" cy="195" r="2.5" fill={colors.badge} /> 
       </g>
 
-      {/* 6. Arms - Positioned like the image */}
-      <ellipse cx="62" cy="155" rx="10" ry="16" fill={colors.fur} transform="rotate(15, 62, 155)" stroke={colors.furDark} strokeWidth="0.5" />
-      <ellipse cx="158" cy="155" rx="10" ry="16" fill={colors.fur} transform="rotate(-15, 158, 155)" stroke={colors.furDark} strokeWidth="0.5" />
+      {/* 6. Paws - Softer and rounder */}
+      <ellipse cx="65" cy="158" rx="9" ry="14" fill={colors.fur} transform="rotate(10, 65, 158)" stroke={colors.furDark} strokeWidth="0.5" />
+      <ellipse cx="155" cy="158" rx="9" ry="14" fill={colors.fur} transform="rotate(-10, 155, 158)" stroke={colors.furDark} strokeWidth="0.5" />
 
-      {/* 7. Head - Perfectly round */}
-      <circle cx="110" cy="85" r="68" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
+      {/* 7. Head - Perfectly round and big */}
+      <circle cx="110" cy="88" r="66" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
       
-      {/* Face Light Patch (Eye/Snout area) */}
-      <path d="M62,110 Q110,140 158,110 Q170,80 110,70 Q50,80 62,110" fill={colors.furLight} />
+      {/* Face Light Patch - The "Mask" area */}
+      <path d="M65,115 Q110,145 155,115 Q165,85 110,75 Q55,85 65,115" fill={colors.furLight} />
 
-      {/* Ears */}
-      <circle cx="55" cy="45" r="20" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
-      <circle cx="55" cy="45" r="12" fill="#ffb7c5" />
-      <circle cx="165" cy="45" r="20" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
-      <circle cx="165" cy="45" r="12" fill="#ffb7c5" />
+      {/* Ears - Positioned for maximum cuteness */}
+      <circle cx="55" cy="48" r="18" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
+      <circle cx="55" cy="48" r="10" fill="#ffb7c5" />
+      <circle cx="165" cy="48" r="18" fill={colors.fur} stroke={colors.furDark} strokeWidth="0.5" />
+      <circle cx="165" cy="48" r="10" fill="#ffb7c5" />
       
-      {/* Postal Hat */}
-      <path d="M65,55 Q110,15 155,55 L160,75 Q110,65 60,75 Z" fill={colors.jacket} stroke={colors.jacketDark} strokeWidth="1.5" />
-      <path d="M60,70 Q110,85 160,70 L165,78 Q110,95 55,78 Z" fill={colors.jacketDark} /> {/* Peak */}
-      <path d="M110,48 L102,56 L110,66 L118,56 Z" fill={colors.badge} stroke="#bf9000" strokeWidth="1" /> {/* Shield */}
+      {/* Postal Hat - Softer peak */}
+      <path d="M65,58 Q110,18 155,58 L160,78 Q110,68 60,78 Z" fill={colors.jacket} stroke={colors.jacketDark} strokeWidth="1.5" />
+      <path d="M60,73 Q110,88 160,73 L164,80 Q110,95 56,80 Z" fill={colors.jacketDark} /> 
+      <path d="M110,50 L103,58 L110,68 L117,58 Z" fill={colors.badge} stroke="#bf9000" strokeWidth="1" />
 
-      {/* Glowing Cheeks */}
-      <circle cx="68" cy="118" r="18" fill={colors.blush} opacity="0.6">
-        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="152" cy="118" r="18" fill={colors.blush} opacity="0.6">
-        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" repeatCount="indefinite" />
-      </circle>
+      {/* Glowing Cheeks + Kawaii Blush Lines */}
+      <g opacity="0.7">
+        <circle cx="70" cy="120" r="18" fill={colors.blush}>
+          <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="150" cy="120" r="18" fill={colors.blush}>
+          <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />
+        </circle>
+        {/* Blush Lines */}
+        <line x1="62" y1="118" x2="66" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="68" y1="118" x2="72" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="148" y1="118" x2="152" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="154" y1="118" x2="158" y2="124" stroke="#ff80ab" strokeWidth="1.5" strokeLinecap="round" />
+      </g>
 
-      {/* 8. Expressive Puppy Eyes - Unified for high quality */}
-      <g transform={(isThinking || isConfused) ? 'translate(0, -3)' : ''}>
+      {/* 8. Super Kawaii Glassy Eyes */}
+      <g transform={(isThinking || isConfused) ? 'translate(0, -2)' : ''}>
         {isStar ? (
           <>
-            <text x="75" y="112" fontSize="35" textAnchor="middle">⭐</text>
-            <text x="145" y="112" fontSize="35" textAnchor="middle">⭐</text>
+            <text x="80" y="112" fontSize="38" textAnchor="middle">⭐</text>
+            <text x="140" y="112" fontSize="38" textAnchor="middle">⭐</text>
           </>
         ) : isLove ? (
           <>
-            <path d="M72 105 Q72 90 85 90 Q98 90 98 105 Q98 118 85 128 Q72 118 72 105" fill="#e84118" />
-            <path d="M122 105 Q122 90 135 90 Q148 90 148 105 Q148 118 135 128 Q122 118 122 105" fill="#e84118" />
+            <text x="80" y="112" fontSize="38" textAnchor="middle">❤️</text>
+            <text x="140" y="112" fontSize="38" textAnchor="middle">❤️</text>
           </>
         ) : isWink ? (
           <>
-            <circle cx="85" cy="105" r="15" fill={colors.eyeBase} />
-            <circle cx="79" cy="98" r="6" fill="#fff" />
-            <path d="M130,110 Q145,95 160,110" stroke={colors.eyeBase} strokeWidth="7" fill="none" strokeLinecap="round" />
+            <circle cx="85" cy="105" r="16" fill={colors.eyeBase} />
+            <circle cx="78" cy="97" r="7" fill="#fff" />
+            <circle cx="92" cy="112" r="3" fill="#fff" opacity="0.8" />
+            <path d="M130,110 Q145,95 160,110" stroke={colors.eyeBase} strokeWidth="8" fill="none" strokeLinecap="round" />
           </>
         ) : isCool ? (
-          <rect x="68" y="98" width="84" height="16" fill={colors.eyeBase} rx="5" />
+          <rect x="70" y="98" width="80" height="18" fill={colors.eyeBase} rx="9" />
         ) : isExcited ? (
           <>
-            <path d="M75,115 Q85,95 95,115" stroke={colors.eyeBase} strokeWidth="8" fill="none" strokeLinecap="round" />
-            <path d="M125,115 Q135,95 145,115" stroke={colors.eyeBase} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M75,115 Q85,90 95,115" stroke={colors.eyeBase} strokeWidth="9" fill="none" strokeLinecap="round" />
+            <path d="M125,115 Q135,90 145,115" stroke={colors.eyeBase} strokeWidth="9" fill="none" strokeLinecap="round" />
           </>
         ) : (
           <>
-            {/* Standard Glassy Eyes (Used for idle, confused, and thinking) */}
-            <circle cx="85" cy="105" r="16" fill={colors.eyeBase} />
-            <circle cx="135" cy="105" r="16" fill={colors.eyeBase} />
-            {/* Triple highlights for the 'Puppy' look */}
-            <circle cx="79" cy="97" r="7" fill="#fff" />
-            <circle cx="129" cy="97" r="7" fill="#fff" />
-            <circle cx="91" cy="112" r="3" fill="#fff" opacity="0.8" />
-            <circle cx="141" cy="112" r="3" fill="#fff" opacity="0.8" />
-            <circle cx="85" cy="105" r="10" fill="#fff" opacity="0.05" />
-            <circle cx="135" cy="105" r="10" fill="#fff" opacity="0.05" />
+            {/* The Signature "Puppy" Eye Logic */}
+            <circle cx="82" cy="105" r="17" fill={colors.eyeBase} />
+            <circle cx="138" cy="105" r="17" fill={colors.eyeBase} />
+            
+            {/* Highlights - Larger and glossier */}
+            <circle cx="76" cy="96" r="8" fill="#fff" />
+            <circle cx="132" cy="96" r="8" fill="#fff" />
+            <circle cx="90" cy="112" r="3.5" fill="#fff" opacity="0.8" />
+            <circle cx="146" cy="112" r="3.5" fill="#fff" opacity="0.8" />
+            
+            {/* Shimmer effects */}
+            <circle cx="82" cy="105" r="12" fill="#fff" opacity="0.04" />
+            <circle cx="138" cy="105" r="12" fill="#fff" opacity="0.04" />
           </>
         )}
       </g>
       
-      {/* Snout Details */}
-      <ellipse cx="110" cy="118" rx="6.5" ry="4.5" fill={colors.nose} stroke={colors.furDark} strokeWidth="0.5" />
+      {/* 9. Tiny Pink Nose */}
+      <ellipse cx="110" cy="122" rx="6" ry="4" fill={colors.nose} stroke={colors.furDark} strokeWidth="0.5" />
       
-      {/* Tiny Mouth */}
-      {isHappy ? (
-        <path d="M102 135 Q110 150 118 135" stroke="#4e342e" strokeWidth="4" fill="none" strokeLinecap="round" />
-      ) : isSurprised ? (
-        <circle cx="110" cy="140" r="8" fill="#4e342e" />
-      ) : (
-        <path d="M105 132 Q110 138 115 132" stroke="#4e342e" strokeWidth="3" fill="none" strokeLinecap="round" />
-      )}
+      {/* 10. Simple "3" Mouth - The ultimate Kawaii touch */}
+      <g transform="translate(110, 138)">
+        {isHappy ? (
+           <path d="M-8,-2 Q0,8 8,-2" stroke="#4e342e" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+        ) : isSurprised ? (
+          <circle cx="0" cy="2" r="7" fill="#4e342e" />
+        ) : (
+          <path d="M-6,-2 Q-3,2 0,-2 Q3,2 6,-2" stroke="#4e342e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+        )}
+      </g>
     </svg>
   );
 };
