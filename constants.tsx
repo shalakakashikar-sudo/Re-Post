@@ -3,93 +3,149 @@ import React from 'react';
 import { WaffleMood } from './types';
 
 export const WAFFLE_SVG = (className?: string, expression: WaffleMood = 'idle') => {
-  const isHappy = expression === 'happy' || expression === 'excited' || expression === 'star-eyes';
+  // Logic for different parts of the face based on mood
+  const isHappy = expression === 'happy' || expression === 'love' || expression === 'star-eyes' || expression === 'wink';
   const isExcited = expression === 'excited';
-  const isConfused = expression === 'confused' || expression === 'thinking';
   const isSurprised = expression === 'surprised';
-  const isWink = expression === 'wink';
+  const isThinking = expression === 'thinking';
+  const isConfused = expression === 'confused';
   const isCool = expression === 'cool';
-  const isLove = expression === 'love';
   const isStar = expression === 'star-eyes';
+  const isLove = expression === 'love';
+  const isWink = expression === 'wink';
 
   return (
-    <svg viewBox="0 0 200 200" className={className} xmlns="http://www.w3.org/2000/svg">
-      {/* Shadow */}
-      <ellipse cx="100" cy="180" rx="45" ry="12" fill="black" opacity="0.15" />
-      
-      {/* Body */}
-      <ellipse cx="100" cy="120" rx="64" ry="54" fill="#3e2723" />
-      <ellipse cx="100" cy="120" rx="60" ry="50" fill="#cc9966" />
-      <circle cx="100" cy="110" r="48" fill="#3e2723" />
-      <circle cx="100" cy="110" r="45" fill="#cc9966" />
-      
-      {/* Pouch Area - Small size to fit inner circle */}
-      <ellipse cx="100" cy="132" rx="30" ry="18" fill="#fff3e0" stroke="#3e2723" strokeWidth="1" />
-      
-      {/* Blush Cheeks */}
-      <circle cx="72" cy="118" r="9" fill="#ff4081" opacity="0.4" />
-      <circle cx="128" cy="118" r="9" fill="#ff4081" opacity="0.4" />
+    <svg viewBox="0 0 200 220" className={className} xmlns="http://www.w3.org/2000/svg">
+      {/* Background Shadow */}
+      <ellipse cx="100" cy="205" rx="45" ry="10" fill="rgba(0,0,0,0.1)" />
 
-      {/* Ears */}
-      <circle cx="60" cy="75" r="18" fill="#3e2723" />
-      <circle cx="60" cy="75" r="15" fill="#a1887f" />
-      <circle cx="140" cy="75" r="18" fill="#3e2723" />
-      <circle cx="140" cy="75" r="15" fill="#a1887f" />
+      {/* Body Fur (Thinner/Elegant Shape) */}
+      <path d="M65 120 Q100 100 135 120 L145 195 Q100 210 55 195 Z" fill="#f39c12" /> {/* Main Orange */}
+      <path d="M80 140 Q100 130 120 140 L115 190 Q100 200 85 190 Z" fill="#fdfaf0" /> {/* Cream Belly */}
+
+      {/* Postal Uniform Jacket */}
+      <path d="M65 125 Q100 105 135 125 L145 190 Q100 205 55 190 Z" fill="#2c3e50" /> {/* Navy Blue */}
       
-      {/* Hat */}
-      <rect x="60" y="65" width="80" height="20" fill="#1a237e" rx="4" stroke="#000" strokeWidth="1.5" />
-      <path d="M60 65 Q100 35 140 65" fill="#1a237e" stroke="#000" strokeWidth="1.5" />
-      {/* Heart Emblem on Hat */}
-      <path d="M100 58 Q100 52 104 52 Q108 52 108 58 Q108 62 100 68 Q92 62 92 58 Q92 52 96 52 Q100 52 100 58" fill="#ff1744" stroke="#000" strokeWidth="0.5" />
-      <circle cx="100" cy="65" r="4" fill="#ffd600" stroke="#000" strokeWidth="0.8" />
-      
-      {/* Eyes */}
-      {isStar ? (
-        <>
-          <path d="M65 95 L75 105 L85 95 L75 85 Z" fill="#ffd600" stroke="#000" strokeWidth="1.5" />
-          <path d="M115 95 L125 105 L135 95 L125 85 Z" fill="#ffd600" stroke="#000" strokeWidth="1.5" />
-        </>
-      ) : isLove ? (
-        <>
-          <path d="M65 100 Q65 85 75 85 Q85 85 85 100 Q85 110 75 120 Q65 110 65 100" fill="#d32f2f" stroke="#000" strokeWidth="1.5" />
-          <path d="M115 100 Q115 85 125 85 Q135 85 135 100 Q135 110 125 120 Q115 110 115 100" fill="#d32f2f" stroke="#000" strokeWidth="1.5" />
-        </>
-      ) : isWink ? (
-        <>
-          <circle cx="75" cy="100" r="8" fill="#000" />
-          <circle cx="72" cy="97" r="2.5" fill="#fff" />
-          <path d="M115 100 Q125 90 135 100" stroke="#000" strokeWidth="5" fill="none" strokeLinecap="round" />
-        </>
-      ) : isCool ? (
-        <rect x="60" y="92" width="80" height="15" fill="#000" rx="3" />
-      ) : isExcited ? (
-        <>
-          <path d="M70 100 Q75 90 80 100" stroke="#000" strokeWidth="5" fill="none" strokeLinecap="round" />
-          <path d="M120 100 Q125 90 130 100" stroke="#000" strokeWidth="5" fill="none" strokeLinecap="round" />
-        </>
-      ) : (
-        <>
-          <circle cx="75" cy="100" r="8" fill="#000" />
-          <circle cx="125" cy="100" r="8" fill="#000" />
-          {/* Eye Shine */}
-          <circle cx="72" cy="97" r="3" fill="#fff" />
-          <circle cx="122" cy="97" r="3" fill="#fff" />
-          <circle cx="78" cy="103" r="1.5" fill="#fff" opacity="0.6" />
-          <circle cx="128" cy="103" r="1.5" fill="#fff" opacity="0.6" />
-        </>
-      )}
-      
-      {/* Nose */}
-      <circle cx="100" cy="118" r="6" fill="#ff8a80" stroke="#3e2723" strokeWidth="1.5" />
-      
-      {/* Mouth */}
-      {isHappy ? (
-        <path d="M85 130 Q100 150 115 130" stroke="#3e2723" strokeWidth="4" fill="none" strokeLinecap="round" />
-      ) : isSurprised ? (
-        <circle cx="100" cy="135" r="8" fill="#3e2723" />
-      ) : (
-        <path d="M90 130 Q100 138 110 130" stroke="#3e2723" strokeWidth="3" fill="none" strokeLinecap="round" />
-      )}
+      {/* Jacket Details */}
+      <path d="M85 125 L100 145 L115 125" fill="#1e2b37" opacity="0.5" /> {/* Collar Shadow */}
+      <circle cx="100" cy="165" r="3" fill="#f1c40f" /> {/* Button 1 */}
+      <circle cx="100" cy="180" r="3" fill="#f1c40f" /> {/* Button 2 */}
+
+      {/* Satchel Bag */}
+      <path d="M130 150 L170 165 L165 195 L125 180 Z" fill="#8d6e63" stroke="#5d4037" strokeWidth="1" />
+      <path d="M130 150 L170 165 L165 175 L125 160 Z" fill="#a1887f" /> {/* Bag Flap */}
+      <path d="M65 135 L130 155" stroke="#5d4037" strokeWidth="5" strokeLinecap="round" opacity="0.7" /> {/* Strap */}
+
+      {/* Hands holding Letter */}
+      <g transform="translate(45, 140) rotate(-15)">
+        <rect width="35" height="22" rx="2" fill="#fffef0" stroke="#d7ccc8" strokeWidth="0.5" />
+        <path d="M0 0 L17.5 11 L35 0" fill="none" stroke="#d7ccc8" strokeWidth="0.5" />
+        <circle cx="17.5" cy="6" r="2" fill="#e74c3c" opacity="0.4" /> {/* Wax Seal */}
+        <circle cx="-2" cy="12" r="6" fill="#f39c12" /> {/* Paw hold */}
+      </g>
+      <circle cx="140" cy="165" r="6" fill="#f39c12" /> {/* Other Paw */}
+
+      {/* Head */}
+      <circle cx="100" cy="85" r="55" fill="#f39c12" /> {/* Orange Head */}
+      <path d="M62 90 Q100 70 138 90 Q142 125 100 132 Q58 125 62 90" fill="#fdfaf0" /> {/* Cream Face */}
+
+      {/* Round Hamster Ears */}
+      <circle cx="55" cy="45" r="18" fill="#f39c12" />
+      <circle cx="55" cy="45" r="12" fill="#d35400" opacity="0.3" />
+      <circle cx="145" cy="45" r="18" fill="#f39c12" />
+      <circle cx="145" cy="45" r="12" fill="#d35400" opacity="0.3" />
+
+      {/* Postman Hat */}
+      <path d="M55 58 Q100 25 145 58 L150 78 Q100 88 50 78 Z" fill="#2c3e50" /> {/* Navy Hat */}
+      <rect x="50" y="75" width="100" height="8" rx="2" fill="#111" /> {/* Visor */}
+      <circle cx="100" cy="50" r="8" fill="#f1c40f" stroke="#d4ac0d" strokeWidth="1" /> {/* Gold Badge */}
+      <path d="M98 50 L100 47 L102 50 L100 53 Z" fill="#2c3e50" /> {/* Emblem Detail */}
+
+      {/* Face Layer */}
+      <g id="expressions">
+        {/* Blushing (Kawaii Factor) */}
+        {(isHappy || isExcited || isLove || isStar) && (
+          <g opacity="0.5">
+            <circle cx="75" cy="115" r="8" fill="#ff80ab" />
+            <circle cx="125" cy="115" r="8" fill="#ff80ab" />
+          </g>
+        )}
+
+        {/* Eyes Configuration */}
+        <g id="eyes">
+          {isCool ? (
+            <path d="M65 85 H135 V102 Q100 115 65 102 Z" fill="#111" rx="5" />
+          ) : isStar ? (
+            <>
+              <path d="M78 80 L82 92 L95 92 L84 100 L88 112 L78 105 L68 112 L72 100 L61 92 L74 92 Z" fill="#f1c40f" />
+              <path d="M122 80 L126 92 L139 92 L128 100 L132 112 L122 105 L112 112 L116 100 L105 92 L118 92 Z" fill="#f1c40f" />
+            </>
+          ) : isLove ? (
+            <>
+              <path d="M78 85 Q78 75 88 75 Q98 75 98 85 Q98 100 78 115 Q58 100 58 85 Q58 75 68 75 Q78 75 78 85" fill="#e91e63" />
+              <path d="M122 85 Q122 75 132 75 Q142 75 142 85 Q142 100 122 115 Q102 100 102 85 Q102 75 112 75 Q122 75 122 85" fill="#e91e63" />
+            </>
+          ) : isWink ? (
+            <>
+              <circle cx="78" cy="95" r="10" fill="#2d241e" />
+              <circle cx="76" cy="92" r="3" fill="#fff" />
+              <path d="M112 100 Q122 88 132 100" stroke="#2d241e" strokeWidth="5" fill="none" strokeLinecap="round" />
+            </>
+          ) : isHappy ? (
+            <>
+              <path d="M68 100 Q78 85 88 100" stroke="#2d241e" strokeWidth="6" fill="none" strokeLinecap="round" />
+              <path d="M112 100 Q122 85 132 100" stroke="#2d241e" strokeWidth="6" fill="none" strokeLinecap="round" />
+            </>
+          ) : isSurprised ? (
+            <>
+              <circle cx="78" cy="95" r="12" fill="#2d241e" />
+              <circle cx="122" cy="95" r="12" fill="#2d241e" />
+              <circle cx="74" cy="91" r="4" fill="#fff" />
+              <circle cx="118" cy="91" r="4" fill="#fff" />
+            </>
+          ) : isThinking ? (
+            <>
+              <circle cx="78" cy="95" r="10" fill="#2d241e" />
+              <circle cx="122" cy="98" r="6" fill="#2d241e" />
+              <path d="M70 80 Q80 75 90 82" stroke="#2d241e" strokeWidth="2" fill="none" />
+            </>
+          ) : isConfused ? (
+            <>
+              <circle cx="78" cy="100" r="5" fill="#2d241e" />
+              <circle cx="122" cy="95" r="11" fill="#2d241e" />
+              <path d="M110 80 Q125 75 140 85" stroke="#2d241e" strokeWidth="2" fill="none" />
+            </>
+          ) : (
+            /* IDLE */
+            <>
+              <circle cx="78" cy="95" r="9" fill="#2d241e" />
+              <circle cx="122" cy="95" r="9" fill="#2d241e" />
+              <circle cx="75" cy="92" r="3" fill="#fff" />
+              <circle cx="119" cy="92" r="3" fill="#fff" />
+            </>
+          )}
+        </g>
+
+        {/* Tiny Pink Nose */}
+        <path d="M96 112 Q100 108 104 112 Q100 116 96 112" fill="#ff8a80" />
+
+        {/* Mouth Configuration */}
+        <g id="mouth">
+          {isSurprised ? (
+            <circle cx="100" cy="122" r="7" fill="#2d241e" />
+          ) : isExcited ? (
+            <path d="M90 118 Q100 135 110 118 Z" fill="#2d241e" />
+          ) : isConfused || isThinking ? (
+            <path d="M95 125 Q100 128 105 125" stroke="#2d241e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          ) : (
+            <path d="M92 120 Q100 128 108 120" stroke="#2d241e" strokeWidth="3" fill="none" strokeLinecap="round" />
+          )}
+          {/* Kawaii Tooth */}
+          {(isHappy || isExcited) && (
+            <path d="M98 120 H102 V123 H98 Z" fill="#fff" />
+          )}
+        </g>
+      </g>
     </svg>
   );
 };
