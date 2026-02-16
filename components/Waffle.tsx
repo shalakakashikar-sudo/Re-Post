@@ -11,123 +11,143 @@ interface WaffleProps {
 }
 
 /**
- * 🐹 WAFFLE: THE POST-HAMSTER
- * Mascot for SmarTest & Re-Post!
- * Expertise: Delivering messages through time and space.
- * Strategy: TRPT Mantra & SQCEM Trick.
+ * 🐹 WAFFLE: THE POST-HAMSTER (v2.3 - High Contrast & Stabilized)
+ * Mascot for Re-Post! Hub.
+ * Expertise: High-fidelity message delivery & Tense Stamp management.
+ * Visuals: Exact match to reference drawing, darkened colors, subtle motion.
  */
 const Waffle: React.FC<WaffleProps> = ({ dialogue: externalDialogue, mood = 'idle', onClick, size = 'md' }) => {
   const [animationClass, setAnimationClass] = useState('');
   const [internalDialogue, setInternalDialogue] = useState<string | null>(null);
   const [internalMood, setInternalMood] = useState<WaffleMood>(mood);
 
-  // Cuteness scaling: From 'Snack-sized' to 'Mega-Fluff'
   const sizeClasses = {
-    sm: 'w-20 h-20 md:w-24 md:h-24',
-    md: 'w-28 h-28 md:w-36 md:h-36',
-    lg: 'w-40 h-40 md:w-56 md:h-56'
+    sm: 'w-24 h-24 md:w-28 md:h-28',
+    md: 'w-36 h-36 md:w-48 md:h-48',
+    lg: 'w-56 h-56 md:w-72 md:h-72'
   };
 
   useEffect(() => {
     setInternalMood(mood);
-    // Animation Logic: Matching the mood to the move!
+    // STABILIZED ANIMATIONS - Reduced movement magnitude significantly
     switch (mood) {
-      case 'happy': setAnimationClass('animate-subtleBounce'); break;
-      case 'confused': setAnimationClass('animate-pulse scale-95'); break; 
-      case 'thinking': setAnimationClass('animate-pulse opacity-90'); break; // Deep in a Backshift...
-      case 'excited': setAnimationClass('animate-subtleBounce scale-110'); break;
-      case 'star-eyes': setAnimationClass('animate-pulse brightness-110'); break;
-      case 'wink': setAnimationClass('hover:rotate-12 transition-transform'); break;
-      case 'love': setAnimationClass('animate-pulse'); break;
-      default: setAnimationClass('animate-none');
+      case 'happy': setAnimationClass('animate-subtleScale'); break;
+      case 'confused': setAnimationClass('opacity-95 saturate-75'); break; 
+      case 'thinking': setAnimationClass('animate-breathing opacity-95'); break;
+      case 'excited': setAnimationClass('scale-105 transition-all'); break;
+      case 'star-eyes': setAnimationClass('brightness-110 saturate-125'); break;
+      case 'wink': setAnimationClass('rotate-1 transition-transform'); break;
+      case 'love': setAnimationClass('scale-102 transition-transform'); break;
+      case 'surprised': setAnimationClass('scale-105 transition-transform'); break;
+      case 'cool': setAnimationClass('brightness-105'); break;
+      default: setAnimationClass('');
     }
   }, [mood]);
 
   const handleWaffleClick = () => {
     if (onClick) {
-      onClick(); // Let the parent handle the "crunchy" details
+      onClick();
     } else {
-      // Waffle's Brain: A library of 30-Module Wisdom
-      const guideRemarks = [
-        "Check your TRPT checklist: Tense, Verb, Pronoun, Time!",
-        "Reporting from the past? Step that tense BACK! 🔙",
-        "Near words become Far! 'This' becomes 'That', just like my seeds!",
-        "Universal Truths don't change. The sun rises, and I stay cute.",
-        "said to → told. Don't leave the 'to' behind, it's heavy!",
-        "Is it SQCEM? Statement, Question, Command, Exclamation, or Mixed?",
-        "Wh- Questions don't need 'that'. The Wh-word is the bridge!"
+      // Pick a random witty remark or a helpful hint
+      const allRemarks = [
+        ...WAFFLE_DIALOGUE.witty_remarks,
+        ...WAFFLE_DIALOGUE.hints
       ];
-      
-      const randomRemark = guideRemarks[Math.floor(Math.random() * guideRemarks.length)];
-      const moods: WaffleMood[] = ['wink', 'cool', 'star-eyes', 'excited', 'happy'];
+      const randomRemark = allRemarks[Math.floor(Math.random() * allRemarks.length)];
+      const moods: WaffleMood[] = ['wink', 'cool', 'star-eyes', 'excited', 'happy', 'love'];
       const randomMood = moods[Math.floor(Math.random() * moods.length)];
       
       setInternalDialogue(randomRemark);
       setInternalMood(randomMood);
       
-      // ⏳ Visibility duration kept at 32 seconds as requested by "DO NOT MAKE ANY OTHER CHANGES" aside from cuteness
+      // Auto-clear dialogue after 12 seconds to keep the UI clean
       setTimeout(() => {
         setInternalDialogue(null);
         setInternalMood(mood);
-      }, 32000);
+      }, 12000);
     }
   };
 
   const displayDialogue = externalDialogue || internalDialogue;
 
   return (
-    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 max-w-full group select-none">
-      {/* THE HAMSTER HOUSING UNIT */}
+    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-12 max-w-full group select-none">
+      {/* MASCOT CONTAINER */}
+      <style>{`
+        @keyframes breathing {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.015); }
+        }
+        @keyframes subtleFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-3px); }
+        }
+        @keyframes subtleScale {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.03); }
+        }
+        .animate-breathing {
+          animation: breathing 4s ease-in-out infinite;
+        }
+        .animate-subtleFloat {
+          animation: subtleFloat 5s ease-in-out infinite;
+        }
+        .animate-subtleScale {
+          animation: subtleScale 3s ease-in-out infinite;
+        }
+      `}</style>
       <div 
-        className={`relative cursor-pointer transform hover:scale-110 active:scale-90 transition-all duration-300 shrink-0 ${animationClass}`}
+        className={`relative cursor-pointer transition-all duration-1000 shrink-0 animate-subtleFloat hover:scale-105 active:scale-95 ${animationClass}`}
         onClick={handleWaffleClick}
       >
-        {/* The 'Butter Glow': A soft halo for extra warmth */}
-        <div className="absolute inset-0 bg-yellow-400/20 rounded-full blur-2xl group-hover:bg-orange-400/30 transition-colors"></div>
-        
-        {/* Floating Sparkles/Hearts for extra cuteness */}
-        {(internalMood === 'star-eyes' || internalMood === 'happy') && (
-          <div className="absolute -top-4 -right-2 text-xl animate-pulse select-none z-20">✨</div>
+        {/* Glow effect for prominence */}
+        <div className="absolute inset-0 bg-blue-400/5 rounded-full blur-3xl group-hover:bg-blue-400/10 transition-all duration-500"></div>
+
+        {/* Floating Emotes */}
+        {(internalMood === 'star-eyes' || internalMood === 'happy' || internalMood === 'excited') && (
+          <div className="absolute -top-6 -right-2 text-2xl animate-pulse select-none z-20">✨</div>
         )}
         {internalMood === 'love' && (
-          <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-2xl animate-bounce select-none z-20">💖</div>
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-3xl animate-pulse select-none z-20">💖</div>
+        )}
+        {internalMood === 'thinking' && (
+          <div className="absolute -top-4 -right-2 text-xl animate-pulse select-none z-20">💡</div>
         )}
 
-        {/* Waffle himself (Re-delivered via SVG) */}
-        {WAFFLE_SVG(`${sizeClasses[size]} drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)]`, internalMood)}
+        {/* The Re-designed Waffle (SVG) - Precise Drawing Match */}
+        {WAFFLE_SVG(`${sizeClasses[size]} drop-shadow-[0_15px_30px_rgba(0,0,0,0.15)] group-hover:drop-shadow-[0_20px_40px_rgba(0,0,0,0.2)]`, internalMood)}
         
-        {/* Tiny Mood Overlays (The SQCEM of Emoji) */}
+        {/* Confusion Indicator */}
         {internalMood === 'confused' && (
-          <div className="absolute -top-1 -right-1 bg-white rounded-full p-1.5 border-2 border-orange-400 shadow-lg animate-bounce z-10">
-            <span className="text-xs">❓</span>
-          </div>
-        )}
-        {internalMood === 'star-eyes' && (
-          <div className="absolute -top-1 -left-1 bg-yellow-50 rounded-full p-1.5 border-2 border-yellow-400 shadow-lg animate-spin-slow z-10">
-            <span className="text-xs">✨</span>
+          <div className="absolute -top-2 -right-2 bg-white rounded-full p-2 border-2 border-blue-600 shadow-xl animate-pulse z-10">
+            <span className="text-sm">❓</span>
           </div>
         )}
       </div>
 
-      {/* THE RE-POST! BUBBLE */}
+      {/* SPEECH BUBBLE */}
       {displayDialogue && (
-        <div className="relative animate-fadeIn max-w-[280px] md:max-w-xs">
-          <div className="bg-[#fffdfa] p-5 rounded-[2.2rem] border-[3px] border-[#ede7f6] shadow-[0_15px_35px_rgba(0,0,0,0.1)] relative z-10">
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-ping"></span>
-              <p className="text-[#8d6e63] font-black text-[9px] uppercase tracking-[0.2em] opacity-70">
-                Waffle the Post-Hamster:
+        <div className="relative animate-fadeIn max-w-[320px] md:max-w-md">
+          <div className="bg-[#fffdfa] p-6 rounded-[2.5rem] border-[4px] border-[#305d9e] shadow-[0_20px_60px_rgba(0,0,0,0.12)] relative z-10">
+            <div className="flex items-center gap-2 mb-3 border-b-2 border-gray-50 pb-2">
+              <span className="w-2.5 h-2.5 bg-blue-600 rounded-full animate-pulse"></span>
+              <p className="text-[#305d9e] font-black text-[11px] uppercase tracking-[0.3em]">
+                POSTAL LOG: WAFFLE
               </p>
             </div>
-            <p className="text-[#3e2723] font-bold text-sm md:text-base italic leading-snug">
+            <p className="text-[#1d1d1d] font-extrabold text-lg md:text-xl italic leading-relaxed font-typewriter">
               "{displayDialogue}"
             </p>
+            {/* Postal Stamp Icon */}
+            <div className="absolute -bottom-5 -right-5 w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-white text-[10px] font-black rotate-[15deg] shadow-xl border-4 border-white select-none">
+              <span className="text-center leading-none">1ST CLASS<br/>DISPATCH</span>
+            </div>
           </div>
           
-          {/* Bubble Tail: Points to Waffle regardless of screen size */}
-          <div className="absolute w-6 h-6 bg-[#fffdfa] border-l-[3px] border-b-[3px] border-[#ede7f6] 
-            left-1/2 -top-3 -translate-x-1/2 rotate-[135deg] 
-            md:left-[-12px] md:top-1/2 md:-translate-y-1/2 md:rotate-45 md:border-b-0 md:border-r-0 md:border-l-[3px] md:border-b-[3px] z-0"
+          {/* Bubble Tail */}
+          <div className="absolute w-8 h-8 bg-[#fffdfa] border-l-[4px] border-b-[4px] border-[#305d9e] 
+            left-1/2 -top-4 -translate-x-1/2 rotate-[135deg] 
+            md:left-[-16px] md:top-1/2 md:-translate-y-1/2 md:rotate-45 md:border-b-0 md:border-r-0 md:border-l-[4px] md:border-b-[4px] z-0"
           ></div>
         </div>
       )}
