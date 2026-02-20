@@ -28,6 +28,7 @@ export interface LearnTopic {
   indirectExample: string;
   waffleTip: string;
   wittyRemark: string;
+  isReversal?: boolean;
   infographics?: {
     header: string;
     rows: { label: string; value: string }[];

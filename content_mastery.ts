@@ -16,6 +16,7 @@ export const masteryTopics: LearnTopic[] = [
     indirectExample: 'He told me that he was ill.',
     waffleTip: 'Tense reversal: Move tenses FORWARD! was → am, had done → did/have done.',
     wittyRemark: 'Taking the message back to the original speaker! 180-degree turn!',
+    isReversal: true,
     infographics: [{
       header: 'The Reversal Checklist',
       rows: [
@@ -41,6 +42,7 @@ export const masteryTopics: LearnTopic[] = [
     indirectExample: 'He asked me where I lived.',
     waffleTip: 'Requested → add "Please". Asked if → add "?" and move HV to front!',
     wittyRemark: 'Bringing back the curiosities and the politeness!',
+    isReversal: true,
     infographics: [{
       header: 'Structural Restoration',
       rows: [

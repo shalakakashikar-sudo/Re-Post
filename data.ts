@@ -63,6 +63,7 @@ for (let i = 0; i <= 30; i++) {
     indirectExample: def.indirectExample || 'He said that he was there.',
     waffleTip: def.waffleTip || 'Check the TRPT pillars!',
     wittyRemark: def.wittyRemark || 'Grammar is essential!',
+    isReversal: def.isReversal,
     infographics: def.infographics || [{
       header: 'Transformation Table',
       rows: [

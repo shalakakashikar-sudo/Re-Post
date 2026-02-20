@@ -331,12 +331,20 @@ const App: React.FC = () => {
                   </div>
                   <div className="bg-white p-8 rounded-[3rem] shadow-2xl border-4 border-dashed border-gray-200 text-center space-y-8">
                     <div className="space-y-3">
-                      <p className="text-[10px] uppercase text-gray-400 font-black tracking-[0.3em]">Direct Speech</p>
-                      <div className="text-3xl font-typewriter italic bg-white p-8 rounded-2xl border border-gray-100 shadow-sm leading-tight">"{selectedTopic.directExample}"</div>
+                      <p className={`text-[10px] uppercase font-black tracking-[0.3em] ${selectedTopic.isReversal ? 'text-green-500' : 'text-gray-400'}`}>
+                        {selectedTopic.isReversal ? 'Indirect Speech' : 'Direct Speech'}
+                      </p>
+                      <div className={`text-3xl font-typewriter p-8 rounded-2xl border shadow-sm leading-tight ${selectedTopic.isReversal ? 'text-green-700 bg-green-50 border-green-100' : 'italic bg-white border-gray-100'}`}>
+                        {selectedTopic.isReversal ? selectedTopic.indirectExample : `"${selectedTopic.directExample}"`}
+                      </div>
                     </div>
                     <div className="space-y-3">
-                      <p className="text-[10px] uppercase text-green-500 font-black tracking-[0.3em]">Indirect Speech</p>
-                      <div className="text-3xl font-typewriter text-green-700 bg-green-50 p-8 rounded-2xl border border-green-100 shadow-sm leading-tight">{selectedTopic.indirectExample}</div>
+                      <p className={`text-[10px] uppercase font-black tracking-[0.3em] ${selectedTopic.isReversal ? 'text-gray-400' : 'text-green-500'}`}>
+                        {selectedTopic.isReversal ? 'Direct Speech' : 'Indirect Speech'}
+                      </p>
+                      <div className={`text-3xl font-typewriter p-8 rounded-2xl border shadow-sm leading-tight ${selectedTopic.isReversal ? 'italic bg-white border-gray-100' : 'text-green-700 bg-green-50 border-green-100'}`}>
+                        {selectedTopic.isReversal ? `"${selectedTopic.directExample}"` : selectedTopic.indirectExample}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -463,7 +471,7 @@ const App: React.FC = () => {
                             <div>
                                <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2">Original Package:</p>
                                <div className="p-6 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 font-typewriter italic text-2xl text-gray-700 leading-relaxed">
-                                 {q.category === 'Foundations' ? q.directSpeech : `"${q.directSpeech}"`}
+                                 {(q.category === 'Foundations' || (q.category === 'Mastery' && (q.id.startsWith('27.') || q.id.startsWith('28.')))) ? q.directSpeech : `"${q.directSpeech}"`}
                                </div>
                             </div>
                             <div className="grid sm:grid-cols-2 gap-6">
@@ -513,7 +521,7 @@ const App: React.FC = () => {
                         {getInstructionLabel(currentQ)}
                       </p>
                       <div className="p-6 md:p-8 bg-white/80 backdrop-blur-sm rounded-[2.5rem] border-4 border-dashed border-gray-200 font-typewriter italic text-2xl md:text-3xl text-center leading-tight shadow-sm text-blue-900">
-                        {currentQ.category === 'Foundations' ? currentQ.directSpeech : `"${currentQ.directSpeech}"`}
+                        {(currentQ.category === 'Foundations' || (currentQ.category === 'Mastery' && (currentQ.id.startsWith('27.') || currentQ.id.startsWith('28.')))) ? currentQ.directSpeech : `"${currentQ.directSpeech}"`}
                       </div>
                     </div>
 
